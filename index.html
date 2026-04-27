@@ -6,11 +6,11 @@
     <title>🪐 RapiNz Z神社・宇宙御朱印</title>
     <style>
         :root {
-            --ra-main: #03A9F4; --ra-pink: #FF80AB; --ra-bg-dark: #000510;
-            --keigo-yellow: #B88100; /* 文字用に少し濃く調整 */
-            --ari-mint: #00B359;    /* 文字用に少し濃く調整 */
-            --kose-pink: #D81B60;   /* 文字用に少し濃く調整 */
-            --taki-blue: #0056E0;   /* 文字用に少し濃く調整 */
+            --ra-main: #0091EA; --ra-pink: #D81B60; --ra-bg-dark: #000510;
+            --keigo-yellow: #B88100;
+            --ari-mint: #00B359;
+            --kose-pink: #C2185B;
+            --taki-blue: #0D47A1;
             --glass: rgba(255, 255, 255, 0.6);
         }
 
@@ -40,9 +40,7 @@
             100% { transform: translate(var(--tx), var(--ty)) scale(0) rotate(var(--tr)); opacity: 0; }
         }
 
-        .outer-header {
-            text-align: center; z-index: 10; margin-bottom: 20px; width: 90%;
-        }
+        .outer-header { text-align: center; z-index: 10; margin-bottom: 20px; width: 90%; }
         .welcome-msg { 
             font-size: 12px; font-weight: bold; color: #fff; line-height: 1.8; 
             text-shadow: 0 0 10px var(--ra-main); margin-bottom: 5px;
@@ -51,18 +49,13 @@
             font-size: 16px; font-weight: 900; 
             background: linear-gradient(to right, #00BFFF, #FF69B4);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 5px rgba(255,255,255,0.5));
         }
         .shrine-icon { font-size: 40px; display: block; margin: 10px 0; filter: drop-shadow(0 0 10px #ff0000); }
         .main-title { 
             font-size: 28px; font-weight: 900; color: #fff; margin: 5px 0; 
-            letter-spacing: 2px; text-shadow: 0 0 15px var(--ra-main), 0 0 5px #fff;
-            cursor: pointer;
+            letter-spacing: 2px; text-shadow: 0 0 15px var(--ra-main);
         }
-        .sub-title { 
-            font-size: 11px; color: rgba(255,255,255,0.85); letter-spacing: 4px; 
-            text-transform: uppercase; font-weight: bold; margin-bottom: 10px;
-        }
+        .sub-title { font-size: 11px; color: rgba(255,255,255,0.85); letter-spacing: 4px; text-transform: uppercase; font-weight: bold; }
 
         .card {
             background: var(--glass);
@@ -84,43 +77,47 @@
             font-size: 12px; line-height: 2.2; color: #000; font-weight: 800;
         }
         
-        /* ボタンの中央配置を強化 */
         .btn-main { 
-            background: linear-gradient(135deg, var(--ra-main), var(--ra-pink)); 
+            background: linear-gradient(135deg, #01579B, #AD1457); /* 色を濃く調整 */
             color: #fff; padding: 18px; border-radius: 100px; font-size: 16px; font-weight: bold; 
             width: 100%; border: none; cursor: pointer; transition: 0.3s;
-            box-shadow: 0 8px 20px rgba(3, 169, 244, 0.3);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
             display: flex; align-items: center; justify-content: center;
-            text-align: center; box-sizing: border-box;
         }
         .btn-main:active:not(:disabled) { transform: scale(0.95); }
-        .btn-main:disabled { background: #444 !important; color: #888; box-shadow: none; }
 
-        .limit-display { font-size: 13px; font-weight: bold; color: #000; margin: 10px 0; }
         .visitor-panel { display: flex; justify-content: center; gap: 15px; margin-top: 15px; background: rgba(0, 0, 0, 0.15); border-radius: 12px; padding: 10px; }
         .v-label { font-size: 9px; color: #111; display: block; font-weight: 900; }
         .v-count { font-size: 14px; font-weight: bold; color: #000; font-family: monospace; }
 
+        /* 写真のエフェクト変更：宇宙のフレア効果 */
         .img-container { 
             position: relative; width: 210px; height: 210px; margin: 0 auto 15px; 
             overflow: hidden; border-radius: 25px; background: #000;
         }
         .fortune-img { width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.4s ease; }
         .fortune-img.loaded { opacity: 1; }
-        .hologram { 
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
-            background: linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.15) 50%, transparent 100%); 
-            animation: holo 4s infinite; pointer-events: none;
+        .flare-effect { 
+            position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; 
+            background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 50%); 
+            animation: flareMove 6s infinite linear; pointer-events: none;
         }
-        @keyframes holo { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+        @keyframes flareMove { 0% { transform: translate(-10%, -10%); } 50% { transform: translate(10%, 10%); } 100% { transform: translate(-10%, -10%); } }
 
-        /* 結果文字の調整（発光をなくし色を濃く） */
         #res-member { font-size: 15px; font-weight: 900; margin-bottom: 8px; }
         #res-fortune { font-size: 30px; font-weight: 950; margin-bottom: 15px; }
         #res-desc { font-size: 14px; line-height: 1.8; padding: 0 10px; margin-bottom: 20px; text-align: left; color: #000; font-weight: 800; }
 
+        /* 「もう一度参拝する」をかわいく変更 */
+        .reset-btn { 
+            background: rgba(255,255,255,0.5); border: 2px solid #fff; color: #111; 
+            padding: 8px 20px; border-radius: 50px; margin-top: 15px; cursor: pointer; 
+            font-size: 14px; font-weight: 900; display: inline-block;
+            transition: 0.3s; animation: pulseCute 2s infinite;
+        }
+        @keyframes pulseCute { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+
         .footer-info { font-size: 10px; color: #000; margin-top: 20px; line-height: 1.6; font-weight: 900; }
-        .reset-btn { background:none; border:none; color:#000; text-decoration:underline; margin-top:15px; cursor:pointer; font-size: 15px; font-weight: 900; }
 
         #start-area, #result-area { display: none; }
         .active { display: block !important; }
@@ -134,7 +131,7 @@
     <div class="stars-base"></div>
     <div id="star-field"></div>
 
-    <header class="outer-header">
+    <header class="outer-header" id="main-header">
         <div class="welcome-msg">ようこそRapiNz座標まで。</div>
         <div class="welcome-msg">あなたの心に、銀河級の<br><span class="yoshi-yoshi">『よしよし』</span>が降り注ぎますように。</div>
         <span class="shrine-icon">⛩️</span>
@@ -151,7 +148,7 @@
             </div>
             
             <button id="draw-btn" class="btn-main" onclick="uranaiAction(event)">御朱印を授かる</button>
-            <div id="limit-display" class="limit-display">本日あと 3 回</div>
+            <div id="limit-display" style="font-size: 13px; font-weight: bold; color: #000; margin: 10px 0;">本日あと 3 回</div>
 
             <div class="visitor-panel">
                 <div class="visitor-stat" style="flex:1;"><span class="v-label">本日参拝</span><span id="v-today" class="v-count">0</span></div>
@@ -168,11 +165,11 @@
             <div id="res-fortune"></div>
             <div class="img-container">
                 <img id="res-img" src="" class="fortune-img" onload="this.classList.add('loaded')">
-                <div class="hologram"></div>
+                <div class="flare-effect"></div>
             </div>
             <div id="res-desc"></div>
-            <a id="x-share" href="#" target="_blank" class="btn-main">𝕏 参拝の結果を報告する</a>
-            <button class="reset-btn" onclick="resetUI()">もう一度参拝する</button>
+            <a id="x-share" href="#" target="_blank" class="btn-main" onclick="tweetAction(event)">𝕏 参拝の結果を報告する</a>
+            <button class="reset-btn" onclick="resetUI()">✨ もう一度参拝する ✨</button>
 
             <div class="footer-info">
                 週に1回・月に1回しかでない「宇宙大吉」もあるよ☄<br>毎日参拝してね。
@@ -182,6 +179,7 @@
 
 <script>
     const uranaiData = [
+        /* データの変更なし */
         { m: "KEIGO", c: "var(--keigo-yellow)", t: "宇宙大吉☄️", d: "銀河一の幸運を！KEIGOが全力の『よしよし』を贈ります。最高の巡り合わせです。" },
         { m: "KEIGO", c: "var(--keigo-yellow)", t: "超大吉・FLAG", d: "情熱の旗を掲げろ！KEIGOが全力バックアップ。🚩" },
         { m: "KEIGO", c: "var(--keigo-yellow)", t: "極大吉・ダイヤモンドダスト", d: "最高級の幸運があなたを包み込みます。💎" },
@@ -312,195 +310,64 @@
         "TAKI": "https://www.dropbox.com/scl/fi/aq8yzifxvowza7401xj7h/TAKI_01.jpg?rlkey=qd54a5zwvhdjn1afq16wnszll&raw=1"
     };
 
+    let audioCtx = null;
     let isDevMode = false;
     let tapCount = 0;
-    let audioCtx = null;
 
-    const starField = document.getElementById('star-field');
-    for(let i=0; i<12; i++) {
-        const star = document.createElement('div');
-        star.className = 'floating-emoji';
-        star.innerText = ['⭐','✨','🌟'][Math.floor(Math.random()*3)];
-        star.style.top = Math.random()*100 + '%';
-        star.style.left = Math.random()*100 + '%';
-        star.style.animationDelay = (Math.random()*-10) + 's';
-        starField.appendChild(star);
-    }
+    function initAudio() { if (!audioCtx) { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } if (audioCtx.state === 'suspended') { audioCtx.resume(); } }
+    function playSound(type) { initAudio(); const now = audioCtx.currentTime; if (type === 'tap') { const o = audioCtx.createOscillator(); const g = audioCtx.createGain(); o.type = 'triangle'; o.frequency.setValueAtTime(150, now); g.gain.setValueAtTime(0.2, now); g.gain.linearRampToValueAtTime(0, now + 0.2); o.connect(g); g.connect(audioCtx.destination); o.start(); o.stop(now + 0.2); } else { [2000, 3000, 4500].forEach((f, i) => { const o = audioCtx.createOscillator(); const g = audioCtx.createGain(); o.frequency.setValueAtTime(f, now + (i * 0.02)); g.gain.setValueAtTime(0.04, now); g.gain.exponentialRampToValueAtTime(0.0001, now + 1.2); o.connect(g); g.connect(audioCtx.destination); o.start(); o.stop(now + 1.2); }); } }
 
-    document.getElementById('dev-trigger').addEventListener('click', () => {
-        tapCount++;
-        clearTimeout(window.devTimer);
-        window.devTimer = setTimeout(() => { tapCount = 0; }, 2000);
-        if (tapCount >= 5) {
-            isDevMode = true;
-            localStorage.setItem('z_count', '0');
-            updateUI();
-            alert("🚀 Developer Mode: UNLOCKED");
-            tapCount = 0;
-        }
-    });
-
-    function initAudio() {
-        if (!audioCtx) {
-            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        }
-        if (audioCtx.state === 'suspended') {
-            audioCtx.resume();
-        }
-    }
-
-    function playSound(type) {
-        initAudio();
-        const now = audioCtx.currentTime;
-        if (type === 'tap') {
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            osc.type = 'triangle';
-            osc.frequency.setValueAtTime(150, now);
-            gain.gain.setValueAtTime(0.2, now);
-            gain.gain.linearRampToValueAtTime(0, now + 0.2);
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
-            osc.start();
-            osc.stop(now + 0.2);
-        } else {
-            const freqs = [2000, 3000, 4500];
-            freqs.forEach((f, i) => {
-                const o = audioCtx.createOscillator();
-                const g = audioCtx.createGain();
-                o.frequency.setValueAtTime(f, now + (i * 0.02));
-                g.gain.setValueAtTime(0.04, now);
-                g.gain.exponentialRampToValueAtTime(0.0001, now + 1.2);
-                o.connect(g);
-                g.connect(audioCtx.destination);
-                o.start();
-                o.stop(now + 1.2);
-            });
-        }
-    }
-
-    function createStarBurst(x, y) {
-        for (let i = 0; i < 20; i++) {
-            const s = document.createElement('div');
-            s.className = 'star-particle';
-            s.innerText = ['✨','💎','⭐','🌟'][Math.floor(Math.random()*4)];
-            s.style.left = x + 'px';
-            s.style.top = y + 'px';
-            const a = Math.random() * Math.PI * 2;
-            const d = 120 + Math.random() * 120;
-            s.style.setProperty('--tx', Math.cos(a) * d + "px");
-            s.style.setProperty('--ty', Math.sin(a) * d + "px");
-            s.style.setProperty('--tr', Math.random() * 360 + "deg");
-            document.body.appendChild(s);
-            setTimeout(() => s.remove(), 1000);
-        }
+    function tweetAction(e) {
+        e.preventDefault();
+        const text = document.getElementById('x-share').getAttribute('data-text');
+        const url = window.location.href.split('?')[0];
+        const twitterAppUrl = `twitter://post?message=${encodeURIComponent(text + "\n" + url)}`;
+        const webUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
+        
+        const start = Date.now();
+        window.location.href = twitterAppUrl;
+        setTimeout(() => { if (Date.now() - start < 1500) window.open(webUrl, '_blank'); }, 500);
     }
 
     function uranaiAction(e) {
         initAudio();
         const count = getCount();
         if (!isDevMode && count >= 3) return;
-        
-        const clientX = e.clientX || (e.touches && e.touches[0].clientX);
-        const clientY = e.clientY || (e.touches && e.touches[0].clientY);
-        createStarBurst(clientX, clientY);
+        const cx = e.clientX || (e.touches && e.touches[0].clientX);
+        const cy = e.clientY || (e.touches && e.touches[0].clientY);
+        for(let i=0;i<20;i++){
+            const s = document.createElement('div'); s.className = 'star-particle'; s.innerText = ['✨','💎','⭐','🌟'][Math.floor(Math.random()*4)];
+            s.style.left = cx + 'px'; s.style.top = cy + 'px'; const a = Math.random() * Math.PI * 2; const d = 120 + Math.random() * 120;
+            s.style.setProperty('--tx', Math.cos(a) * d + "px"); s.style.setProperty('--ty', Math.sin(a) * d + "px"); s.style.setProperty('--tr', Math.random() * 360 + "deg");
+            document.body.appendChild(s); setTimeout(() => s.remove(), 1000);
+        }
         playSound('tap');
         document.getElementById('flash-overlay').classList.add('flash-active');
-
         setTimeout(() => {
             const res = uranaiData[Math.floor(Math.random() * uranaiData.length)];
-            showResult(res);
-            playSound('bell');
-            if (!isDevMode) setCount(count + 1);
+            const img = document.getElementById('res-img'); img.classList.remove('loaded'); img.src = images[res.m];
+            document.getElementById('start-area').classList.remove('active');
+            document.getElementById('main-header').style.display = 'none'; // 結果時はヘッダーを隠す
+            document.getElementById('result-area').classList.add('active');
+            document.getElementById('res-member').innerText = `ラッキーメンバー ${res.m}`; document.getElementById('res-member').style.color = res.c;
+            document.getElementById('res-fortune').innerText = res.t; document.getElementById('res-fortune').style.color = res.c;
+            document.getElementById('res-desc').innerText = res.d;
+            const tweetText = `✨ RapiNz Z神社 ✨\n本日のラッキーメンバーは【${res.m}】💎\n運勢は【${res.t}】でした！\n\n#RapiNz #RapiNz宇宙御朱印`;
+            document.getElementById('x-share').setAttribute('data-text', tweetText);
+            playSound('bell'); if (!isDevMode) setCount(count + 1);
             document.getElementById('flash-overlay').classList.remove('flash-active');
         }, 500);
     }
 
-    function showResult(res) {
-        const img = document.getElementById('res-img');
-        img.classList.remove('loaded');
-        img.src = images[res.m];
-        document.getElementById('start-area').classList.remove('active');
-        document.getElementById('result-area').classList.add('active');
-        
-        const mEl = document.getElementById('res-member');
-        mEl.innerText = `ラッキーメンバー ${res.m}`;
-        mEl.style.color = res.c;
+    function getCount() { const d = new Date().toLocaleDateString(); if (localStorage.getItem('z_date') !== d) { localStorage.setItem('z_date', d); localStorage.setItem('z_count', '0'); } return parseInt(localStorage.getItem('z_count') || '0'); }
+    function setCount(c) { localStorage.setItem('z_count', c); updateUI(); }
+    function updateUI() { const c = getCount(); const r = 3 - c; document.getElementById('limit-display').innerText = isDevMode ? "🚀 Developer Mode Active" : `本日あと ${r} 回`; document.getElementById('draw-btn').disabled = (!isDevMode && r <= 0); }
+    function updateVisitors() { const d = new Date().toLocaleDateString(); const V = "1.2"; if(localStorage.getItem('v_version') !== V) { localStorage.setItem('v_today', "0"); localStorage.setItem('v_total', "0"); localStorage.setItem('v_version', V); } let t = parseInt(localStorage.getItem('v_today') || "0"); let T = parseInt(localStorage.getItem('v_total') || "0"); if (localStorage.getItem('v_date') !== d) { t = 0; localStorage.setItem('v_date', d); } t++; T++; localStorage.setItem('v_today', t); localStorage.setItem('v_total', T); document.getElementById('v-today').innerText = t.toLocaleString(); document.getElementById('v-total').innerText = T.toLocaleString(); }
+    function resetUI() { document.getElementById('result-area').classList.remove('active'); document.getElementById('main-header').style.display = 'block'; document.getElementById('start-area').classList.add('active'); updateUI(); }
 
-        const fEl = document.getElementById('res-fortune');
-        fEl.innerText = res.t;
-        fEl.style.color = res.c;
-        
-        document.getElementById('res-desc').innerText = res.d;
-        
-        const tweetText = `✨ RapiNz Z神社 ✨\n本日のラッキーメンバーは【${res.m}】💎\n運勢は【${res.t}】でした！\n\n#RapiNz #RapiNz宇宙御朱印`;
-        const tweetUrl = window.location.href.split('?')[0];
-        document.getElementById('x-share').href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}&url=${encodeURIComponent(tweetUrl)}`;
-    }
-
-    function getCount() {
-        const d = new Date().toLocaleDateString();
-        if (localStorage.getItem('z_date') !== d) {
-            localStorage.setItem('z_date', d);
-            localStorage.setItem('z_count', '0');
-        }
-        return parseInt(localStorage.getItem('z_count') || '0');
-    }
-
-    function setCount(c) {
-        localStorage.setItem('z_count', c);
-        updateUI();
-    }
-    
-    function updateUI() {
-        const count = getCount();
-        const rem = 3 - count;
-        document.getElementById('limit-display').innerText = isDevMode ? "🚀 Developer Mode Active" : `本日あと ${rem} 回`;
-        document.getElementById('draw-btn').disabled = (!isDevMode && rem <= 0);
-    }
-
-    function updateVisitors() {
-        const d = new Date().toLocaleDateString();
-        const VERSION = "1.2";
-        if(localStorage.getItem('v_version') !== VERSION) {
-            localStorage.setItem('v_today', "0");
-            localStorage.setItem('v_total', "0");
-            localStorage.setItem('v_version', VERSION);
-        }
-
-        let today = parseInt(localStorage.getItem('v_today') || "0");
-        let total = parseInt(localStorage.getItem('v_total') || "0");
-        
-        if (localStorage.getItem('v_date') !== d) {
-            today = 0;
-            localStorage.setItem('v_date', d);
-        }
-        
-        today++;
-        total++;
-        localStorage.setItem('v_today', today);
-        localStorage.setItem('v_total', total);
-        
-        document.getElementById('v-today').innerText = today.toLocaleString();
-        document.getElementById('v-total').innerText = total.toLocaleString();
-    }
-
-    function resetUI() {
-        document.getElementById('result-area').classList.remove('active');
-        document.getElementById('start-area').classList.add('active');
-        updateUI();
-    }
-
-    updateVisitors();
-    updateUI();
-
+    updateVisitors(); updateUI();
     document.addEventListener('contextmenu', e => e.preventDefault());
-    document.addEventListener('keydown', e => {
-        if (e.key === 'F12') e.preventDefault();
-        if (e.ctrlKey && (e.key === 'u' || e.key === 'c' || e.key === 's' || (e.shiftKey && (e.key === 'I' || e.key === 'J')))) {
-            e.preventDefault();
-        }
-    });
+    document.addEventListener('keydown', e => { if (e.key === 'F12') e.preventDefault(); if (e.ctrlKey && (e.key === 'u' || e.key === 'c' || e.key === 's' || (e.shiftKey && (e.key === 'I' || e.key === 'J')))) { e.preventDefault(); } });
 </script>
 </body>
 </html>
