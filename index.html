@@ -29,13 +29,11 @@
             background-size: 200px 200px; z-index: 0; opacity: 0.4;
         }
 
-        /* 浮遊エフェクト：サイズを小さく調整 */
         .floating-emoji {
             position: fixed; pointer-events: none; z-index: 1;
             filter: drop-shadow(0 0 5px rgba(255,255,255,0.4));
             animation: spaceFloat var(--duration) ease-in-out infinite;
-            opacity: 0;
-            font-size: 10px; /* 全体的に小さく */
+            opacity: 0; font-size: 8px;
         }
 
         @keyframes spaceFloat {
@@ -46,23 +44,14 @@
             100% { transform: translate(calc(var(--drift-x) * 1.3), calc(var(--drift-y) * 1.3)) rotate(calc(var(--drift-rot) * 1.8)); opacity: 0; }
         }
 
-        /* ボタンから飛び出る星のアニメーション */
         .particle {
             position: fixed; pointer-events: none; z-index: 100;
-            font-size: 14px;
-            animation: particleAnim 0.8s ease-out forwards;
+            font-size: 14px; animation: particleAnim 0.8s ease-out forwards;
         }
         @keyframes particleAnim {
-            0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+            0% { transform: translate(-50%, -50%) scale(1.5); opacity: 1; }
             100% { transform: translate(var(--x), var(--y)) scale(0); opacity: 0; }
         }
-
-        .outer-header { text-align: center; z-index: 10; margin-bottom: 15px; width: 90%; }
-        .welcome-msg { font-size: 12px; font-weight: bold; color: #fff; line-height: 1.8; text-shadow: 0 0 10px var(--ra-main); margin-bottom: 5px; }
-        .yoshi-yoshi { font-size: 16px; font-weight: 900; background: linear-gradient(to right, #40C4FF, #FF80AB); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .shrine-icon { font-size: 40px; display: block; margin: 10px 0; filter: drop-shadow(0 0 10px #ff0000); }
-        .main-title { font-size: 28px; font-weight: 900; color: #fff; margin: 5px 0; letter-spacing: 2px; text-shadow: 0 0 15px var(--ra-main); cursor: pointer; }
-        .sub-title { font-size: 10px; color: rgba(255,255,255,0.8); letter-spacing: 4px; text-transform: uppercase; font-weight: bold; }
 
         .card {
             background: var(--glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
@@ -72,24 +61,27 @@
         }
         @keyframes neonGlow { 0% { border-color: var(--ra-main); box-shadow: 0 0 15px var(--ra-main); } 100% { border-color: var(--ra-pink); box-shadow: 0 0 25px var(--ra-pink); } }
 
-        .steps { background: rgba(255, 255, 255, 0.5); border-radius: 20px; padding: 18px; margin-bottom: 20px; font-size: 12px; line-height: 2.2; color: #000; font-weight: 800; }
-        
         .btn-main { 
             background: var(--btn-grad); color: #fff; padding: 16px 10px; border-radius: 100px; 
             font-size: 17px; font-weight: bold; width: 100%; border: none; cursor: pointer; transition: 0.3s; 
-            box-shadow: 0 6px 15px rgba(255, 64, 129, 0.3); display: flex; align-items: center; justify-content: center; text-decoration: none;
-            position: relative; overflow: visible;
+            box-shadow: 0 6px 15px rgba(255, 64, 129, 0.3); display: flex; align-items: center; justify-content: center;
         }
         .btn-main:active:not(:disabled) { transform: scale(0.96); }
-        .btn-main:disabled { background: #ccc; box-shadow: none; }
 
-        #res-date { font-size: 11px; color: #444; font-weight: bold; margin-bottom: 8px; font-family: monospace; }
-        .img-container { position: relative; width: 220px; height: 220px; margin: 0 auto 15px; overflow: hidden; border-radius: 25px; background: #000; box-shadow: 0 8px 20px rgba(0,0,0,0.3); border: 2px solid #fff; }
-        .fortune-img { width: 100%; height: 100%; object-fit: cover; }
+        .img-container { 
+            position: relative; width: 220px; height: 220px; margin: 0 auto 15px; 
+            overflow: hidden; border-radius: 25px; background: #111; 
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3); border: 2px solid #fff;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .fortune-img { width: 100%; height: 100%; object-fit: cover; transition: opacity 0.5s ease-in; opacity: 0; }
+        .fortune-img.loaded { opacity: 1; }
 
         #res-member { font-size: 16px; font-weight: 900; margin-bottom: 8px; }
         #res-fortune { font-size: 32px; font-weight: 950; margin-bottom: 15px; }
         #res-desc { font-size: 14px; line-height: 1.8; padding: 0 10px; margin-bottom: 20px; text-align: left; color: #000; font-weight: 800; }
+
+        .footer-info { font-size: 10px; color: #000; margin-top: 20px; line-height: 1.6; font-weight: 900; }
 
         #start-area, #result-area { display: none; }
         .active { display: block !important; }
@@ -104,24 +96,21 @@
     <div class="stars-base"></div>
     <div id="emoji-layer"></div>
 
-    <header class="outer-header" id="main-header">
-        <div class="welcome-msg">ようこそRapiNz座標まで。</div>
-        <div class="welcome-msg">あなたの心に、銀河級の<br><span class="yoshi-yoshi">『よしよし』</span>が降り注ぎますように。</div>
-        <span class="shrine-icon">⛩️</span>
-        <h1 class="main-title" id="dev-trigger">RapiNz Z神社</h1>
-        <div class="sub-title">Galaxy Fortune</div>
+    <header class="outer-header" id="main-header" style="text-align: center; z-index: 10; margin-bottom: 15px; width: 90%;">
+        <div style="font-size: 12px; font-weight: bold; color: #fff; line-height: 1.8; text-shadow: 0 0 10px var(--ra-main); margin-bottom: 5px;">ようこそRapiNz座標まで。<br>あなたの心に、銀河級の<br><span style="font-size: 16px; font-weight: 900; background: linear-gradient(to right, #40C4FF, #FF80AB); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">『よしよし』</span>が降り注ぎますように。</div>
+        <span style="font-size: 40px; display: block; margin: 10px 0; filter: drop-shadow(0 0 10px #ff0000);">⛩️</span>
+        <h1 id="dev-trigger" style="font-size: 28px; font-weight: 900; color: #fff; margin: 5px 0; letter-spacing: 2px; text-shadow: 0 0 15px var(--ra-main); cursor: pointer;">RapiNz Z神社</h1>
+        <div style="font-size: 10px; color: rgba(255,255,255,0.8); letter-spacing: 4px; text-transform: uppercase; font-weight: bold;">～無限占い～</div>
     </header>
 
     <div class="card" id="main-card">
         <div id="start-area" class="active">
-            <div class="steps">
-                一、ゆっくり目を閉じる<br>
-                二、ふか～く深呼吸をする<br>
-                三、銀河の巡り合わせに身をまかせる
+            <div style="background: rgba(255, 255, 255, 0.5); border-radius: 20px; padding: 18px; margin-bottom: 20px; font-size: 12px; line-height: 2.2; color: #000; font-weight: 800;">
+                一、ゆっくり目を閉じる<br>二、ふか～く深呼吸をする<br>三、銀河の巡り合わせに身をまかせる
             </div>
             <button id="draw-btn" class="btn-main" onclick="uranaiAction(event)">✨ 御朱印を授かる ✨</button>
             <div id="limit-display" style="font-size: 13px; font-weight: bold; color: #000; margin: 10px 0;">本日あと 3 回</div>
-            <div class="visitor-panel" style="display:flex; justify-content:center; gap:15px; background:rgba(0,0,0,0.1); border-radius:12px; padding:10px;">
+            <div style="display:flex; justify-content:center; gap:15px; background:rgba(0,0,0,0.1); border-radius:12px; padding:10px;">
                 <div style="flex:1;"><span style="font-size:9px; font-weight:900;">本日参拝</span><span id="v-today" style="font-size:14px; font-weight:bold; display:block;">0</span></div>
                 <div style="flex:1; border-left:1px solid #ddd;"><span style="font-size:9px; font-weight:900;">累計参拝</span><span id="v-total" style="font-size:14px; font-weight:bold; display:block;">0</span></div>
             </div>
@@ -130,7 +119,7 @@
         <div id="result-area">
             <div id="res-member"></div>
             <div id="res-fortune"></div>
-            <div id="res-date"></div>
+            <div id="res-date" style="font-size: 11px; color: #444; font-weight: bold; margin-bottom: 8px; font-family: monospace;"></div>
             <div class="img-container">
                 <img id="res-img" src="" class="fortune-img">
             </div>
@@ -140,88 +129,82 @@
             </div>
             <div style="margin-top:20px; font-size:14px; font-weight:900; text-decoration:underline; cursor:pointer;" onclick="resetUI()">✨ もう一度参拝する ✨</div>
         </div>
-        <div style="font-size: 10px; color: #000; margin-top: 20px; line-height: 1.6; font-weight: 900;">
-            週に1回・月に1回しかでない「宇宙大吉」もあるよ☄<br>毎日参拝してね。
+
+        <div class="footer-info">
+            月に1回しかでない「宇宙大吉」もあるよ☄<br>毎日参拝してね★
         </div>
     </div>
 
 <script>
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    
     function playSound(type) {
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        const masterGain = audioCtx.createGain();
+        masterGain.connect(audioCtx.destination);
         const now = audioCtx.currentTime;
-        if (type === 'draw') {
-            osc.type = 'triangle'; osc.frequency.setValueAtTime(880, now);
-            osc.frequency.exponentialRampToValueAtTime(1760, now + 0.1);
-            gain.gain.setValueAtTime(0.2, now); gain.gain.exponentialRampToValueAtTime(0.01, now + 0.5);
-            osc.start(now); osc.stop(now + 0.5);
-        } else if (type === 'result') {
+
+        if (type === 'draw') { 
+            [523.25, 659.25, 783.99, 1046.50].forEach((freq, i) => {
+                const osc = audioCtx.createOscillator();
+                const g = audioCtx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(freq, now + (i * 0.05));
+                g.gain.setValueAtTime(0, now);
+                g.gain.linearRampToValueAtTime(0.1, now + (i * 0.05) + 0.01);
+                g.gain.exponentialRampToValueAtTime(0.001, now + 1.5);
+                osc.connect(g); g.connect(masterGain);
+                osc.start(now + (i * 0.05)); osc.stop(now + 1.5);
+            });
+        } else if (type === 'result') { 
+            const osc = audioCtx.createOscillator();
+            const osc2 = audioCtx.createOscillator();
+            const g = audioCtx.createGain();
+            osc.type = 'triangle'; osc.frequency.setValueAtTime(110, now);
+            osc2.type = 'sine'; osc2.frequency.setValueAtTime(220, now);
+            g.gain.setValueAtTime(0.3, now);
+            g.gain.exponentialRampToValueAtTime(0.001, now + 0.8);
+            osc.connect(g); osc2.connect(g); g.connect(masterGain);
+            osc.start(now); osc2.start(now);
+            osc.stop(now + 0.8); osc2.stop(now + 0.8);
+        } else if (type === 'click') { 
+            const osc = audioCtx.createOscillator();
+            const g = audioCtx.createGain();
             osc.type = 'sine'; osc.frequency.setValueAtTime(440, now);
-            osc.frequency.exponentialRampToValueAtTime(880, now + 0.05);
-            gain.gain.setValueAtTime(0.3, now); gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
-            osc.start(now); osc.stop(now + 0.3);
-        } else if (type === 'click') {
-            osc.type = 'square'; osc.frequency.setValueAtTime(200, now);
-            gain.gain.setValueAtTime(0.1, now); gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
+            osc.frequency.exponentialRampToValueAtTime(110, now + 0.05);
+            g.gain.setValueAtTime(0.1, now);
+            g.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
+            osc.connect(g); g.connect(masterGain);
             osc.start(now); osc.stop(now + 0.1);
         }
     }
 
-    // ボタンから星を飛ばす関数
     function createBurst(e) {
         const count = 12;
-        const rect = e.target.getBoundingClientRect();
+        const rect = document.getElementById('draw-btn').getBoundingClientRect();
         const centerX = rect.left + rect.width / 2;
         const centerY = rect.top + rect.height / 2;
-        const stars = ['⭐', '🌟', '✨'];
-
         for (let i = 0; i < count; i++) {
             const p = document.createElement('div');
             p.className = 'particle';
-            p.innerText = stars[Math.floor(Math.random() * stars.length)];
-            const angle = (Math.PI * 2 * i) / count + (Math.random() * 0.5);
-            const dist = 80 + Math.random() * 60;
+            p.innerText = '✨';
+            const angle = (Math.PI * 2 * i) / count;
+            const dist = 100 + Math.random() * 50;
             p.style.setProperty('--x', Math.cos(angle) * dist + 'px');
             p.style.setProperty('--y', Math.sin(angle) * dist + 'px');
-            p.style.left = centerX + 'px';
-            p.style.top = centerY + 'px';
+            p.style.left = centerX + 'px'; p.style.top = centerY + 'px';
             document.body.appendChild(p);
             setTimeout(() => p.remove(), 800);
         }
     }
 
-    function initFloatingEmojis() {
-        const layer = document.getElementById('emoji-layer');
-        const icons = ['⭐', '🌟', '✨', '💫'];
-        const count = 25; 
-        for(let i=0; i<count; i++) {
-            const el = document.createElement('div');
-            el.className = 'floating-emoji';
-            el.innerText = icons[Math.floor(Math.random()*icons.length)];
-            const side = Math.random() > 0.5 ? 'left' : 'right';
-            const horizontalPos = side === 'left' ? (Math.random() * 20) : (80 + Math.random() * 20);
-            const size = 6 + Math.random() * 10; // 小さく調整
-            const duration = 8 + Math.random() * 15;
-            const driftX = side === 'left' ? -(20 + Math.random() * 50) : (20 + Math.random() * 50);
-            const driftY = (Math.random() - 0.5) * 150;
-            const driftRot = (Math.random() - 0.5) * 120;
-            const maxOpacity = 0.2 + Math.random() * 0.3;
-            el.style.left = horizontalPos + 'vw';
-            el.style.top = Math.random() * 100 + 'vh';
-            el.style.fontSize = size + 'px';
-            el.style.setProperty('--duration', duration + 's');
-            el.style.setProperty('--drift-x', driftX + 'px');
-            el.style.setProperty('--drift-y', driftY + 'px');
-            el.style.setProperty('--drift-rot', driftRot + 'deg');
-            el.style.setProperty('--max-opacity', maxOpacity);
-            el.style.animationDelay = (Math.random() * -20) + 's';
-            layer.appendChild(el);
-        }
-    }
-    initFloatingEmojis();
+    const images = {
+        "KEIGO": "https://www.dropbox.com/scl/fi/bw9qzesy570958ffwle2p/KEIGO_01.jpg?rlkey=9kyfoddoaift5f7t4chpobcsp&raw=1",
+        "ARI": "https://www.dropbox.com/scl/fi/45dwf8h47xp4u914s3jn3/ARI_01.jpg?rlkey=ddernzv4t2esiniy870ian9pz&raw=1",
+        "KOSE": "https://www.dropbox.com/scl/fi/cmjwsw7710qm7kkqj11z0/KOSE_01.jpg?rlkey=plg0eexjuymuklg79u5cfxt4r&raw=1",
+        "TAKI": "https://www.dropbox.com/scl/fi/aq8yzifxvowza7401xj7h/TAKI_01.jpg?rlkey=qd54a5zwvhdjn1afq16wnszll&raw=1"
+    };
+    Object.values(images).forEach(src => { const img = new Image(); img.src = src; });
 
     const uranaiData = [
         { m: "KEIGO", c: "var(--keigo-yellow)", t: "宇宙大吉☄️", d: "銀河一の幸運を！KEIGOが全力の『よしよし』を贈ります。最高の巡り合わせです。" },
@@ -347,12 +330,25 @@
         { m: "TAKI", c: "var(--taki-blue)", t: "大爆笑大吉", d: "悩みなんて吹き飛ばそう！💎" }
     ];
 
-    const images = {
-        "KEIGO": "https://www.dropbox.com/scl/fi/bw9qzesy570958ffwle2p/KEIGO_01.jpg?rlkey=9kyfoddoaift5f7t4chpobcsp&raw=1",
-        "ARI": "https://www.dropbox.com/scl/fi/45dwf8h47xp4u914s3jn3/ARI_01.jpg?rlkey=ddernzv4t2esiniy870ian9pz&raw=1",
-        "KOSE": "https://www.dropbox.com/scl/fi/cmjwsw7710qm7kkqj11z0/KOSE_01.jpg?rlkey=plg0eexjuymuklg79u5cfxt4r&raw=1",
-        "TAKI": "https://www.dropbox.com/scl/fi/aq8yzifxvowza7401xj7h/TAKI_01.jpg?rlkey=qd54a5zwvhdjn1afq16wnszll&raw=1"
-    };
+    function initFloatingEmojis() {
+        const layer = document.getElementById('emoji-layer');
+        const icons = ['⭐', '🌟', '✨', '✡'];
+        for(let i=0; i<20; i++) {
+            const el = document.createElement('div');
+            el.className = 'floating-emoji'; el.innerText = icons[Math.floor(Math.random()*icons.length)];
+            const side = Math.random() > 0.5 ? 'left' : 'right';
+            const hPos = side === 'left' ? (Math.random() * 20) : (80 + Math.random() * 20);
+            el.style.left = hPos + 'vw'; el.style.top = Math.random() * 100 + 'vh';
+            el.style.setProperty('--duration', (7 + Math.random() * 12) + 's');
+            el.style.setProperty('--drift-x', (side === 'left' ? -50 : 50) + 'px');
+            el.style.setProperty('--drift-y', (Math.random() - 0.5) * 150 + 'px');
+            el.style.setProperty('--drift-rot', (Math.random() - 0.5) * 120 + 'deg');
+            el.style.setProperty('--max-opacity', 0.2 + Math.random() * 0.3);
+            el.style.animationDelay = (Math.random() * -15) + 's';
+            layer.appendChild(el);
+        }
+    }
+    initFloatingEmojis();
 
     let isDevMode = false;
     let tapCount = 0;
@@ -372,19 +368,22 @@
         const count = getCount();
         if (!isDevMode && count >= 3) return;
         
-        createBurst(e); // 星を飛ばす
-        playSound('draw'); 
+        createBurst(e); 
+        playSound('draw');
         document.getElementById('flash-overlay').classList.add('flash-active');
         
         setTimeout(() => {
-            playSound('result'); 
+            playSound('result');
             const res = uranaiData[Math.floor(Math.random() * uranaiData.length)];
             const now = new Date();
             const dateStr = `${now.getFullYear()}/${(now.getMonth()+1).toString().padStart(2,'0')}/${now.getDate().toString().padStart(2,'0')} ${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`;
             
-            document.getElementById('res-date').innerText = `参拝日時：${dateStr}`;
-            document.getElementById('res-img').src = images[res.m];
+            const imgEl = document.getElementById('res-img');
+            imgEl.classList.remove('loaded');
+            imgEl.src = images[res.m];
+            imgEl.onload = () => imgEl.classList.add('loaded');
             
+            document.getElementById('res-date').innerText = `参拝日時：${dateStr}`;
             document.getElementById('start-area').classList.remove('active');
             document.getElementById('main-header').style.display = 'none';
             document.getElementById('result-area').classList.add('active');
@@ -397,10 +396,9 @@
             
             const tweetText = `✨ RapiNz Z神社 ✨\n本日のラッキーメンバーは【${res.m}】💎\n運勢は【${res.t}】でした！\n(参拝日時：${dateStr})\n\n#RapiNz #RapiNz宇宙御朱印`;
             document.getElementById('x-share').setAttribute('data-text', tweetText);
-            
             if (!isDevMode) setCount(count + 1);
             document.getElementById('flash-overlay').classList.remove('flash-active');
-        }, 500);
+        }, 600);
     }
 
     function tweetAction(e) {
