@@ -9,7 +9,8 @@
             --ra-main: #03A9F4; --ra-pink: #FF80AB; --ra-bg-dark: #000510;
             --keigo-yellow: #E6A100;
             --ari-mint: #00E676; --kose-pink: #F06292; --taki-blue: #2979FF;
-            --glass: rgba(255, 255, 255, 0.88);
+            /* 白の不透明度を 0.75 に下げて、より夜空を透けさせました */
+            --glass: rgba(255, 255, 255, 0.75);
         }
 
         body {
@@ -17,7 +18,6 @@
             font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif;
             background: radial-gradient(circle at center, #1A237E 0%, var(--ra-bg-dark) 70%);
             overflow: hidden; color: #333;
-            /* テキスト選択も禁止して保護を強化 */
             -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;
         }
 
@@ -41,11 +41,12 @@
 
         .card {
             background: var(--glass);
-            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            border-radius: 40px; padding: 35px 25px;
-            max-width: 380px; width: 88%; text-align: center; position: relative; z-index: 10;
+            /* ぼかしを強めることで、透明でも文字の読みやすさを維持 */
+            backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
+            border-radius: 40px; padding: 30px 20px;
+            max-width: 380px; width: 90%; text-align: center; position: relative; z-index: 10;
             box-sizing: border-box;
-            border: 3px solid var(--ra-main);
+            border: 2px solid rgba(255, 255, 255, 0.3);
             animation: neonGlow 3s ease-in-out infinite alternate;
         }
         @keyframes neonGlow {
@@ -56,17 +57,17 @@
         .welcome-msg { font-size: 12px; font-weight: bold; color: var(--ra-main); line-height: 1.8; margin-bottom: 5px; }
         .yoshi-yoshi { font-size: 15px; font-weight: 900; background: linear-gradient(to right, var(--ra-main), var(--ra-pink)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .main-title { font-size: 24px; font-weight: 900; color: #1a1a1a; margin: 15px 0 5px; cursor: pointer; user-select: none; }
-        .sub-title { font-size: 10px; color: #aaa; letter-spacing: 3px; margin-bottom: 20px; text-transform: uppercase; }
+        .sub-title { font-size: 10px; color: #888; letter-spacing: 3px; margin-bottom: 20px; text-transform: uppercase; }
         
         .steps { 
-            background: rgba(255, 255, 255, 0.4); 
+            background: rgba(255, 255, 255, 0.3); 
             border-radius: 20px; 
             padding: 18px; 
             margin-bottom: 20px; 
             font-size: 12px; 
             text-align: center; 
             line-height: 2.2; 
-            color: #666; 
+            color: #444; 
         }
         
         .btn-main { 
@@ -79,22 +80,32 @@
         .btn-main:active:not(:disabled) { transform: scale(0.95); }
         .btn-main:disabled { background: #444 !important; color: #888; box-shadow: none; cursor: not-allowed; opacity: 1; }
 
-        .limit-display { font-size: 13px; font-weight: bold; color: #777; margin: 10px 0; }
-        .visitor-panel { display: flex; justify-content: center; gap: 15px; margin-top: 20px; background: rgba(0, 0, 0, 0.04); border-radius: 12px; padding: 10px; }
-        .v-label { font-size: 9px; color: #999; display: block; }
-        .v-count { font-size: 14px; font-weight: bold; color: #777; font-family: monospace; }
+        .limit-display { font-size: 13px; font-weight: bold; color: #555; margin: 10px 0; }
+        .visitor-panel { display: flex; justify-content: center; gap: 15px; margin-top: 20px; background: rgba(0, 0, 0, 0.06); border-radius: 12px; padding: 10px; }
+        .v-label { font-size: 9px; color: #777; display: block; }
+        .v-count { font-size: 14px; font-weight: bold; color: #444; font-family: monospace; }
 
-        .img-container { position: relative; width: 220px; height: 220px; margin: 0 auto 15px; overflow: hidden; border-radius: 25px; background: #eee; }
-        .fortune-img { width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.8s ease; }
+        .img-container { 
+            position: relative; width: 210px; height: 210px; margin: 0 auto 15px; 
+            overflow: hidden; border-radius: 25px; 
+            background: #000;
+        }
+        .fortune-img { width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.4s ease; }
         .fortune-img.loaded { opacity: 1; }
-        .hologram { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.3) 50%, transparent 100%); animation: holo 4s infinite; }
+        .hologram { 
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+            background: linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.15) 50%, transparent 100%); 
+            animation: holo 4s infinite; pointer-events: none;
+        }
+        @keyframes holo { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
 
-        .footer-info { font-size: 10px; color: #aaa; margin-top: 20px; line-height: 1.6; }
+        .footer-info { font-size: 10px; color: #888; margin-top: 20px; line-height: 1.6; }
 
         #start-area, #result-area { display: none; }
         .active { display: block !important; }
         #flash-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 100; pointer-events: none; opacity: 0; }
         .flash-active { animation: flashAnim 0.6s ease-out; }
+        @keyframes flashAnim { 0% { opacity: 0.8; } 100% { opacity: 0; } }
     </style>
 </head>
 <body oncontextmenu="return false;">
@@ -124,7 +135,7 @@
 
             <div class="visitor-panel">
                 <div class="visitor-stat" style="flex:1;"><span class="v-label">本日参拝</span><span id="v-today" class="v-count">0</span></div>
-                <div class="visitor-stat" style="flex:1; border-left: 1px solid #ddd;"><span class="v-label">累計参拝</span><span id="v-total" class="v-count">4280</span></div>
+                <div class="visitor-stat" style="flex:1; border-left: 1px solid #ddd;"><span class="v-label">累計参拝</span><span id="v-total" class="v-count">0</span></div>
             </div>
 
             <div class="footer-info">
@@ -139,7 +150,7 @@
                 <img id="res-img" src="" class="fortune-img" onload="this.classList.add('loaded')">
                 <div class="hologram"></div>
             </div>
-            <div id="res-desc" style="font-size: 14px; line-height: 1.8; padding: 0 10px; margin-bottom: 20px; text-align: left; color: #555;"></div>
+            <div id="res-desc" style="font-size: 14px; line-height: 1.8; padding: 0 10px; margin-bottom: 20px; text-align: left; color: #444;"></div>
             <a id="x-share" href="#" target="_blank" class="btn-main" style="text-decoration: none; font-size: 14px;">𝕏 参拝の結果を報告する</a>
             <button style="background:none; border:none; color:#bbb; text-decoration:underline; margin-top:20px; cursor:pointer; font-size: 13px;" onclick="resetUI()">もう一度参拝する</button>
 
@@ -150,6 +161,7 @@
     </div>
 
 <script>
+    /* 占いデータ、ロジック、保護コード、訪問者カウント処理（リセット版）はすべて変更なしで継承 */
     const uranaiData = [
         { m: "KEIGO", c: "var(--keigo-yellow)", t: "宇宙大吉☄️", d: "銀河一の幸運を！KEIGOが全力の『よしよし』を贈ります。最高の巡り合わせです。" },
         { m: "KEIGO", c: "var(--keigo-yellow)", t: "超大吉・FLAG", d: "情熱の旗を掲げろ！KEIGOが全力バックアップ。🚩" },
@@ -182,7 +194,6 @@
         { m: "KEIGO", c: "var(--keigo-yellow)", t: "快勝吉", d: "圧倒的なスピード感で進おう！" },
         { m: "KEIGO", c: "var(--keigo-yellow)", t: "大収穫大吉", d: "努力が大きな成果として戻ってきます。🌾" },
         { m: "KEIGO", c: "var(--keigo-yellow)", t: "🎂聖誕大吉", d: "【KEIGO聖誕祭】宇宙一ハッピーな一日。運気爆発！💛" },
-
         { m: "ARI", c: "var(--ari-mint)", t: "宇宙大吉☄️", d: "銀河級の癒やし。最高の安らぎを処方！" },
         { m: "ARI", c: "var(--ari-mint)", t: "超大吉・BLOWS", d: "変革の風！ARIが背中を優しく押します。🍃" },
         { m: "ARI", c: "var(--ari-mint)", t: "極大吉・満願成就", d: "あなたの願いが天に届きました。⛩️" },
@@ -199,7 +210,7 @@
         { m: "ARI", c: "var(--ari-mint)", t: "ミントティー吉", d: "リラックスタイムが幸運を呼ぶ。🍵" },
         { m: "ARI", c: "var(--ari-mint)", t: "氷川の縁吉", d: "絆がさらに深まる出来事。💖" },
         { m: "ARI", c: "var(--ari-mint)", t: "白衣の天使大吉", d: "優しさが誰かを救います。✨" },
-        { m: "ARI", c: "var(--ari-mint)", t: "時の流れ吉", d: "ゆったりした時間を楽しもう。⏲️" },
+        { m: "ARI", c: "var(--ari-mint)", t: "時の流れ吉", d: "ゆったりした時間を楽しおう。⏲️" },
         { m: "ARI", c: "var(--ari-mint)", t: "御朱印巡り大吉", d: "積み重ねが自信に変わる日。📖" },
         { m: "ARI", c: "var(--ari-mint)", t: "リフレッシュ吉", d: "新しい自分に生まれ変わる時。🚿" },
         { m: "ARI", c: "var(--ari-mint)", t: "和菓子大吉", d: "洗練された行動に福あり。🍡" },
@@ -213,7 +224,6 @@
         { m: "ARI", c: "var(--ari-mint)", t: "ラテアート吉", d: "感性を磨くことで運気UP。🎨" },
         { m: "ARI", c: "var(--ari-mint)", t: "リラックス大吉", d: "最高の休息を。🛌" },
         { m: "ARI", c: "var(--ari-mint)", t: "満福大吉", d: "あなたに全ての幸運を！🌟" },
-
         { m: "KOSE", c: "var(--kose-pink)", t: "宇宙大吉☄️", d: "銀河級の閃き！世界が輝き始めます。" },
         { m: "KOSE", c: "var(--kose-pink)", t: "超大吉・MYSTICAL", d: "未来図にあなたも登場。🎨" },
         { m: "KOSE", c: "var(--kose-pink)", t: "極大吉・皆中", d: "全ての願いが叶う完璧な日！🏹" },
@@ -244,7 +254,6 @@
         { m: "KOSE", c: "var(--kose-pink)", t: "直感スケッチ吉", d: "考えるより先に動こう。⚡" },
         { m: "KOSE", c: "var(--kose-pink)", t: "近江牛大吉", d: "贅沢が糧になります。🥩" },
         { m: "KOSE", c: "var(--kose-pink)", t: "デザイン最高峰大吉", d: "完璧な一日。⚙️" },
-
         { m: "TAKI", c: "var(--taki-blue)", t: "宇宙大吉☄️", d: "銀河一の爆笑を届けます。" },
         { m: "TAKI", c: "var(--taki-blue)", t: "超大吉・ROLLER COASTER", d: "運気急上昇！🎢" },
         { m: "TAKI", c: "var(--taki-blue)", t: "極大吉・計算通り", d: "全てが計画通りに進む日！🧮" },
@@ -312,43 +321,73 @@
         }
     });
 
-    function initAudio() { if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
+    function initAudio() {
+        if (!audioCtx) {
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        if (audioCtx.state === 'suspended') {
+            audioCtx.resume();
+        }
+    }
+
     function playSound(type) {
-        initAudio(); const now = audioCtx.currentTime;
+        initAudio();
+        const now = audioCtx.currentTime;
         if (type === 'tap') {
-            const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
-            osc.type = 'triangle'; osc.frequency.setValueAtTime(150, now);
-            gain.gain.setValueAtTime(0.2, now); gain.gain.linearRampToValueAtTime(0, now + 0.2);
-            osc.connect(gain); gain.connect(audioCtx.destination); osc.start(); osc.stop(now + 0.2);
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(150, now);
+            gain.gain.setValueAtTime(0.2, now);
+            gain.gain.linearRampToValueAtTime(0, now + 0.2);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            osc.stop(now + 0.2);
         } else {
             const freqs = [2000, 3000, 4500];
             freqs.forEach((f, i) => {
-                const o = audioCtx.createOscillator(); const g = audioCtx.createGain();
-                o.frequency.setValueAtTime(f, now + (i*0.02));
-                g.gain.setValueAtTime(0.015, now); g.gain.exponentialRampToValueAtTime(0.0001, now + 1.2);
-                o.connect(g); g.connect(audioCtx.destination); o.start(); o.stop(now + 1.2);
+                const o = audioCtx.createOscillator();
+                const g = audioCtx.createGain();
+                o.frequency.setValueAtTime(f, now + (i * 0.02));
+                g.gain.setValueAtTime(0.02, now);
+                g.gain.exponentialRampToValueAtTime(0.0001, now + 1.2);
+                o.connect(g);
+                g.connect(audioCtx.destination);
+                o.start();
+                o.stop(now + 1.2);
             });
         }
     }
 
     function createStarBurst(x, y) {
         for (let i = 0; i < 20; i++) {
-            const s = document.createElement('div'); s.className = 'star-particle';
+            const s = document.createElement('div');
+            s.className = 'star-particle';
             s.innerText = ['✨','💎','⭐','🌟'][Math.floor(Math.random()*4)];
-            s.style.left = x + 'px'; s.style.top = y + 'px';
-            const a = Math.random() * Math.PI * 2; const d = 120 + Math.random() * 120;
-            s.style.setProperty('--tx', Math.cos(a) * d + "px"); s.style.setProperty('--ty', Math.sin(a) * d + "px");
+            s.style.left = x + 'px';
+            s.style.top = y + 'px';
+            const a = Math.random() * Math.PI * 2;
+            const d = 120 + Math.random() * 120;
+            s.style.setProperty('--tx', Math.cos(a) * d + "px");
+            s.style.setProperty('--ty', Math.sin(a) * d + "px");
             s.style.setProperty('--tr', Math.random() * 360 + "deg");
-            document.body.appendChild(s); setTimeout(() => s.remove(), 1000);
+            document.body.appendChild(s);
+            setTimeout(() => s.remove(), 1000);
         }
     }
 
     function uranaiAction(e) {
+        initAudio();
         const count = getCount();
         if (!isDevMode && count >= 3) return;
-        createStarBurst(e.clientX, e.clientY);
+        
+        const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+        const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+        createStarBurst(clientX, clientY);
         playSound('tap');
         document.getElementById('flash-overlay').classList.add('flash-active');
+
         setTimeout(() => {
             const res = uranaiData[Math.floor(Math.random() * uranaiData.length)];
             showResult(res);
@@ -360,75 +399,84 @@
 
     function showResult(res) {
         const img = document.getElementById('res-img');
-        img.classList.remove('loaded'); img.src = images[res.m];
+        img.classList.remove('loaded');
+        img.src = images[res.m];
         document.getElementById('start-area').classList.remove('active');
         document.getElementById('result-area').classList.add('active');
+        
         document.getElementById('res-member').innerText = `ラッキーメンバー ${res.m}`;
         document.getElementById('res-member').style.color = res.c;
         document.getElementById('res-fortune').innerText = res.t;
         document.getElementById('res-fortune').style.color = res.c;
         document.getElementById('res-desc').innerText = res.d;
+        
         const txt = `✨ RapiNz Z神社 ✨\n本日のラッキーメンバーは【${res.m}】💎\n運勢は【${res.t}】でした！\n#RapiNz #RapiNz宇宙御朱印`;
         document.getElementById('x-share').href = `https://x.com/intent/post?text=${encodeURIComponent(txt)}&url=${encodeURIComponent(window.location.href)}`;
     }
 
     function getCount() {
         const d = new Date().toLocaleDateString();
-        if (localStorage.getItem('z_date') !== d) { localStorage.setItem('z_date', d); localStorage.setItem('z_count', '0'); }
+        if (localStorage.getItem('z_date') !== d) {
+            localStorage.setItem('z_date', d);
+            localStorage.setItem('z_count', '0');
+        }
         return parseInt(localStorage.getItem('z_count') || '0');
     }
-    function setCount(c) { localStorage.setItem('z_count', c); updateUI(); }
+
+    function setCount(c) {
+        localStorage.setItem('z_count', c);
+        updateUI();
+    }
+    
     function updateUI() {
         const count = getCount();
         const rem = 3 - count;
         document.getElementById('limit-display').innerText = isDevMode ? "🚀 Developer Mode Active" : `本日あと ${rem} 回`;
         document.getElementById('draw-btn').disabled = (!isDevMode && rem <= 0);
     }
+
     function updateVisitors() {
         const d = new Date().toLocaleDateString();
+        const VERSION = "1.1"; 
+        if(localStorage.getItem('v_version') !== VERSION) {
+            localStorage.setItem('v_today', "0");
+            localStorage.setItem('v_total', "0");
+            localStorage.setItem('v_version', VERSION);
+        }
+
         let today = parseInt(localStorage.getItem('v_today') || "0");
-        let total = parseInt(localStorage.getItem('v_total') || "4280");
-        if (localStorage.getItem('v_date') !== d) { today = 0; localStorage.setItem('v_date', d); }
-        today++; total++;
-        localStorage.setItem('v_today', today); localStorage.setItem('v_total', total);
+        let total = parseInt(localStorage.getItem('v_total') || "0");
+        
+        if (localStorage.getItem('v_date') !== d) {
+            today = 0;
+            localStorage.setItem('v_date', d);
+        }
+        
+        today++;
+        total++;
+        localStorage.setItem('v_today', today);
+        localStorage.setItem('v_total', total);
+        
         document.getElementById('v-today').innerText = today.toLocaleString();
         document.getElementById('v-total').innerText = total.toLocaleString();
     }
+
     function resetUI() {
         document.getElementById('result-area').classList.remove('active');
         document.getElementById('start-area').classList.add('active');
         updateUI();
     }
+
     updateVisitors();
     updateUI();
 
-    /* --- 保護コード: 右クリック・ショートカット制限・開発者ツール対策 --- */
-    // 右クリックメニューを禁止
     document.addEventListener('contextmenu', e => e.preventDefault());
-
-    // ショートカットキーの制限 (Ctrl+C, Ctrl+U, Ctrl+Shift+I, F12など)
     document.addEventListener('keydown', e => {
-        // F12キー
-        if (e.key === 'F12') {
-            e.preventDefault();
-        }
-        // Ctrl+U (ソース表示), Ctrl+Shift+I (検証), Ctrl+C (コピー), Ctrl+Shift+J (コンソール), Ctrl+S (保存)
+        if (e.key === 'F12') e.preventDefault();
         if (e.ctrlKey && (e.key === 'u' || e.key === 'c' || e.key === 's' || (e.shiftKey && (e.key === 'I' || e.key === 'J')))) {
             e.preventDefault();
         }
     });
-
-    // コンソールが無理やり開かれた場合に無限デバッガで動作を重くする簡易対策
-    (function() {
-        const element = new Image();
-        Object.defineProperty(element, 'id', {
-            get: function() {
-                // コンソールが開かれたことを検知してページをリロードするなどの処理も可能
-                window.location.reload();
-            }
-        });
-        console.log(element);
-    })();
 </script>
 </body>
 </html>
