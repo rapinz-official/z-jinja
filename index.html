@@ -7,17 +7,18 @@
     <style>
         :root {
             --ra-main: #03A9F4; --ra-pink: #FF80AB; --ra-bg-dark: #000510;
-            --keigo-yellow: #E6A100;
-            --ari-mint: #00E676; --kose-pink: #F06292; --taki-blue: #2979FF;
-            /* 背景をもっと透けさせ、夜空を活かす設定（透明度 0.6） */
+            --keigo-yellow: #B88100; /* 文字用に少し濃く調整 */
+            --ari-mint: #00B359;    /* 文字用に少し濃く調整 */
+            --kose-pink: #D81B60;   /* 文字用に少し濃く調整 */
+            --taki-blue: #0056E0;   /* 文字用に少し濃く調整 */
             --glass: rgba(255, 255, 255, 0.6);
         }
 
         body {
-            margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh;
+            margin: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 100vh;
             font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif;
             background: radial-gradient(circle at center, #1A237E 0%, var(--ra-bg-dark) 70%);
-            overflow: hidden; color: #333;
+            overflow-x: hidden; color: #333;
             -webkit-user-select: none; user-select: none;
         }
 
@@ -39,10 +40,34 @@
             100% { transform: translate(var(--tx), var(--ty)) scale(0) rotate(var(--tr)); opacity: 0; }
         }
 
+        .outer-header {
+            text-align: center; z-index: 10; margin-bottom: 20px; width: 90%;
+        }
+        .welcome-msg { 
+            font-size: 12px; font-weight: bold; color: #fff; line-height: 1.8; 
+            text-shadow: 0 0 10px var(--ra-main); margin-bottom: 5px;
+        }
+        .yoshi-yoshi { 
+            font-size: 16px; font-weight: 900; 
+            background: linear-gradient(to right, #00BFFF, #FF69B4);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 5px rgba(255,255,255,0.5));
+        }
+        .shrine-icon { font-size: 40px; display: block; margin: 10px 0; filter: drop-shadow(0 0 10px #ff0000); }
+        .main-title { 
+            font-size: 28px; font-weight: 900; color: #fff; margin: 5px 0; 
+            letter-spacing: 2px; text-shadow: 0 0 15px var(--ra-main), 0 0 5px #fff;
+            cursor: pointer;
+        }
+        .sub-title { 
+            font-size: 11px; color: rgba(255,255,255,0.85); letter-spacing: 4px; 
+            text-transform: uppercase; font-weight: bold; margin-bottom: 10px;
+        }
+
         .card {
             background: var(--glass);
             backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            border-radius: 40px; padding: 30px 20px;
+            border-radius: 40px; padding: 25px 20px;
             max-width: 380px; width: 92%; text-align: center; position: relative; z-index: 10;
             box-sizing: border-box;
             border: 1px solid rgba(255, 255, 255, 0.4);
@@ -53,30 +78,28 @@
             100% { border-color: var(--ra-pink); box-shadow: 0 0 30px var(--ra-pink); }
         }
 
-        .welcome-msg { font-size: 12px; font-weight: bold; color: var(--ra-main); line-height: 1.8; margin-bottom: 5px; }
-        .yoshi-yoshi { font-size: 15px; font-weight: 900; background: linear-gradient(to right, var(--ra-main), var(--ra-pink)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .main-title { font-size: 24px; font-weight: 900; color: #1a1a1a; margin: 15px 0 5px; cursor: pointer; }
-        .sub-title { font-size: 10px; color: #666; letter-spacing: 3px; margin-bottom: 20px; text-transform: uppercase; font-weight: bold; }
-        
         .steps { 
             background: rgba(255, 255, 255, 0.3); 
             border-radius: 20px; padding: 18px; margin-bottom: 20px; 
-            font-size: 12px; line-height: 2.2; color: #222; font-weight: 500;
+            font-size: 12px; line-height: 2.2; color: #000; font-weight: 800;
         }
         
+        /* ボタンの中央配置を強化 */
         .btn-main { 
             background: linear-gradient(135deg, var(--ra-main), var(--ra-pink)); 
             color: #fff; padding: 18px; border-radius: 100px; font-size: 16px; font-weight: bold; 
             width: 100%; border: none; cursor: pointer; transition: 0.3s;
-            box-shadow: 0 8px 20px rgba(3, 169, 244, 0.3); display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 8px 20px rgba(3, 169, 244, 0.3);
+            display: flex; align-items: center; justify-content: center;
+            text-align: center; box-sizing: border-box;
         }
         .btn-main:active:not(:disabled) { transform: scale(0.95); }
-        .btn-main:disabled { background: #444 !important; color: #888; box-shadow: none; cursor: not-allowed; }
+        .btn-main:disabled { background: #444 !important; color: #888; box-shadow: none; }
 
-        .limit-display { font-size: 13px; font-weight: bold; color: #333; margin: 10px 0; }
-        .visitor-panel { display: flex; justify-content: center; gap: 15px; margin-top: 20px; background: rgba(0, 0, 0, 0.1); border-radius: 12px; padding: 10px; }
-        .v-label { font-size: 9px; color: #555; display: block; font-weight: bold; }
-        .v-count { font-size: 14px; font-weight: bold; color: #111; font-family: monospace; }
+        .limit-display { font-size: 13px; font-weight: bold; color: #000; margin: 10px 0; }
+        .visitor-panel { display: flex; justify-content: center; gap: 15px; margin-top: 15px; background: rgba(0, 0, 0, 0.15); border-radius: 12px; padding: 10px; }
+        .v-label { font-size: 9px; color: #111; display: block; font-weight: 900; }
+        .v-count { font-size: 14px; font-weight: bold; color: #000; font-family: monospace; }
 
         .img-container { 
             position: relative; width: 210px; height: 210px; margin: 0 auto 15px; 
@@ -91,13 +114,13 @@
         }
         @keyframes holo { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
 
-        /* 結果画面の文字を見やすく修正 */
-        #res-member { font-size: 14px; font-weight: 800; margin-bottom: 8px; filter: drop-shadow(0 0 1px rgba(255,255,255,0.8)); }
-        #res-fortune { font-size: 28px; font-weight: 900; margin-bottom: 15px; filter: drop-shadow(0 0 2px rgba(255,255,255,1)); }
-        #res-desc { font-size: 14px; line-height: 1.8; padding: 0 10px; margin-bottom: 20px; text-align: left; color: #111; font-weight: 500; }
+        /* 結果文字の調整（発光をなくし色を濃く） */
+        #res-member { font-size: 15px; font-weight: 900; margin-bottom: 8px; }
+        #res-fortune { font-size: 30px; font-weight: 950; margin-bottom: 15px; }
+        #res-desc { font-size: 14px; line-height: 1.8; padding: 0 10px; margin-bottom: 20px; text-align: left; color: #000; font-weight: 800; }
 
-        .footer-info { font-size: 10px; color: #333; margin-top: 20px; line-height: 1.6; font-weight: bold; }
-        .reset-btn { background:none; border:none; color:#1a1a1a; text-decoration:underline; margin-top:20px; cursor:pointer; font-size: 14px; font-weight: bold; }
+        .footer-info { font-size: 10px; color: #000; margin-top: 20px; line-height: 1.6; font-weight: 900; }
+        .reset-btn { background:none; border:none; color:#000; text-decoration:underline; margin-top:15px; cursor:pointer; font-size: 15px; font-weight: 900; }
 
         #start-area, #result-area { display: none; }
         .active { display: block !important; }
@@ -111,16 +134,16 @@
     <div class="stars-base"></div>
     <div id="star-field"></div>
 
+    <header class="outer-header">
+        <div class="welcome-msg">ようこそRapiNz座標まで。</div>
+        <div class="welcome-msg">あなたの心に、銀河級の<br><span class="yoshi-yoshi">『よしよし』</span>が降り注ぎますように。</div>
+        <span class="shrine-icon">⛩️</span>
+        <h1 class="main-title" id="dev-trigger">RapiNz Z神社</h1>
+        <div class="sub-title">Galaxy Fortune</div>
+    </header>
+
     <div class="card" id="main-card">
         <div id="start-area" class="active">
-            <div class="welcome-header">
-                <div class="welcome-msg">ようこそRapiNz座標まで。</div>
-                <div class="welcome-msg">あなたの心に、銀河級の<br><span class="yoshi-yoshi">『よしよし』</span>が降り注ぎますように。</div>
-            </div>
-            <span style="font-size:35px;">⛩️</span>
-            <h1 class="main-title" id="dev-trigger">RapiNz Z神社</h1>
-            <div class="sub-title">Galaxy Fortune</div>
-            
             <div class="steps">
                 一、ゆっくり目を閉じる<br>
                 二、ふか～く深呼吸をする<br>
@@ -148,7 +171,7 @@
                 <div class="hologram"></div>
             </div>
             <div id="res-desc"></div>
-            <a id="x-share" href="#" target="_blank" class="btn-main" style="text-decoration: none; font-size: 14px;">𝕏 参拝の結果を報告する</a>
+            <a id="x-share" href="#" target="_blank" class="btn-main">𝕏 参拝の結果を報告する</a>
             <button class="reset-btn" onclick="resetUI()">もう一度参拝する</button>
 
             <div class="footer-info">
@@ -159,7 +182,6 @@
 
 <script>
     const uranaiData = [
-        /* 121種のデータは変更なし */
         { m: "KEIGO", c: "var(--keigo-yellow)", t: "宇宙大吉☄️", d: "銀河一の幸運を！KEIGOが全力の『よしよし』を贈ります。最高の巡り合わせです。" },
         { m: "KEIGO", c: "var(--keigo-yellow)", t: "超大吉・FLAG", d: "情熱の旗を掲げろ！KEIGOが全力バックアップ。🚩" },
         { m: "KEIGO", c: "var(--keigo-yellow)", t: "極大吉・ダイヤモンドダスト", d: "最高級の幸運があなたを包み込みます。💎" },
@@ -318,7 +340,6 @@
         }
     });
 
-    /* 音声再生処理の強化（iOS/Android対応） */
     function initAudio() {
         if (!audioCtx) {
             audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -412,9 +433,8 @@
         
         document.getElementById('res-desc').innerText = res.d;
         
-        /* X投稿リンクの修正：アプリでエラーが出にくい形式 */
         const tweetText = `✨ RapiNz Z神社 ✨\n本日のラッキーメンバーは【${res.m}】💎\n運勢は【${res.t}】でした！\n\n#RapiNz #RapiNz宇宙御朱印`;
-        const tweetUrl = window.location.href.split('?')[0]; // パラメータを除去
+        const tweetUrl = window.location.href.split('?')[0];
         document.getElementById('x-share').href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}&url=${encodeURIComponent(tweetUrl)}`;
     }
 
@@ -441,7 +461,7 @@
 
     function updateVisitors() {
         const d = new Date().toLocaleDateString();
-        const VERSION = "1.2"; // バージョンアップ
+        const VERSION = "1.2";
         if(localStorage.getItem('v_version') !== VERSION) {
             localStorage.setItem('v_today', "0");
             localStorage.setItem('v_total', "0");
