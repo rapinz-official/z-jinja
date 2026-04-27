@@ -7,19 +7,18 @@
     <style>
         :root {
             --ra-main: #00B0FF; --ra-pink: #FF4081; --ra-bg-dark: #000510;
-            /* メンバーカラーを濃く・かわいく調整 */
             --keigo-yellow: #D9A300;
             --ari-mint: #00C853;
             --kose-pink: #E91E63;
             --taki-blue: #2962FF;
-            --glass: rgba(255, 255, 255, 0.65);
+            --glass: rgba(255, 255, 255, 0.85); 
         }
 
         body {
             margin: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 100vh;
             font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif;
             background: radial-gradient(circle at center, #1A237E 0%, var(--ra-bg-dark) 70%);
-            overflow-x: hidden; color: #333;
+            overflow: hidden; color: #333;
             -webkit-user-select: none; user-select: none;
         }
 
@@ -29,95 +28,56 @@
             background-size: 200px 200px; z-index: 0; opacity: 0.6;
         }
 
-        .floating-emoji { position: absolute; pointer-events: none; z-index: 1; opacity: 0.5; animation: floatAnim 10s ease-in-out infinite; }
-        @keyframes floatAnim { 0%, 100% { transform: translate(0, 0) rotate(0deg); } 50% { transform: translate(30px, -40px) rotate(20deg); } }
-
-        .star-particle {
-            position: fixed; pointer-events: none; z-index: 1000; font-size: 24px;
-            animation: starShoot 0.8s ease-out forwards;
+        .floating-emoji {
+            position: fixed; pointer-events: none; z-index: 1; opacity: 0.5;
+            font-size: 18px;
+            animation: gentleFloat 5s ease-in-out infinite;
         }
-        @keyframes starShoot {
-            0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-            100% { transform: translate(var(--tx), var(--ty)) scale(0) rotate(var(--tr)); opacity: 0; }
+        @keyframes gentleFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(8deg); }
         }
 
         .outer-header { text-align: center; z-index: 10; margin-bottom: 15px; width: 90%; }
-        .welcome-msg { 
-            font-size: 12px; font-weight: bold; color: #fff; line-height: 1.8; 
-            text-shadow: 0 0 10px var(--ra-main); margin-bottom: 5px;
-        }
-        .yoshi-yoshi { 
-            font-size: 16px; font-weight: 900; 
-            background: linear-gradient(to right, #40C4FF, #FF80AB);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        }
+        .welcome-msg { font-size: 12px; font-weight: bold; color: #fff; line-height: 1.8; text-shadow: 0 0 10px var(--ra-main); margin-bottom: 5px; }
+        .yoshi-yoshi { font-size: 16px; font-weight: 900; background: linear-gradient(to right, #40C4FF, #FF80AB); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .shrine-icon { font-size: 40px; display: block; margin: 10px 0; filter: drop-shadow(0 0 10px #ff0000); }
-        .main-title { 
-            font-size: 28px; font-weight: 900; color: #fff; margin: 5px 0; 
-            letter-spacing: 2px; text-shadow: 0 0 15px var(--ra-main); cursor: pointer;
-        }
+        .main-title { font-size: 28px; font-weight: 900; color: #fff; margin: 5px 0; letter-spacing: 2px; text-shadow: 0 0 15px var(--ra-main); cursor: pointer; }
         .sub-title { font-size: 10px; color: rgba(255,255,255,0.8); letter-spacing: 4px; text-transform: uppercase; font-weight: bold; }
 
         .card {
-            background: var(--glass);
-            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            border-radius: 40px; padding: 25px 20px;
-            max-width: 380px; width: 90%; text-align: center; position: relative; z-index: 10;
-            box-sizing: border-box;
-            border: 1px solid rgba(255, 255, 255, 0.4);
+            background: var(--glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-radius: 40px; padding: 25px 20px; max-width: 380px; width: 90%; text-align: center; 
+            position: relative; z-index: 10; box-sizing: border-box; border: 1px solid rgba(255, 255, 255, 0.5);
             animation: neonGlow 3s ease-in-out infinite alternate;
         }
-        @keyframes neonGlow {
-            0% { border-color: var(--ra-main); box-shadow: 0 0 15px var(--ra-main); }
-            100% { border-color: var(--ra-pink); box-shadow: 0 0 25px var(--ra-pink); }
-        }
+        @keyframes neonGlow { 0% { border-color: var(--ra-main); box-shadow: 0 0 15px var(--ra-main); } 100% { border-color: var(--ra-pink); box-shadow: 0 0 25px var(--ra-pink); } }
 
-        .steps { 
-            background: rgba(255, 255, 255, 0.35); 
-            border-radius: 20px; padding: 18px; margin-bottom: 20px; 
-            font-size: 12px; line-height: 2.2; color: #000; font-weight: 800;
-        }
+        .steps { background: rgba(255, 255, 255, 0.5); border-radius: 20px; padding: 18px; margin-bottom: 20px; font-size: 12px; line-height: 2.2; color: #000; font-weight: 800; }
         
-        /* ボタン色を濃く・かわいく修正 */
         .btn-main { 
-            background: linear-gradient(135deg, #0288D1, #E91E63); 
-            color: #fff; padding: 16px 10px; border-radius: 100px; font-size: 16px; font-weight: bold; 
-            width: 100%; border: none; cursor: pointer; transition: 0.3s;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
-            display: flex; align-items: center; justify-content: center;
-            text-align: center; margin: 0 auto; box-sizing: border-box; text-decoration: none;
+            background: linear-gradient(135deg, #0288D1, #E91E63); color: #fff; padding: 16px 10px; border-radius: 100px; 
+            font-size: 16px; font-weight: bold; width: 100%; border: none; cursor: pointer; transition: 0.3s; 
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3); display: flex; align-items: center; justify-content: center; text-decoration: none;
         }
         .btn-main:active:not(:disabled) { transform: scale(0.96); }
-        .btn-main:disabled { background: #555 !important; color: #aaa; box-shadow: none; }
 
-        .visitor-panel { display: flex; justify-content: center; gap: 15px; margin-top: 15px; background: rgba(0, 0, 0, 0.15); border-radius: 12px; padding: 10px; }
+        .visitor-panel { display: flex; justify-content: center; gap: 15px; margin-top: 15px; background: rgba(0, 0, 0, 0.1); border-radius: 12px; padding: 10px; }
         .v-label { font-size: 9px; color: #111; display: block; font-weight: 900; }
         .v-count { font-size: 14px; font-weight: bold; color: #000; font-family: monospace; }
 
-        .img-container { 
-            position: relative; width: 210px; height: 210px; margin: 0 auto 15px; 
-            overflow: hidden; border-radius: 25px; background: #000;
-        }
-        .fortune-img { width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.4s ease; }
-        .fortune-img.loaded { opacity: 1; }
-        .flare-effect { 
-            position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; 
-            background: radial-gradient(circle, rgba(255,255,255,0.25) 0%, transparent 60%); 
-            animation: flareMove 8s infinite linear; pointer-events: none;
-        }
-        @keyframes flareMove { 0% { transform: translate(-5%, -5%); } 50% { transform: translate(5%, 5%); } 100% { transform: translate(-5%, -5%); } }
+        /* 参拝日時のスタイル */
+        #res-date { font-size: 11px; color: #444; font-weight: bold; margin-bottom: 5px; font-family: monospace; }
 
-        #res-member { font-size: 15px; font-weight: 900; margin-bottom: 8px; }
-        #res-fortune { font-size: 32px; font-weight: 950; margin-bottom: 15px; letter-spacing: 1px; }
+        .img-container { position: relative; width: 220px; height: 220px; margin: 0 auto 15px; overflow: hidden; border-radius: 25px; background: #000; box-shadow: 0 8px 20px rgba(0,0,0,0.3); }
+        .fortune-img { width: 100%; height: 100%; object-fit: cover; opacity: 1; }
+
+        #res-member { font-size: 16px; font-weight: 900; margin-bottom: 8px; }
+        #res-fortune { font-size: 36px; font-weight: 950; margin-bottom: 15px; letter-spacing: 1px; }
         #res-desc { font-size: 14px; line-height: 1.8; padding: 0 10px; margin-bottom: 20px; text-align: left; color: #000; font-weight: 800; }
 
-        .reset-btn { 
-            background: rgba(255,255,255,0.7); border: 2px solid #fff; color: #111; 
-            padding: 10px 24px; border-radius: 50px; margin-top: 15px; cursor: pointer; 
-            font-size: 14px; font-weight: 900; display: inline-block;
-            transition: 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
-        .reset-btn:active { transform: scale(0.95); }
+        .reset-link { display: inline-block; margin-top: 20px; font-size: 14px; font-weight: 900; color: #333; text-decoration: underline; cursor: pointer; opacity: 0.8; }
+        .reset-link:active { opacity: 1; }
 
         .footer-info { font-size: 10px; color: #000; margin-top: 20px; line-height: 1.6; font-weight: 900; }
 
@@ -132,7 +92,7 @@
 
     <div id="flash-overlay"></div>
     <div class="stars-base"></div>
-    <div id="star-field"></div>
+    <div id="emoji-layer"></div>
 
     <header class="outer-header" id="main-header">
         <div class="welcome-msg">ようこそRapiNz座標まで。</div>
@@ -149,40 +109,55 @@
                 二、ふか～く深呼吸をする<br>
                 三、銀河の巡り合わせに身をまかせる
             </div>
-            
             <button id="draw-btn" class="btn-main" onclick="uranaiAction(event)">御朱印を授かる</button>
             <div id="limit-display" style="font-size: 13px; font-weight: bold; color: #000; margin: 10px 0;">本日あと 3 回</div>
-
             <div class="visitor-panel">
                 <div class="visitor-stat" style="flex:1;"><span class="v-label">本日参拝</span><span id="v-today" class="v-count">0</span></div>
                 <div class="visitor-stat" style="flex:1; border-left: 1px solid #ddd;"><span class="v-label">累計参拝</span><span id="v-total" class="v-count">0</span></div>
             </div>
-
-            <div class="footer-info">
-                週に1回・月に1回しかでない「宇宙大吉」もあるよ☄<br>毎日参拝してね。
-            </div>
         </div>
 
         <div id="result-area">
+            <div id="res-date"></div>
             <div id="res-member"></div>
             <div id="res-fortune"></div>
             <div class="img-container">
-                <img id="res-img" src="" class="fortune-img" onload="this.classList.add('loaded')">
-                <div class="flare-effect"></div>
+                <img id="res-img" src="" class="fortune-img">
             </div>
             <div id="res-desc"></div>
             <div style="width:100%; display:flex; justify-content:center;">
-                <a id="x-share" href="#" target="_blank" class="btn-main" onclick="tweetAction(event)">𝕏 参拝の結果を報告する</a>
+                <a id="x-share" href="#" class="btn-main" onclick="tweetAction(event)">𝕏 参拝の結果を報告する</a>
             </div>
-            <button class="reset-btn" onclick="resetUI()">✨ もう一度参拝する ✨</button>
+            <div class="reset-link" onclick="resetUI()">✨ もう一度参拝する ✨</div>
+        </div>
 
-            <div class="footer-info">
-                週に1回・月に1回しかでない「宇宙大吉」もあるよ☄<br>毎日参拝してね。
-            </div>
+        <div class="footer-info">
+            週に1回・月に1回しかでない「宇宙大吉」もあるよ☄<br>毎日参拝してね。
         </div>
     </div>
 
 <script>
+    function initFloatingEmojis() {
+        const layer = document.getElementById('emoji-layer');
+        const icons = ['🪐', '🚀', '⭐', '🌟', '☄️', '✨', '🛸', '🌙'];
+        const count = 16; 
+        for(let i=0; i<count; i++) {
+            const el = document.createElement('div');
+            el.className = 'floating-emoji';
+            el.innerText = icons[Math.floor(Math.random()*icons.length)];
+            const col = i % 4;
+            const row = Math.floor(i / 4);
+            const left = (col * 25) + (Math.random() * 15);
+            const top = (row * 25) + (Math.random() * 15);
+            el.style.left = left + 'vw';
+            el.style.top = top + 'vh';
+            el.style.animationDelay = (Math.random() * -10) + 's';
+            el.style.animationDuration = (4 + Math.random() * 4) + 's';
+            layer.appendChild(el);
+        }
+    }
+    initFloatingEmojis();
+
     const uranaiData = [
         { m: "KEIGO", c: "var(--keigo-yellow)", t: "宇宙大吉☄️", d: "銀河一の幸運を！KEIGOが全力の『よしよし』を贈ります。最高の巡り合わせです。" },
         { m: "KEIGO", c: "var(--keigo-yellow)", t: "超大吉・FLAG", d: "情熱の旗を掲げろ！KEIGOが全力バックアップ。🚩" },
@@ -212,7 +187,7 @@
         { m: "KEIGO", c: "var(--keigo-yellow)", t: "北の星吉", d: "暗闇でも迷わない道標となる出会い。💫" },
         { m: "KEIGO", c: "var(--keigo-yellow)", t: "スラローム吉", d: "障害物を華麗にかわしてゴールへ。💨" },
         { m: "KEIGO", c: "var(--keigo-yellow)", t: "ホログラム吉", d: "新しい才能が開花します。🎨" },
-        { m: "KEIGO", c: "var(--keigo-yellow)", t: "快勝吉", d: "圧倒的なスピード感で進おう！" },
+        { m: "KEIGO", c: "var(--keigo-yellow)", t: "快勝吉", d: "圧倒的なスピード感で進もう！" },
         { m: "KEIGO", c: "var(--keigo-yellow)", t: "大収穫大吉", d: "努力が大きな成果として戻ってきます。🌾" },
         { m: "KEIGO", c: "var(--keigo-yellow)", t: "🎂聖誕大吉", d: "【KEIGO聖誕祭】宇宙一ハッピーな一日。運気爆発！💛" },
         { m: "ARI", c: "var(--ari-mint)", t: "宇宙大吉☄️", d: "銀河級の癒やし。最高の安らぎを処方！" },
@@ -231,7 +206,7 @@
         { m: "ARI", c: "var(--ari-mint)", t: "ミントティー吉", d: "リラックスタイムが幸運を呼ぶ。🍵" },
         { m: "ARI", c: "var(--ari-mint)", t: "氷川の縁吉", d: "絆がさらに深まる出来事。💖" },
         { m: "ARI", c: "var(--ari-mint)", t: "白衣の天使大吉", d: "優しさが誰かを救います。✨" },
-        { m: "ARI", c: "var(--ari-mint)", t: "時の流れ吉", d: "ゆったりした時間を楽しおう。⏲️" },
+        { m: "ARI", c: "var(--ari-mint)", t: "時の流れ吉", d: "ゆったりした時間を楽しもう。⏲️" },
         { m: "ARI", c: "var(--ari-mint)", t: "御朱印巡り大吉", d: "積み重ねが自信に変わる日。📖" },
         { m: "ARI", c: "var(--ari-mint)", t: "リフレッシュ吉", d: "新しい自分に生まれ変わる時。🚿" },
         { m: "ARI", c: "var(--ari-mint)", t: "和菓子大吉", d: "洗練された行動に福あり。🍡" },
@@ -314,12 +289,10 @@
         "TAKI": "https://www.dropbox.com/scl/fi/aq8yzifxvowza7401xj7h/TAKI_01.jpg?rlkey=qd54a5zwvhdjn1afq16wnszll&raw=1"
     };
 
-    let audioCtx = null;
     let isDevMode = false;
     let tapCount = 0;
     let devTimer = null;
 
-    /* 開発者モード用：タイトルを5回タップ */
     document.getElementById('dev-trigger').addEventListener('click', () => {
         tapCount++;
         clearTimeout(devTimer);
@@ -333,43 +306,52 @@
         }
     });
 
-    function initAudio() { if (!audioCtx) { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } if (audioCtx.state === 'suspended') { audioCtx.resume(); } }
-    function playSound(type) { initAudio(); const now = audioCtx.currentTime; if (type === 'tap') { const o = audioCtx.createOscillator(); const g = audioCtx.createGain(); o.type = 'triangle'; o.frequency.setValueAtTime(150, now); g.gain.setValueAtTime(0.2, now); g.gain.linearRampToValueAtTime(0, now + 0.2); o.connect(g); g.connect(audioCtx.destination); o.start(); o.stop(now + 0.2); } else { [2000, 3000, 4500].forEach((f, i) => { const o = audioCtx.createOscillator(); const g = audioCtx.createGain(); o.frequency.setValueAtTime(f, now + (i * 0.02)); g.gain.setValueAtTime(0.04, now); g.gain.exponentialRampToValueAtTime(0.0001, now + 1.2); o.connect(g); g.connect(audioCtx.destination); o.start(); o.stop(now + 1.2); }); } }
-
     function tweetAction(e) {
         e.preventDefault();
         const text = document.getElementById('x-share').getAttribute('data-text');
         const url = window.location.href.split('?')[0];
-        const webUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text + "\n" + url)}`;
-        window.open(webUrl, '_blank');
+        const fullContent = text + "\n" + url;
+        const twitterAppUrl = `twitter://post?message=${encodeURIComponent(fullContent)}`;
+        const twitterWebUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(fullContent)}`;
+        const start = Date.now();
+        window.location.href = twitterAppUrl;
+        setTimeout(() => {
+            if (Date.now() - start < 1500) { window.open(twitterWebUrl, '_blank'); }
+        }, 500);
     }
 
     function uranaiAction(e) {
-        initAudio();
         const count = getCount();
         if (!isDevMode && count >= 3) return;
-        const cx = e.clientX || (e.touches && e.touches[0].clientX);
-        const cy = e.clientY || (e.touches && e.touches[0].clientY);
-        for(let i=0;i<20;i++){
-            const s = document.createElement('div'); s.className = 'star-particle'; s.innerText = ['✨','💎','⭐','🌟'][Math.floor(Math.random()*4)];
-            s.style.left = cx + 'px'; s.style.top = cy + 'px'; const a = Math.random() * Math.PI * 2; const d = 120 + Math.random() * 120;
-            s.style.setProperty('--tx', Math.cos(a) * d + "px"); s.style.setProperty('--ty', Math.sin(a) * d + "px"); s.style.setProperty('--tr', Math.random() * 360 + "deg");
-            document.body.appendChild(s); setTimeout(() => s.remove(), 1000);
-        }
-        playSound('tap');
         document.getElementById('flash-overlay').classList.add('flash-active');
+        
         setTimeout(() => {
             const res = uranaiData[Math.floor(Math.random() * uranaiData.length)];
-            const img = document.getElementById('res-img'); img.classList.remove('loaded'); img.src = images[res.m];
+            
+            // 現在の日時を取得
+            const now = new Date();
+            const dateStr = `${now.getFullYear()}/${(now.getMonth()+1).toString().padStart(2,'0')}/${now.getDate().toString().padStart(2,'0')} ${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`;
+            
+            document.getElementById('res-date').innerText = `参拝日時：${dateStr}`;
+            const img = document.getElementById('res-img'); 
+            img.src = images[res.m];
+            
             document.getElementById('start-area').classList.remove('active');
             document.getElementById('main-header').style.display = 'none';
             document.getElementById('result-area').classList.add('active');
-            document.getElementById('res-member').innerText = `ラッキーメンバー ${res.m}`; document.getElementById('res-member').style.color = res.c;
-            document.getElementById('res-fortune').innerText = res.t; document.getElementById('res-fortune').style.color = res.c;
+            
+            const memEl = document.getElementById('res-member');
+            memEl.innerText = `ラッキーメンバー ${res.m}`; 
+            memEl.style.color = res.c;
+            const fortEl = document.getElementById('res-fortune');
+            fortEl.innerText = res.t; 
+            fortEl.style.color = res.c;
             document.getElementById('res-desc').innerText = res.d;
-            const tweetText = `✨ RapiNz Z神社 ✨\n本日のラッキーメンバーは【${res.m}】💎\n運勢は【${res.t}】でした！\n\n#RapiNz #RapiNz宇宙御朱印`;
+            
+            const tweetText = `✨ RapiNz Z神社 ✨\n本日のラッキーメンバーは【${res.m}】💎\n運勢は【${res.t}】でした！\n(参拝日時：${dateStr})\n\n#RapiNz #RapiNz宇宙御朱印`;
             document.getElementById('x-share').setAttribute('data-text', tweetText);
-            playSound('bell'); if (!isDevMode) setCount(count + 1);
+            
+            if (!isDevMode) setCount(count + 1);
             document.getElementById('flash-overlay').classList.remove('flash-active');
         }, 500);
     }
@@ -377,12 +359,10 @@
     function getCount() { const d = new Date().toLocaleDateString(); if (localStorage.getItem('z_date') !== d) { localStorage.setItem('z_date', d); localStorage.setItem('z_count', '0'); } return parseInt(localStorage.getItem('z_count') || '0'); }
     function setCount(c) { localStorage.setItem('z_count', c); updateUI(); }
     function updateUI() { const c = getCount(); const r = 3 - c; document.getElementById('limit-display').innerText = isDevMode ? "🚀 Developer Mode Active" : `本日あと ${r} 回`; document.getElementById('draw-btn').disabled = (!isDevMode && r <= 0); }
-    function updateVisitors() { const d = new Date().toLocaleDateString(); const V = "1.3"; if(localStorage.getItem('v_version') !== V) { localStorage.setItem('v_today', "0"); localStorage.setItem('v_total', "0"); localStorage.setItem('v_version', V); } let t = parseInt(localStorage.getItem('v_today') || "0"); let T = parseInt(localStorage.getItem('v_total') || "0"); if (localStorage.getItem('v_date') !== d) { t = 0; localStorage.setItem('v_date', d); } t++; T++; localStorage.setItem('v_today', t); localStorage.setItem('v_total', T); document.getElementById('v-today').innerText = t.toLocaleString(); document.getElementById('v-total').innerText = T.toLocaleString(); }
+    function updateVisitors() { const d = new Date().toLocaleDateString(); let t = parseInt(localStorage.getItem('v_today') || "0"); let T = parseInt(localStorage.getItem('v_total') || "0"); if (localStorage.getItem('v_date') !== d) { t = 0; localStorage.setItem('v_date', d); } t++; T++; localStorage.setItem('v_today', t); localStorage.setItem('v_total', T); document.getElementById('v-today').innerText = t.toLocaleString(); document.getElementById('v-total').innerText = T.toLocaleString(); }
     function resetUI() { document.getElementById('result-area').classList.remove('active'); document.getElementById('main-header').style.display = 'block'; document.getElementById('start-area').classList.add('active'); updateUI(); }
 
     updateVisitors(); updateUI();
-    document.addEventListener('contextmenu', e => e.preventDefault());
-    document.addEventListener('keydown', e => { if (e.key === 'F12') e.preventDefault(); if (e.ctrlKey && (e.key === 'u' || e.key === 'c' || e.key === 's' || (e.shiftKey && (e.key === 'I' || e.key === 'J')))) { e.preventDefault(); } });
 </script>
 </body>
 </html>
