@@ -12,7 +12,6 @@
             --kose-pink: #E91E63;
             --taki-blue: #2962FF;
             --glass: rgba(255, 255, 255, 0.85); 
-            /* ゆめかわいいパステルグラデーション */
             --btn-grad: linear-gradient(135deg, #FF80AB 0%, #BA68C8 50%, #40C4FF 100%);
         }
 
@@ -30,20 +29,20 @@
             background-size: 200px 200px; z-index: 0; opacity: 0.4;
         }
 
-        /* 浮遊エフェクトの再設計 */
+        /* 浮遊エフェクト：文字を避ける（左右端から発生） */
         .floating-emoji {
             position: fixed; pointer-events: none; z-index: 1;
-            filter: drop-shadow(0 0 10px rgba(255,255,255,0.8));
+            filter: drop-shadow(0 0 8px rgba(255,255,255,0.6));
             animation: spaceFloat var(--duration) ease-in-out infinite;
             opacity: 0;
         }
 
         @keyframes spaceFloat {
             0% { transform: translate(0, 0) rotate(0deg); opacity: 0; }
-            10% { opacity: var(--max-opacity); }
+            15% { opacity: var(--max-opacity); }
             50% { transform: translate(var(--drift-x), var(--drift-y)) rotate(var(--drift-rot)); }
-            90% { opacity: var(--max-opacity); }
-            100% { transform: translate(calc(var(--drift-x) * 1.5), calc(var(--drift-y) * 1.5)) rotate(calc(var(--drift-rot) * 2)); opacity: 0; }
+            85% { opacity: var(--max-opacity); }
+            100% { transform: translate(calc(var(--drift-x) * 1.3), calc(var(--drift-y) * 1.3)) rotate(calc(var(--drift-rot) * 1.8)); opacity: 0; }
         }
 
         .outer-header { text-align: center; z-index: 10; margin-bottom: 15px; width: 90%; }
@@ -71,22 +70,13 @@
         .btn-main:active:not(:disabled) { transform: scale(0.96); }
         .btn-main:disabled { background: #ccc; box-shadow: none; }
 
-        .visitor-panel { display: flex; justify-content: center; gap: 15px; margin-top: 15px; background: rgba(0, 0, 0, 0.1); border-radius: 12px; padding: 10px; }
-        .v-label { font-size: 9px; color: #111; display: block; font-weight: 900; }
-        .v-count { font-size: 14px; font-weight: bold; color: #000; font-family: monospace; }
-
-        /* 参拝日時の位置 */
         #res-date { font-size: 11px; color: #444; font-weight: bold; margin-bottom: 8px; font-family: monospace; }
-
         .img-container { position: relative; width: 220px; height: 220px; margin: 0 auto 15px; overflow: hidden; border-radius: 25px; background: #000; box-shadow: 0 8px 20px rgba(0,0,0,0.3); border: 2px solid #fff; }
         .fortune-img { width: 100%; height: 100%; object-fit: cover; }
 
         #res-member { font-size: 16px; font-weight: 900; margin-bottom: 8px; }
-        #res-fortune { font-size: 36px; font-weight: 950; margin-bottom: 15px; letter-spacing: 1px; }
+        #res-fortune { font-size: 32px; font-weight: 950; margin-bottom: 15px; letter-spacing: 0px; }
         #res-desc { font-size: 14px; line-height: 1.8; padding: 0 10px; margin-bottom: 20px; text-align: left; color: #000; font-weight: 800; border-left: 4px solid var(--ra-main); }
-
-        .reset-link { display: inline-block; margin-top: 20px; font-size: 14px; font-weight: 900; color: #333; text-decoration: underline; cursor: pointer; opacity: 0.8; }
-        .footer-info { font-size: 10px; color: #000; margin-top: 20px; line-height: 1.6; font-weight: 900; }
 
         #start-area, #result-area { display: none; }
         .active { display: block !important; }
@@ -118,9 +108,9 @@
             </div>
             <button id="draw-btn" class="btn-main" onclick="uranaiAction(event)">✨ 御朱印を授かる ✨</button>
             <div id="limit-display" style="font-size: 13px; font-weight: bold; color: #000; margin: 10px 0;">本日あと 3 回</div>
-            <div class="visitor-panel">
-                <div class="visitor-stat" style="flex:1;"><span class="v-label">本日参拝</span><span id="v-today" class="v-count">0</span></div>
-                <div class="visitor-stat" style="flex:1; border-left: 1px solid #ddd;"><span class="v-label">累計参拝</span><span id="v-total" class="v-count">0</span></div>
+            <div class="visitor-panel" style="display:flex; justify-content:center; gap:15px; background:rgba(0,0,0,0.1); border-radius:12px; padding:10px;">
+                <div style="flex:1;"><span style="font-size:9px; font-weight:900;">本日参拝</span><span id="v-today" style="font-size:14px; font-weight:bold; display:block;">0</span></div>
+                <div style="flex:1; border-left:1px solid #ddd;"><span style="font-size:9px; font-weight:900;">累計参拝</span><span id="v-total" style="font-size:14px; font-weight:bold; display:block;">0</span></div>
             </div>
         </div>
 
@@ -135,10 +125,9 @@
             <div style="width:100%; display:flex; justify-content:center;">
                 <a id="x-share" href="#" class="btn-main" style="background:#000;" onclick="tweetAction(event)">𝕏 結果を報告する</a>
             </div>
-            <div class="reset-link" onclick="resetUI()">✨ もう一度参拝する ✨</div>
+            <div style="margin-top:20px; font-size:14px; font-weight:900; text-decoration:underline; cursor:pointer;" onclick="resetUI()">✨ もう一度参拝する ✨</div>
         </div>
-
-        <div class="footer-info">
+        <div style="font-size: 10px; color: #000; margin-top: 20px; line-height: 1.6; font-weight: 900;">
             週に1回・月に1回しかでない「宇宙大吉」もあるよ☄<br>毎日参拝してね。
         </div>
     </div>
@@ -146,22 +135,21 @@
 <script>
     function initFloatingEmojis() {
         const layer = document.getElementById('emoji-layer');
-        // 星系のみに絞り込み
-        const icons = ['⭐', '🌟', '✨', '💫', '✨', '🌟'];
-        const count = 25; 
+        const icons = ['⭐', '🌟', '✨', '💫'];
+        const count = 20; 
         for(let i=0; i<count; i++) {
             const el = document.createElement('div');
             el.className = 'floating-emoji';
             el.innerText = icons[Math.floor(Math.random()*icons.length)];
-            
-            const size = 12 + Math.random() * 20;
-            const duration = 8 + Math.random() * 10;
-            const driftX = (Math.random() - 0.5) * 100;
-            const driftY = (Math.random() - 0.5) * 100;
-            const driftRot = (Math.random() - 0.5) * 60;
-            const maxOpacity = 0.3 + Math.random() * 0.5;
-
-            el.style.left = Math.random() * 100 + 'vw';
+            const side = Math.random() > 0.5 ? 'left' : 'right';
+            const horizontalPos = side === 'left' ? (Math.random() * 20) : (80 + Math.random() * 20);
+            const size = 12 + Math.random() * 18;
+            const duration = 7 + Math.random() * 12;
+            const driftX = side === 'left' ? -(30 + Math.random() * 70) : (30 + Math.random() * 70);
+            const driftY = (Math.random() - 0.5) * 150;
+            const driftRot = (Math.random() - 0.5) * 120;
+            const maxOpacity = 0.3 + Math.random() * 0.4;
+            el.style.left = horizontalPos + 'vw';
             el.style.top = Math.random() * 100 + 'vh';
             el.style.fontSize = size + 'px';
             el.style.setProperty('--duration', duration + 's');
@@ -169,8 +157,7 @@
             el.style.setProperty('--drift-y', driftY + 'px');
             el.style.setProperty('--drift-rot', driftRot + 'deg');
             el.style.setProperty('--max-opacity', maxOpacity);
-            el.style.animationDelay = (Math.random() * -20) + 's';
-            
+            el.style.animationDelay = (Math.random() * -15) + 's';
             layer.appendChild(el);
         }
     }
@@ -178,10 +165,126 @@
 
     const uranaiData = [
         { m: "KEIGO", c: "var(--keigo-yellow)", t: "宇宙大吉☄️", d: "銀河一の幸運を！KEIGOが全力の『よしよし』を贈ります。最高の巡り合わせです。" },
+        { m: "KEIGO", c: "var(--keigo-yellow)", t: "超大吉・FLAG", d: "情熱の旗を掲げろ！KEIGOが全力バックアップ。🚩" },
+        { m: "KEIGO", c: "var(--keigo-yellow)", t: "極大吉・ダイヤモンドダスト", d: "最高級の幸運があなたを包み込みます。💎" },
+        { m: "KEIGO", c: "var(--keigo-yellow)", t: "パウダースノー大吉", d: "滑り出し最高！何をやってもスムーズに進む、ノーストレスな一日。⛷️" },
+        { m: "KEIGO", c: "var(--keigo-yellow)", t: "満塁ホームラン吉", d: "ここ一番の勝負強さをKEIGOが授けます。⚾" },
+        { m: "KEIGO", c: "var(--keigo-yellow)", t: "十勝晴れ吉", d: "心は広大な十勝平野のようにスッキリ。☀️" },
+        { m: "KEIGO", c: "var(--keigo-yellow)", t: "入れ食いワカサギ吉", d: "欲しかった情報が次々と手に入る日。🎣" },
+        { m: "KEIGO", c: "var(--keigo-yellow)", t: "キラシール吉", d: "自慢したくなるような出来事が。✨" },
+        { m: "KEIGO", c: "var(--keigo-yellow)", t: "湯冷め知らず吉", d: "心温まるニュースが届く予感。温泉のような安心感に包まれます。♨️" },
+        { m: "KEIGO", c: "var(--keigo-yellow)", t: "全力投球大吉", d: "真っ向勝負で道が開ける。想いが支えになります。" },
+        { m: "KEIGO", c: "var(--keigo-yellow)", t: "大志吉", d: "大きな目標を立てるのに最適な日。🏔️" },
+        { m: "KEIGO", c: "var(--keigo-yellow)", t: "雪解け吉", d: "悩み事が解消。新しい芽が出る準備完了。🌱" },
+        { m: "KEIGO", c: "var(--keigo-yellow)", t: "直球勝負吉", d: "嘘偽りのない誠実な態度が信頼を高めます。🤝" },
+        { m: "KEIGO", c: "var(--keigo-yellow)", t: "最北端吉", d: "あなたの個性が際立つ瞬間があります。" },
+        { m: "KEIGO", c: "var(--keigo-yellow)", t: "イエローパレード吉", d: "ラッキーカラーは黄色。街を彩りに行こう！💛" },
+        { m: "KEIGO", c: "var(--keigo-yellow)", t: "ノールックキャッチ吉", d: "無意識のうちに幸運を掴んでいるかも。" },
+        { m: "KEIGO", c: "var(--keigo-yellow)", t: "クリーンナップ大吉", d: "決めるべき場面でビシッと決まります。💥" },
+        { m: "KEIGO", c: "var(--keigo-yellow)", t: "雪国エール吉", d: "影ながら応援中。冬を越えた先には春が来る！" },
+        { m: "KEIGO", c: "var(--keigo-yellow)", t: "完投吉", d: "最後までやり遂げる力が湧いてくる日。" },
+        { m: "KEIGO", c: "var(--keigo-yellow)", t: "センター返し吉", d: "基本に忠実な行動が確実な成果を呼びます。🔑" },
+        { m: "KEIGO", c: "var(--keigo-yellow)", t: "金メダル吉", d: "最高級のパフォーマンスが出せるかも。🥇" },
+        { m: "KEIGO", c: "var(--keigo-yellow)", t: "大平原吉", d: "視野を広く持つことで新しい種が見つかります。" },
+        { m: "KEIGO", c: "var(--keigo-yellow)", t: "シュプール大吉", d: "あなたが歩いた後に道ができる。リーダーに。" },
+        { m: "KEIGO", c: "var(--keigo-yellow)", t: "ジンギスカン吉", d: "美味しいものを食べて活力を養おう。🍖" },
+        { m: "KEIGO", c: "var(--keigo-yellow)", t: "ダブルプレー吉", d: "一度に二つの良いことが重なる予感。✌️" },
+        { m: "KEIGO", c: "var(--keigo-yellow)", t: "北の星吉", d: "暗闇でも迷わない道標となる出会い。💫" },
+        { m: "KEIGO", c: "var(--keigo-yellow)", t: "スラローム吉", d: "障害物を華麗にかわしてゴールへ。💨" },
+        { m: "KEIGO", c: "var(--keigo-yellow)", t: "ホログラム吉", d: "新しい才能が開花します。🎨" },
+        { m: "KEIGO", c: "var(--keigo-yellow)", t: "快勝吉", d: "圧倒的なスピード感で進もう！" },
+        { m: "KEIGO", c: "var(--keigo-yellow)", t: "大収穫大吉", d: "努力が大きな成果として戻ってきます。🌾" },
+        { m: "KEIGO", c: "var(--keigo-yellow)", t: "🎂聖誕大吉", d: "【KEIGO聖誕祭】宇宙一ハッピーな一日。運気爆発！💛" },
         { m: "ARI", c: "var(--ari-mint)", t: "宇宙大吉☄️", d: "銀河級の癒やし。最高の安らぎを処方！" },
+        { m: "ARI", c: "var(--ari-mint)", t: "超大吉・BLOWS", d: "変革の風！ARIが背中を優しく押します。🍃" },
+        { m: "ARI", c: "var(--ari-mint)", t: "極大吉・満願成就", d: "あなたの願いが天に届きました。⛩️" },
+        { m: "ARI", c: "var(--ari-mint)", t: "小江戸の鐘大吉", d: "最高のタイミングでチャンス到来。🕰️" },
+        { m: "ARI", c: "var(--ari-mint)", t: "正常血圧大吉", d: "悩みもなく身軽に動ける一日。💉" },
+        { m: "ARI", c: "var(--ari-mint)", t: "ミントブリーズ吉", d: "爽快な気分で難問も解決。🌿" },
+        { m: "ARI", c: "var(--ari-mint)", t: "縁結び風鈴吉", d: "素敵なご縁が舞い込みます。🎐" },
+        { m: "ARI", c: "var(--ari-mint)", t: "蔵造り吉", d: "歴史にヒントあり。🏯" },
+        { m: "ARI", c: "var(--ari-mint)", t: "いも恋大吉", d: "甘いご褒美が待っています。🍠" },
+        { m: "ARI", c: "var(--ari-mint)", t: "ナースエール吉", d: "無理せず一歩ずつ。🏥" },
+        { m: "ARI", c: "var(--ari-mint)", t: "菓子屋横丁吉", d: "ワクワクが止まらない日。🍭" },
+        { m: "ARI", c: "var(--ari-mint)", t: "参拝日和吉", d: "心が洗われ直感力が鋭くなります。⛩️" },
+        { m: "ARI", c: "var(--ari-mint)", t: "聴診器吉", d: "心の声に耳を傾けて。🎧" },
+        { m: "ARI", c: "var(--ari-mint)", t: "ミントティー吉", d: "リラックスタイムが幸運を呼ぶ。🍵" },
+        { m: "ARI", c: "var(--ari-mint)", t: "氷川の縁吉", d: "絆がさらに深まる出来事。💖" },
+        { m: "ARI", c: "var(--ari-mint)", t: "白衣の天使大吉", d: "優しさが誰かを救います。✨" },
+        { m: "ARI", c: "var(--ari-mint)", t: "時の流れ吉", d: "ゆったりした時間を楽しもう。⏲️" },
+        { m: "ARI", c: "var(--ari-mint)", t: "御朱印巡り大吉", d: "積み重ねが自信に変わる日。📖" },
+        { m: "ARI", c: "var(--ari-mint)", t: "リフレッシュ吉", d: "新しい自分に生まれ変わる時。🚿" },
+        { m: "ARI", c: "var(--ari-mint)", t: "和菓子大吉", d: "洗練された行動に福あり。🍡" },
+        { m: "ARI", c: "var(--ari-mint)", t: "優風吉", d: "幸せが循環します。🕊️" },
+        { m: "ARI", c: "var(--ari-mint)", t: "時の道標吉", d: "進むべき道がハッキリ見えます。🛤️" },
+        { m: "ARI", c: "var(--ari-mint)", t: "バイタルチェック吉", d: "客観視が成功の近道。📈" },
+        { m: "ARI", c: "var(--ari-mint)", t: "ミントブルー吉", d: "誠実さが一番の武器。💎" },
+        { m: "ARI", c: "var(--ari-mint)", t: "祈願成就吉", d: "今がスタートの時！🚀" },
+        { m: "ARI", c: "var(--ari-mint)", t: "川越散策吉", d: "寄り道の中に宝物。🚲" },
+        { m: "ARI", c: "var(--ari-mint)", t: "心の処方箋吉", d: "好きな音楽が力を与えます。📚" },
+        { m: "ARI", c: "var(--ari-mint)", t: "ラテアート吉", d: "感性を磨くことで運気UP。🎨" },
+        { m: "ARI", c: "var(--ari-mint)", t: "リラックス大吉", d: "最高の休息を。🛌" },
+        { m: "ARI", c: "var(--ari-mint)", t: "満福大吉", d: "あなたに全ての幸運を！🌟" },
         { m: "KOSE", c: "var(--kose-pink)", t: "宇宙大吉☄️", d: "銀河級の閃き！世界が輝き始めます。" },
-        { m: "TAKI", c: "var(--taki-blue)", t: "宇宙大吉☄️", d: "銀河一の爆笑を届けます。" }
-        // ※実際の実装時はここに全データを追加
+        { m: "KOSE", c: "var(--kose-pink)", t: "超大吉・MYSTICAL", d: "未来図にあなたも登場。🎨" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "極大吉・皆中", d: "全ての願いが叶う完璧な日！🏹" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "琵琶湖の夕陽大吉", d: "心震える感動が待っています。🌅" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "デザイン思考吉", d: "発想が世界を変える。💡" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "信楽焼大吉", d: "地道な作業が形を生む。🍃" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "精神統一大吉", d: "重要なタスクに挑もう。🎯" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "ピンクキャンバス吉", d: "自由に描いて！💖" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "柔軟性大吉", d: "変化に対応すれば道が開く。🤸" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "イラストレーション吉", d: "表現を楽しんで。🖋️" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "近江商人大吉", d: "周りも幸せにする行動にツキあり。🤝" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "的中吉", d: "勝負強さが光ります。🏹" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "パレット吉", d: "協力し合うことで運気UP。🎨" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "滋賀エール吉", d: "広い心で大局を見よう。🌊" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "残心の吉", d: "最後まで丁寧に。🎍" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "クリエイティブ大吉", d: "新しい一面に出会えます。✨" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "桃花吉", d: "魅力が伝わる日。🌸" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "構えの吉", d: "自信を持って踏み出して。🥋" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "スケッチ吉", d: "細かい観察が成功の鍵。🔍" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "ピンクマジック大吉", d: "魔法が笑顔にします。✨" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "一本の矢大吉", d: "一つのことに魂を込めて。🏹" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "湖風吉", d: "物事が動き出すサイン。🌬️" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "造形美吉", d: "頭の中も整理されます。🧹" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "射位吉", d: "最高の成果へ。👣" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "ピンクグラデーション吉", d: "無理せずアップデート。📈" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "三井寺の鐘吉", d: "良い知らせの予感。🔔" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "色彩吉", d: "カラフルな野菜を。🥗" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "直感スケッチ吉", d: "考えるより先に動こう。⚡" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "近江牛大吉", d: "贅沢が糧になります。🥩" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "デザイン最高峰大吉", d: "完璧な一日。⚙️" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "宇宙大吉☄️", d: "銀河一の爆笑を届けます。" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "超大吉・ROLLER COASTER", d: "運気急上昇！🎢" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "極大吉・計算通り", d: "全てが計画通りに進む日！🧮" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "東京タワー大吉", d: "キラキラした時間が待っています。🗼" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "爆笑大吉", d: "ラッキーアクションは「大笑い」！🎤" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "アニメ聖地巡礼吉", d: "憧れに一歩近づく予感。🎬" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "満塁逆転大吉", d: "最後まで諦めない！⚾" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "五珠吉", d: "難しい決断も一瞬。🧠" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "スカイブルー吉", d: "ストレスフリーな一日。💙" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "江戸前粋大吉", d: "ハッキリ言うことが運気UP。🍣" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "ヒーロー覚醒吉", d: "勇気が奇跡を起こします。⚔️" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "パチパチ吉", d: "拍手喝采を浴びる出来事。👏" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "シティボーイ大吉", d: "新しい服が活力を。👟" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "お笑いライブ吉", d: "余裕が道を拓く。🎭" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "ご珠の弾き吉", d: "無駄のない一日。🔢" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "ブルーインパクト大吉", d: "告白やプレゼンに！💥" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "大団円吉", d: "ハッピーエンドが約束されています。🎊" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "九九全勝吉", d: "原点に立ち返って。✍️" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "東京スカイツリー大吉", d: "想像以上の場所へ。🏗️" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "神回吉", d: "一生の思い出になる瞬間。📸" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "笑撃吉", d: "メモの準備を。📝" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "ブルーオーシャン吉", d: "あなたの独壇場です。🌊" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "割り切れる吉", d: "ロジカルな思考が吉。⚖️" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "エンタメ大吉", d: "最高の娯楽を楽しんで！🎥" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "江戸っ子吉", d: "全力で投資して。🔥" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "全的中吉", d: "当たりを引く予感。🎯" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "ブルーライト大吉", d: "夜の街に幸運あり。🌌" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "アンコール吉", d: "次は必ず成功します。🎤" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "そろばん侍大吉", d: "信頼を生みます。⚔️" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "大爆笑大吉", d: "悩みなんて吹き飛ばそう！💎" }
     ];
 
     const images = {
