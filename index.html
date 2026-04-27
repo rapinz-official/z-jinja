@@ -6,12 +6,13 @@
     <title>🪐 RapiNz Z神社・宇宙御朱印</title>
     <style>
         :root {
-            --ra-main: #0091EA; --ra-pink: #D81B60; --ra-bg-dark: #000510;
-            --keigo-yellow: #B88100;
-            --ari-mint: #00B359;
-            --kose-pink: #C2185B;
-            --taki-blue: #0D47A1;
-            --glass: rgba(255, 255, 255, 0.6);
+            --ra-main: #00B0FF; --ra-pink: #FF4081; --ra-bg-dark: #000510;
+            /* メンバーカラーを濃く・かわいく調整 */
+            --keigo-yellow: #D9A300;
+            --ari-mint: #00C853;
+            --kose-pink: #E91E63;
+            --taki-blue: #2962FF;
+            --glass: rgba(255, 255, 255, 0.65);
         }
 
         body {
@@ -40,57 +41,59 @@
             100% { transform: translate(var(--tx), var(--ty)) scale(0) rotate(var(--tr)); opacity: 0; }
         }
 
-        .outer-header { text-align: center; z-index: 10; margin-bottom: 20px; width: 90%; }
+        .outer-header { text-align: center; z-index: 10; margin-bottom: 15px; width: 90%; }
         .welcome-msg { 
             font-size: 12px; font-weight: bold; color: #fff; line-height: 1.8; 
             text-shadow: 0 0 10px var(--ra-main); margin-bottom: 5px;
         }
         .yoshi-yoshi { 
             font-size: 16px; font-weight: 900; 
-            background: linear-gradient(to right, #00BFFF, #FF69B4);
+            background: linear-gradient(to right, #40C4FF, #FF80AB);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
         .shrine-icon { font-size: 40px; display: block; margin: 10px 0; filter: drop-shadow(0 0 10px #ff0000); }
         .main-title { 
             font-size: 28px; font-weight: 900; color: #fff; margin: 5px 0; 
-            letter-spacing: 2px; text-shadow: 0 0 15px var(--ra-main);
+            letter-spacing: 2px; text-shadow: 0 0 15px var(--ra-main); cursor: pointer;
         }
-        .sub-title { font-size: 11px; color: rgba(255,255,255,0.85); letter-spacing: 4px; text-transform: uppercase; font-weight: bold; }
+        .sub-title { font-size: 10px; color: rgba(255,255,255,0.8); letter-spacing: 4px; text-transform: uppercase; font-weight: bold; }
 
         .card {
             background: var(--glass);
             backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             border-radius: 40px; padding: 25px 20px;
-            max-width: 380px; width: 92%; text-align: center; position: relative; z-index: 10;
+            max-width: 380px; width: 90%; text-align: center; position: relative; z-index: 10;
             box-sizing: border-box;
             border: 1px solid rgba(255, 255, 255, 0.4);
             animation: neonGlow 3s ease-in-out infinite alternate;
         }
         @keyframes neonGlow {
             0% { border-color: var(--ra-main); box-shadow: 0 0 15px var(--ra-main); }
-            100% { border-color: var(--ra-pink); box-shadow: 0 0 30px var(--ra-pink); }
+            100% { border-color: var(--ra-pink); box-shadow: 0 0 25px var(--ra-pink); }
         }
 
         .steps { 
-            background: rgba(255, 255, 255, 0.3); 
+            background: rgba(255, 255, 255, 0.35); 
             border-radius: 20px; padding: 18px; margin-bottom: 20px; 
             font-size: 12px; line-height: 2.2; color: #000; font-weight: 800;
         }
         
+        /* ボタン色を濃く・かわいく修正 */
         .btn-main { 
-            background: linear-gradient(135deg, #01579B, #AD1457); /* 色を濃く調整 */
-            color: #fff; padding: 18px; border-radius: 100px; font-size: 16px; font-weight: bold; 
+            background: linear-gradient(135deg, #0288D1, #E91E63); 
+            color: #fff; padding: 16px 10px; border-radius: 100px; font-size: 16px; font-weight: bold; 
             width: 100%; border: none; cursor: pointer; transition: 0.3s;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
             display: flex; align-items: center; justify-content: center;
+            text-align: center; margin: 0 auto; box-sizing: border-box; text-decoration: none;
         }
-        .btn-main:active:not(:disabled) { transform: scale(0.95); }
+        .btn-main:active:not(:disabled) { transform: scale(0.96); }
+        .btn-main:disabled { background: #555 !important; color: #aaa; box-shadow: none; }
 
         .visitor-panel { display: flex; justify-content: center; gap: 15px; margin-top: 15px; background: rgba(0, 0, 0, 0.15); border-radius: 12px; padding: 10px; }
         .v-label { font-size: 9px; color: #111; display: block; font-weight: 900; }
         .v-count { font-size: 14px; font-weight: bold; color: #000; font-family: monospace; }
 
-        /* 写真のエフェクト変更：宇宙のフレア効果 */
         .img-container { 
             position: relative; width: 210px; height: 210px; margin: 0 auto 15px; 
             overflow: hidden; border-radius: 25px; background: #000;
@@ -99,23 +102,22 @@
         .fortune-img.loaded { opacity: 1; }
         .flare-effect { 
             position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; 
-            background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 50%); 
-            animation: flareMove 6s infinite linear; pointer-events: none;
+            background: radial-gradient(circle, rgba(255,255,255,0.25) 0%, transparent 60%); 
+            animation: flareMove 8s infinite linear; pointer-events: none;
         }
-        @keyframes flareMove { 0% { transform: translate(-10%, -10%); } 50% { transform: translate(10%, 10%); } 100% { transform: translate(-10%, -10%); } }
+        @keyframes flareMove { 0% { transform: translate(-5%, -5%); } 50% { transform: translate(5%, 5%); } 100% { transform: translate(-5%, -5%); } }
 
         #res-member { font-size: 15px; font-weight: 900; margin-bottom: 8px; }
-        #res-fortune { font-size: 30px; font-weight: 950; margin-bottom: 15px; }
+        #res-fortune { font-size: 32px; font-weight: 950; margin-bottom: 15px; letter-spacing: 1px; }
         #res-desc { font-size: 14px; line-height: 1.8; padding: 0 10px; margin-bottom: 20px; text-align: left; color: #000; font-weight: 800; }
 
-        /* 「もう一度参拝する」をかわいく変更 */
         .reset-btn { 
-            background: rgba(255,255,255,0.5); border: 2px solid #fff; color: #111; 
-            padding: 8px 20px; border-radius: 50px; margin-top: 15px; cursor: pointer; 
+            background: rgba(255,255,255,0.7); border: 2px solid #fff; color: #111; 
+            padding: 10px 24px; border-radius: 50px; margin-top: 15px; cursor: pointer; 
             font-size: 14px; font-weight: 900; display: inline-block;
-            transition: 0.3s; animation: pulseCute 2s infinite;
+            transition: 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
-        @keyframes pulseCute { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+        .reset-btn:active { transform: scale(0.95); }
 
         .footer-info { font-size: 10px; color: #000; margin-top: 20px; line-height: 1.6; font-weight: 900; }
 
@@ -123,6 +125,7 @@
         .active { display: block !important; }
         #flash-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 100; pointer-events: none; opacity: 0; }
         .flash-active { animation: flashAnim 0.6s ease-out; }
+        @keyframes flashAnim { 0% { opacity: 0.8; } 100% { opacity: 0; } }
     </style>
 </head>
 <body oncontextmenu="return false;">
@@ -168,7 +171,9 @@
                 <div class="flare-effect"></div>
             </div>
             <div id="res-desc"></div>
-            <a id="x-share" href="#" target="_blank" class="btn-main" onclick="tweetAction(event)">𝕏 参拝の結果を報告する</a>
+            <div style="width:100%; display:flex; justify-content:center;">
+                <a id="x-share" href="#" target="_blank" class="btn-main" onclick="tweetAction(event)">𝕏 参拝の結果を報告する</a>
+            </div>
             <button class="reset-btn" onclick="resetUI()">✨ もう一度参拝する ✨</button>
 
             <div class="footer-info">
@@ -179,7 +184,6 @@
 
 <script>
     const uranaiData = [
-        /* データの変更なし */
         { m: "KEIGO", c: "var(--keigo-yellow)", t: "宇宙大吉☄️", d: "銀河一の幸運を！KEIGOが全力の『よしよし』を贈ります。最高の巡り合わせです。" },
         { m: "KEIGO", c: "var(--keigo-yellow)", t: "超大吉・FLAG", d: "情熱の旗を掲げろ！KEIGOが全力バックアップ。🚩" },
         { m: "KEIGO", c: "var(--keigo-yellow)", t: "極大吉・ダイヤモンドダスト", d: "最高級の幸運があなたを包み込みます。💎" },
@@ -313,6 +317,21 @@
     let audioCtx = null;
     let isDevMode = false;
     let tapCount = 0;
+    let devTimer = null;
+
+    /* 開発者モード用：タイトルを5回タップ */
+    document.getElementById('dev-trigger').addEventListener('click', () => {
+        tapCount++;
+        clearTimeout(devTimer);
+        devTimer = setTimeout(() => { tapCount = 0; }, 2000);
+        if (tapCount >= 5) {
+            isDevMode = true;
+            localStorage.setItem('z_count', '0');
+            updateUI();
+            alert("🚀 Developer Mode: UNLOCKED");
+            tapCount = 0;
+        }
+    });
 
     function initAudio() { if (!audioCtx) { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } if (audioCtx.state === 'suspended') { audioCtx.resume(); } }
     function playSound(type) { initAudio(); const now = audioCtx.currentTime; if (type === 'tap') { const o = audioCtx.createOscillator(); const g = audioCtx.createGain(); o.type = 'triangle'; o.frequency.setValueAtTime(150, now); g.gain.setValueAtTime(0.2, now); g.gain.linearRampToValueAtTime(0, now + 0.2); o.connect(g); g.connect(audioCtx.destination); o.start(); o.stop(now + 0.2); } else { [2000, 3000, 4500].forEach((f, i) => { const o = audioCtx.createOscillator(); const g = audioCtx.createGain(); o.frequency.setValueAtTime(f, now + (i * 0.02)); g.gain.setValueAtTime(0.04, now); g.gain.exponentialRampToValueAtTime(0.0001, now + 1.2); o.connect(g); g.connect(audioCtx.destination); o.start(); o.stop(now + 1.2); }); } }
@@ -321,12 +340,8 @@
         e.preventDefault();
         const text = document.getElementById('x-share').getAttribute('data-text');
         const url = window.location.href.split('?')[0];
-        const twitterAppUrl = `twitter://post?message=${encodeURIComponent(text + "\n" + url)}`;
-        const webUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
-        
-        const start = Date.now();
-        window.location.href = twitterAppUrl;
-        setTimeout(() => { if (Date.now() - start < 1500) window.open(webUrl, '_blank'); }, 500);
+        const webUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text + "\n" + url)}`;
+        window.open(webUrl, '_blank');
     }
 
     function uranaiAction(e) {
@@ -347,7 +362,7 @@
             const res = uranaiData[Math.floor(Math.random() * uranaiData.length)];
             const img = document.getElementById('res-img'); img.classList.remove('loaded'); img.src = images[res.m];
             document.getElementById('start-area').classList.remove('active');
-            document.getElementById('main-header').style.display = 'none'; // 結果時はヘッダーを隠す
+            document.getElementById('main-header').style.display = 'none';
             document.getElementById('result-area').classList.add('active');
             document.getElementById('res-member').innerText = `ラッキーメンバー ${res.m}`; document.getElementById('res-member').style.color = res.c;
             document.getElementById('res-fortune').innerText = res.t; document.getElementById('res-fortune').style.color = res.c;
@@ -362,7 +377,7 @@
     function getCount() { const d = new Date().toLocaleDateString(); if (localStorage.getItem('z_date') !== d) { localStorage.setItem('z_date', d); localStorage.setItem('z_count', '0'); } return parseInt(localStorage.getItem('z_count') || '0'); }
     function setCount(c) { localStorage.setItem('z_count', c); updateUI(); }
     function updateUI() { const c = getCount(); const r = 3 - c; document.getElementById('limit-display').innerText = isDevMode ? "🚀 Developer Mode Active" : `本日あと ${r} 回`; document.getElementById('draw-btn').disabled = (!isDevMode && r <= 0); }
-    function updateVisitors() { const d = new Date().toLocaleDateString(); const V = "1.2"; if(localStorage.getItem('v_version') !== V) { localStorage.setItem('v_today', "0"); localStorage.setItem('v_total', "0"); localStorage.setItem('v_version', V); } let t = parseInt(localStorage.getItem('v_today') || "0"); let T = parseInt(localStorage.getItem('v_total') || "0"); if (localStorage.getItem('v_date') !== d) { t = 0; localStorage.setItem('v_date', d); } t++; T++; localStorage.setItem('v_today', t); localStorage.setItem('v_total', T); document.getElementById('v-today').innerText = t.toLocaleString(); document.getElementById('v-total').innerText = T.toLocaleString(); }
+    function updateVisitors() { const d = new Date().toLocaleDateString(); const V = "1.3"; if(localStorage.getItem('v_version') !== V) { localStorage.setItem('v_today', "0"); localStorage.setItem('v_total', "0"); localStorage.setItem('v_version', V); } let t = parseInt(localStorage.getItem('v_today') || "0"); let T = parseInt(localStorage.getItem('v_total') || "0"); if (localStorage.getItem('v_date') !== d) { t = 0; localStorage.setItem('v_date', d); } t++; T++; localStorage.setItem('v_today', t); localStorage.setItem('v_total', T); document.getElementById('v-today').innerText = t.toLocaleString(); document.getElementById('v-total').innerText = T.toLocaleString(); }
     function resetUI() { document.getElementById('result-area').classList.remove('active'); document.getElementById('main-header').style.display = 'block'; document.getElementById('start-area').classList.add('active'); updateUI(); }
 
     updateVisitors(); updateUI();
