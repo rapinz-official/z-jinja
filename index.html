@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🪐 RapiNz Z神社・宇宙御朱印</title>
+    <style>
+        :root {
+            --ra-main: #03A9F4; --ra-pink: #FF80AB; --ra-bg-dark: #000510;
+            --keigo-yellow: #E6A100;
+            --ari-mint: #00E676; --kose-pink: #F06292; --taki-blue: #2979FF;
+            --glass: rgba(255, 255, 255, 0.88);
+        }
+
+        body {
+            margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh;
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif;
+            background: radial-gradient(circle at center, #1A237E 0%, var(--ra-bg-dark) 70%);
+            overflow: hidden; color: #333;
+            /* テキスト選択も禁止して保護を強化 */
+            -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;
+        }
+
+        .stars-base {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: radial-gradient(white, rgba(255,255,255,.2) 1px, transparent 2px);
+            background-size: 200px 200px; z-index: 0; opacity: 0.4;
+        }
+
+        .floating-emoji { position: absolute; pointer-events: none; z-index: 1; opacity: 0.5; animation: floatAnim 10s ease-in-out infinite; }
+        @keyframes floatAnim { 0%, 100% { transform: translate(0, 0) rotate(0deg); } 50% { transform: translate(30px, -40px) rotate(20deg); } }
+
+        .star-particle {
+            position: fixed; pointer-events: none; z-index: 1000; font-size: 24px;
+            animation: starShoot 0.8s ease-out forwards;
+        }
+        @keyframes starShoot {
+            0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+            100% { transform: translate(var(--tx), var(--ty)) scale(0) rotate(var(--tr)); opacity: 0; }
+        }
+
+        .card {
+            background: var(--glass);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-radius: 40px; padding: 35px 25px;
+            max-width: 380px; width: 88%; text-align: center; position: relative; z-index: 10;
+            box-sizing: border-box;
+            border: 3px solid var(--ra-main);
+            animation: neonGlow 3s ease-in-out infinite alternate;
+        }
+        @keyframes neonGlow {
+            0% { border-color: var(--ra-main); box-shadow: 0 0 15px var(--ra-main), inset 0 0 5px var(--ra-main); }
+            100% { border-color: var(--ra-pink); box-shadow: 0 0 30px var(--ra-pink), inset 0 0 10px var(--ra-pink); }
+        }
+
+        .welcome-msg { font-size: 12px; font-weight: bold; color: var(--ra-main); line-height: 1.8; margin-bottom: 5px; }
+        .yoshi-yoshi { font-size: 15px; font-weight: 900; background: linear-gradient(to right, var(--ra-main), var(--ra-pink)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .main-title { font-size: 24px; font-weight: 900; color: #1a1a1a; margin: 15px 0 5px; cursor: pointer; user-select: none; }
+        .sub-title { font-size: 10px; color: #aaa; letter-spacing: 3px; margin-bottom: 20px; text-transform: uppercase; }
+        
+        .steps { 
+            background: rgba(255, 255, 255, 0.4); 
+            border-radius: 20px; 
+            padding: 18px; 
+            margin-bottom: 20px; 
+            font-size: 12px; 
+            text-align: center; 
+            line-height: 2.2; 
+            color: #666; 
+        }
+        
+        .btn-main { 
+            background: linear-gradient(135deg, var(--ra-main), var(--ra-pink)); 
+            color: #fff; padding: 18px; border-radius: 100px; font-size: 16px; font-weight: bold; 
+            width: 100%; border: none; cursor: pointer; transition: 0.3s;
+            box-shadow: 0 8px 20px rgba(3, 169, 244, 0.3); box-sizing: border-box;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .btn-main:active:not(:disabled) { transform: scale(0.95); }
+        .btn-main:disabled { background: #444 !important; color: #888; box-shadow: none; cursor: not-allowed; opacity: 1; }
+
+        .limit-display { font-size: 13px; font-weight: bold; color: #777; margin: 10px 0; }
+        .visitor-panel { display: flex; justify-content: center; gap: 15px; margin-top: 20px; background: rgba(0, 0, 0, 0.04); border-radius: 12px; padding: 10px; }
+        .v-label { font-size: 9px; color: #999; display: block; }
+        .v-count { font-size: 14px; font-weight: bold; color: #777; font-family: monospace; }
+
+        .img-container { position: relative; width: 220px; height: 220px; margin: 0 auto 15px; overflow: hidden; border-radius: 25px; background: #eee; }
+        .fortune-img { width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.8s ease; }
+        .fortune-img.loaded { opacity: 1; }
+        .hologram { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.3) 50%, transparent 100%); animation: holo 4s infinite; }
+
+        .footer-info { font-size: 10px; color: #aaa; margin-top: 20px; line-height: 1.6; }
+
+        #start-area, #result-area { display: none; }
+        .active { display: block !important; }
+        #flash-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 100; pointer-events: none; opacity: 0; }
+        .flash-active { animation: flashAnim 0.6s ease-out; }
+    </style>
+</head>
+<body oncontextmenu="return false;">
+
+    <div id="flash-overlay"></div>
+    <div class="stars-base"></div>
+    <div id="star-field"></div>
+
+    <div class="card" id="main-card">
+        <div id="start-area" class="active">
+            <div class="welcome-header">
+                <div class="welcome-msg">ようこそRapiNz座標まで。</div>
+                <div class="welcome-msg">あなたの心に、銀河級の<br><span class="yoshi-yoshi">『よしよし』</span>が降り注ぎますように。</div>
+            </div>
+            <span style="font-size:35px;">⛩️</span>
+            <h1 class="main-title" id="dev-trigger">RapiNz Z神社</h1>
+            <div class="sub-title">Galaxy Fortune</div>
+            
+            <div class="steps">
+                一、ゆっくり目を閉じる<br>
+                二、ふか～く深呼吸をする<br>
+                三、銀河の巡り合わせに身をまかせる
+            </div>
+            
+            <button id="draw-btn" class="btn-main" onclick="uranaiAction(event)">御朱印を授かる</button>
+            <div id="limit-display" class="limit-display">本日あと 3 回</div>
+
+            <div class="visitor-panel">
+                <div class="visitor-stat" style="flex:1;"><span class="v-label">本日参拝</span><span id="v-today" class="v-count">0</span></div>
+                <div class="visitor-stat" style="flex:1; border-left: 1px solid #ddd;"><span class="v-label">累計参拝</span><span id="v-total" class="v-count">4280</span></div>
+            </div>
+
+            <div class="footer-info">
+                週に1回・月に1回しかでない「宇宙大吉」もあるよ☄<br>毎日参拝してね。
+            </div>
+        </div>
+
+        <div id="result-area">
+            <div id="res-member" style="font-size: 14px; font-weight: bold; margin-bottom: 8px;"></div>
+            <div id="res-fortune" style="font-size: 28px; font-weight: 900; margin-bottom: 15px;"></div>
+            <div class="img-container">
+                <img id="res-img" src="" class="fortune-img" onload="this.classList.add('loaded')">
+                <div class="hologram"></div>
+            </div>
+            <div id="res-desc" style="font-size: 14px; line-height: 1.8; padding: 0 10px; margin-bottom: 20px; text-align: left; color: #555;"></div>
+            <a id="x-share" href="#" target="_blank" class="btn-main" style="text-decoration: none; font-size: 14px;">𝕏 参拝の結果を報告する</a>
+            <button style="background:none; border:none; color:#bbb; text-decoration:underline; margin-top:20px; cursor:pointer; font-size: 13px;" onclick="resetUI()">もう一度参拝する</button>
+
+            <div class="footer-info">
+                週に1回・月に1回しかでない「宇宙大吉」もあるよ☄<br>毎日参拝してね。
+            </div>
+        </div>
+    </div>
+
+<script>
+    const uranaiData = [
+        { m: "KEIGO", c: "var(--keigo-yellow)", t: "宇宙大吉☄️", d: "銀河一の幸運を！KEIGOが全力の『よしよし』を贈ります。最高の巡り合わせです。" },
+        { m: "KEIGO", c: "var(--keigo-yellow)", t: "超大吉・FLAG", d: "情熱の旗を掲げろ！KEIGOが全力バックアップ。🚩" },
+        { m: "KEIGO", c: "var(--keigo-yellow)", t: "極大吉・ダイヤモンドダスト", d: "最高級の幸運があなたを包み込みます。💎" },
+        { m: "KEIGO", c: "var(--keigo-yellow)", t: "パウダースノー大吉", d: "滑り出し最高！何をやってもスムーズに進む、ノーストレスな一日。⛷️" },
+        { m: "KEIGO", c: "var(--keigo-yellow)", t: "満塁ホームラン吉", d: "ここ一番の勝負強さをKEIGOが授けます。⚾" },
+        { m: "KEIGO", c: "var(--keigo-yellow)", t: "十勝晴れ吉", d: "心は広大な十勝平野のようにスッキリ。☀️" },
+        { m: "KEIGO", c: "var(--keigo-yellow)", t: "入れ食いワカサギ吉", d: "欲しかった情報が次々と手に入る日。🎣" },
+        { m: "KEIGO", c: "var(--keigo-yellow)", t: "キラシール吉", d: "自慢したくなるような出来事が。✨" },
+        { m: "KEIGO", c: "var(--keigo-yellow)", t: "湯冷め知らず吉", d: "心温まるニュースが届く予感。温泉のような安心感に包まれます。♨️" },
+        { m: "KEIGO", c: "var(--keigo-yellow)", t: "全力投球大吉", d: "真っ向勝負で道が開ける。想いが支えになります。" },
+        { m: "KEIGO", c: "var(--keigo-yellow)", t: "大志吉", d: "大きな目標を立てるのに最適な日。🏔️" },
+        { m: "KEIGO", c: "var(--keigo-yellow)", t: "雪解け吉", d: "悩み事が解消。新しい芽が出る準備完了。🌱" },
+        { m: "KEIGO", c: "var(--keigo-yellow)", t: "直球勝負吉", d: "嘘偽りのない誠実な態度が信頼を高めます。🤝" },
+        { m: "KEIGO", c: "var(--keigo-yellow)", t: "最北端吉", d: "あなたの個性が際立つ瞬間があります。" },
+        { m: "KEIGO", c: "var(--keigo-yellow)", t: "イエローパレード吉", d: "ラッキーカラーは黄色。街を彩りに行こう！💛" },
+        { m: "KEIGO", c: "var(--keigo-yellow)", t: "ノールックキャッチ吉", d: "無意識のうちに幸運を掴んでいるかも。" },
+        { m: "KEIGO", c: "var(--keigo-yellow)", t: "クリーンナップ大吉", d: "決めるべき場面でビシッと決まります。💥" },
+        { m: "KEIGO", c: "var(--keigo-yellow)", t: "雪国エール吉", d: "影ながら応援中。冬を越えた先には春が来る！" },
+        { m: "KEIGO", c: "var(--keigo-yellow)", t: "完投吉", d: "最後までやり遂げる力が湧いてくる日。" },
+        { m: "KEIGO", c: "var(--keigo-yellow)", t: "センター返し吉", d: "基本に忠実な行動が確実な成果を呼びます。🔑" },
+        { m: "KEIGO", c: "var(--keigo-yellow)", t: "金メダル吉", d: "最高級のパフォーマンスが出せるかも。🥇" },
+        { m: "KEIGO", c: "var(--keigo-yellow)", t: "大平原吉", d: "視野を広く持つことで新しい種が見つかります。" },
+        { m: "KEIGO", c: "var(--keigo-yellow)", t: "シュプール大吉", d: "あなたが歩いた後に道ができる。リーダーに。" },
+        { m: "KEIGO", c: "var(--keigo-yellow)", t: "ジンギスカン吉", d: "美味しいものを食べて活力を養おう。🍖" },
+        { m: "KEIGO", c: "var(--keigo-yellow)", t: "ダブルプレー吉", d: "一度に二つの良いことが重なる予感。✌️" },
+        { m: "KEIGO", c: "var(--keigo-yellow)", t: "北の星吉", d: "暗闇でも迷わない道標となる出会い。💫" },
+        { m: "KEIGO", c: "var(--keigo-yellow)", t: "スラローム吉", d: "障害物を華麗にかわしてゴールへ。💨" },
+        { m: "KEIGO", c: "var(--keigo-yellow)", t: "ホログラム吉", d: "新しい才能が開花します。🎨" },
+        { m: "KEIGO", c: "var(--keigo-yellow)", t: "快勝吉", d: "圧倒的なスピード感で進おう！" },
+        { m: "KEIGO", c: "var(--keigo-yellow)", t: "大収穫大吉", d: "努力が大きな成果として戻ってきます。🌾" },
+        { m: "KEIGO", c: "var(--keigo-yellow)", t: "🎂聖誕大吉", d: "【KEIGO聖誕祭】宇宙一ハッピーな一日。運気爆発！💛" },
+
+        { m: "ARI", c: "var(--ari-mint)", t: "宇宙大吉☄️", d: "銀河級の癒やし。最高の安らぎを処方！" },
+        { m: "ARI", c: "var(--ari-mint)", t: "超大吉・BLOWS", d: "変革の風！ARIが背中を優しく押します。🍃" },
+        { m: "ARI", c: "var(--ari-mint)", t: "極大吉・満願成就", d: "あなたの願いが天に届きました。⛩️" },
+        { m: "ARI", c: "var(--ari-mint)", t: "小江戸の鐘大吉", d: "最高のタイミングでチャンス到来。🕰️" },
+        { m: "ARI", c: "var(--ari-mint)", t: "正常血圧大吉", d: "悩みもなく身軽に動ける一日。💉" },
+        { m: "ARI", c: "var(--ari-mint)", t: "ミントブリーズ吉", d: "爽快な気分で難問も解決。🌿" },
+        { m: "ARI", c: "var(--ari-mint)", t: "縁結び風鈴吉", d: "素敵なご縁が舞い込みます。🎐" },
+        { m: "ARI", c: "var(--ari-mint)", t: "蔵造り吉", d: "歴史にヒントあり。🏯" },
+        { m: "ARI", c: "var(--ari-mint)", t: "いも恋大吉", d: "甘いご褒美が待っています。🍠" },
+        { m: "ARI", c: "var(--ari-mint)", t: "ナースエール吉", d: "無理せず一歩ずつ。🏥" },
+        { m: "ARI", c: "var(--ari-mint)", t: "菓子屋横丁吉", d: "ワクワクが止まらない日。🍭" },
+        { m: "ARI", c: "var(--ari-mint)", t: "参拝日和吉", d: "心が洗われ直感力が鋭くなります。⛩️" },
+        { m: "ARI", c: "var(--ari-mint)", t: "聴診器吉", d: "心の声に耳を傾けて。🎧" },
+        { m: "ARI", c: "var(--ari-mint)", t: "ミントティー吉", d: "リラックスタイムが幸運を呼ぶ。🍵" },
+        { m: "ARI", c: "var(--ari-mint)", t: "氷川の縁吉", d: "絆がさらに深まる出来事。💖" },
+        { m: "ARI", c: "var(--ari-mint)", t: "白衣の天使大吉", d: "優しさが誰かを救います。✨" },
+        { m: "ARI", c: "var(--ari-mint)", t: "時の流れ吉", d: "ゆったりした時間を楽しもう。⏲️" },
+        { m: "ARI", c: "var(--ari-mint)", t: "御朱印巡り大吉", d: "積み重ねが自信に変わる日。📖" },
+        { m: "ARI", c: "var(--ari-mint)", t: "リフレッシュ吉", d: "新しい自分に生まれ変わる時。🚿" },
+        { m: "ARI", c: "var(--ari-mint)", t: "和菓子大吉", d: "洗練された行動に福あり。🍡" },
+        { m: "ARI", c: "var(--ari-mint)", t: "優風吉", d: "幸せが循環します。🕊️" },
+        { m: "ARI", c: "var(--ari-mint)", t: "時の道標吉", d: "進むべき道がハッキリ見えます。🛤️" },
+        { m: "ARI", c: "var(--ari-mint)", t: "バイタルチェック吉", d: "客観視が成功の近道。📈" },
+        { m: "ARI", c: "var(--ari-mint)", t: "ミントブルー吉", d: "誠実さが一番の武器。💎" },
+        { m: "ARI", c: "var(--ari-mint)", t: "祈願成就吉", d: "今がスタートの時！🚀" },
+        { m: "ARI", c: "var(--ari-mint)", t: "川越散策吉", d: "寄り道の中に宝物。🚲" },
+        { m: "ARI", c: "var(--ari-mint)", t: "心の処方箋吉", d: "好きな音楽が力を与えます。📚" },
+        { m: "ARI", c: "var(--ari-mint)", t: "ラテアート吉", d: "感性を磨くことで運気UP。🎨" },
+        { m: "ARI", c: "var(--ari-mint)", t: "リラックス大吉", d: "最高の休息を。🛌" },
+        { m: "ARI", c: "var(--ari-mint)", t: "満福大吉", d: "あなたに全ての幸運を！🌟" },
+
+        { m: "KOSE", c: "var(--kose-pink)", t: "宇宙大吉☄️", d: "銀河級の閃き！世界が輝き始めます。" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "超大吉・MYSTICAL", d: "未来図にあなたも登場。🎨" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "極大吉・皆中", d: "全ての願いが叶う完璧な日！🏹" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "琵琶湖の夕陽大吉", d: "心震える感動が待っています。🌅" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "デザイン思考吉", d: "発想が世界を変える。💡" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "信楽焼大吉", d: "地道な作業が形を生む。🍃" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "精神統一大吉", d: "重要なタスクに挑もう。🎯" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "ピンクキャンバス吉", d: "自由に描いて！💖" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "柔軟性大吉", d: "変化に対応すれば道が開く。🤸" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "イラストレーション吉", d: "表現を楽しんで。🖋️" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "近江商人大吉", d: "周りも幸せにする行動にツキあり。🤝" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "的中吉", d: "勝負強さが光ります。🏹" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "パレット吉", d: "協力し合うことで運気UP。🎨" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "滋賀エール吉", d: "広い心で大局を見よう。🌊" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "残心の吉", d: "最後まで丁寧に。🎍" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "クリエイティブ大吉", d: "新しい一面に出会えます。✨" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "桃花吉", d: "魅力が伝わる日。🌸" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "構えの吉", d: "自信を持って踏み出して。🥋" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "スケッチ吉", d: "細かい観察が成功の鍵。🔍" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "ピンクマジック大吉", d: "魔法が笑顔にします。✨" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "一本の矢大吉", d: "一つのことに魂を込めて。🏹" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "湖風吉", d: "物事が動き出すサイン。🌬️" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "造形美吉", d: "頭の中も整理されます。🧹" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "射位吉", d: "最高の成果へ。👣" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "ピンクグラデーション吉", d: "無理せずアップデート。📈" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "三井寺の鐘吉", d: "良い知らせの予感。🔔" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "色彩吉", d: "カラフルな野菜を。🥗" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "直感スケッチ吉", d: "考えるより先に動こう。⚡" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "近江牛大吉", d: "贅沢が糧になります。🥩" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "デザイン最高峰大吉", d: "完璧な一日。⚙️" },
+
+        { m: "TAKI", c: "var(--taki-blue)", t: "宇宙大吉☄️", d: "銀河一の爆笑を届けます。" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "超大吉・ROLLER COASTER", d: "運気急上昇！🎢" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "極大吉・計算通り", d: "全てが計画通りに進む日！🧮" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "東京タワー大吉", d: "キラキラした時間が待っています。🗼" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "爆笑大吉", d: "ラッキーアクションは「大笑い」！🎤" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "アニメ聖地巡礼吉", d: "憧れに一歩近づく予感。🎬" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "満塁逆転大吉", d: "最後まで諦めない！⚾" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "五珠吉", d: "難しい決断も一瞬。🧠" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "スカイブルー吉", d: "ストレスフリーな一日。💙" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "江戸前粋大吉", d: "ハッキリ言うことが運気UP。🍣" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "ヒーロー覚醒吉", d: "勇気が奇跡を起こします。⚔️" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "パチパチ吉", d: "拍手喝采を浴びる出来事。👏" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "シティボーイ大吉", d: "新しい服が活力を。👟" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "お笑いライブ吉", d: "余裕が道を拓く。🎭" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "ご珠の弾き吉", d: "無駄のない一日。🔢" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "ブルーインパクト大吉", d: "告白やプレゼンに！💥" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "大団円吉", d: "ハッピーエンドが約束されています。🎊" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "九九全勝吉", d: "原点に立ち返って。✍️" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "東京スカイツリー大吉", d: "想像以上の場所へ。🏗️" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "神回吉", d: "一生の思い出になる瞬間。📸" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "笑撃吉", d: "メモの準備を。📝" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "ブルーオーシャン吉", d: "あなたの独壇場です。🌊" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "割り切れる吉", d: "ロジカルな思考が吉。⚖️" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "エンタメ大吉", d: "最高の娯楽を楽しんで！🎥" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "江戸っ子吉", d: "全力で投資して。🔥" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "全的中吉", d: "当たりを引く予感。🎯" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "ブルーライト大吉", d: "夜の街に幸運あり。🌌" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "アンコール吉", d: "次は必ず成功します。🎤" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "そろばん侍大吉", d: "信頼を生みます。⚔️" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "大爆笑大吉", d: "悩みなんて吹き飛ばそう！💎" }
+    ];
+
+    const images = {
+        "KEIGO": "https://www.dropbox.com/scl/fi/bw9qzesy570958ffwle2p/KEIGO_01.jpg?rlkey=9kyfoddoaift5f7t4chpobcsp&raw=1",
+        "ARI": "https://www.dropbox.com/scl/fi/45dwf8h47xp4u914s3jn3/ARI_01.jpg?rlkey=ddernzv4t2esiniy870ian9pz&raw=1",
+        "KOSE": "https://www.dropbox.com/scl/fi/cmjwsw7710qm7kkqj11z0/KOSE_01.jpg?rlkey=plg0eexjuymuklg79u5cfxt4r&raw=1",
+        "TAKI": "https://www.dropbox.com/scl/fi/aq8yzifxvowza7401xj7h/TAKI_01.jpg?rlkey=qd54a5zwvhdjn1afq16wnszll&raw=1"
+    };
+
+    let isDevMode = false;
+    let tapCount = 0;
+    let audioCtx = null;
+
+    const starField = document.getElementById('star-field');
+    for(let i=0; i<12; i++) {
+        const star = document.createElement('div');
+        star.className = 'floating-emoji';
+        star.innerText = ['⭐','✨','🌟'][Math.floor(Math.random()*3)];
+        star.style.top = Math.random()*100 + '%';
+        star.style.left = Math.random()*100 + '%';
+        star.style.animationDelay = (Math.random()*-10) + 's';
+        starField.appendChild(star);
+    }
+
+    document.getElementById('dev-trigger').addEventListener('click', () => {
+        tapCount++;
+        clearTimeout(window.devTimer);
+        window.devTimer = setTimeout(() => { tapCount = 0; }, 2000);
+        if (tapCount >= 5) {
+            isDevMode = true;
+            localStorage.setItem('z_count', '0');
+            updateUI();
+            alert("🚀 Developer Mode: UNLOCKED");
+            tapCount = 0;
+        }
+    });
+
+    function initAudio() { if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
+    function playSound(type) {
+        initAudio(); const now = audioCtx.currentTime;
+        if (type === 'tap') {
+            const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
+            osc.type = 'triangle'; osc.frequency.setValueAtTime(150, now);
+            gain.gain.setValueAtTime(0.2, now); gain.gain.linearRampToValueAtTime(0, now + 0.2);
+            osc.connect(gain); gain.connect(audioCtx.destination); osc.start(); osc.stop(now + 0.2);
+        } else {
+            const freqs = [2000, 3000, 4500];
+            freqs.forEach((f, i) => {
+                const o = audioCtx.createOscillator(); const g = audioCtx.createGain();
+                o.frequency.setValueAtTime(f, now + (i*0.02));
+                g.gain.setValueAtTime(0.015, now); g.gain.exponentialRampToValueAtTime(0.0001, now + 1.2);
+                o.connect(g); g.connect(audioCtx.destination); o.start(); o.stop(now + 1.2);
+            });
+        }
+    }
+
+    function createStarBurst(x, y) {
+        for (let i = 0; i < 20; i++) {
+            const s = document.createElement('div'); s.className = 'star-particle';
+            s.innerText = ['✨','💎','⭐','🌟'][Math.floor(Math.random()*4)];
+            s.style.left = x + 'px'; s.style.top = y + 'px';
+            const a = Math.random() * Math.PI * 2; const d = 120 + Math.random() * 120;
+            s.style.setProperty('--tx', Math.cos(a) * d + "px"); s.style.setProperty('--ty', Math.sin(a) * d + "px");
+            s.style.setProperty('--tr', Math.random() * 360 + "deg");
+            document.body.appendChild(s); setTimeout(() => s.remove(), 1000);
+        }
+    }
+
+    function uranaiAction(e) {
+        const count = getCount();
+        if (!isDevMode && count >= 3) return;
+        createStarBurst(e.clientX, e.clientY);
+        playSound('tap');
+        document.getElementById('flash-overlay').classList.add('flash-active');
+        setTimeout(() => {
+            const res = uranaiData[Math.floor(Math.random() * uranaiData.length)];
+            showResult(res);
+            playSound('bell');
+            if (!isDevMode) setCount(count + 1);
+            document.getElementById('flash-overlay').classList.remove('flash-active');
+        }, 500);
+    }
+
+    function showResult(res) {
+        const img = document.getElementById('res-img');
+        img.classList.remove('loaded'); img.src = images[res.m];
+        document.getElementById('start-area').classList.remove('active');
+        document.getElementById('result-area').classList.add('active');
+        document.getElementById('res-member').innerText = `ラッキーメンバー ${res.m}`;
+        document.getElementById('res-member').style.color = res.c;
+        document.getElementById('res-fortune').innerText = res.t;
+        document.getElementById('res-fortune').style.color = res.c;
+        document.getElementById('res-desc').innerText = res.d;
+        const txt = `✨ RapiNz Z神社 ✨\n本日のラッキーメンバーは【${res.m}】💎\n運勢は【${res.t}】でした！\n#RapiNz #RapiNz宇宙御朱印`;
+        document.getElementById('x-share').href = `https://x.com/intent/post?text=${encodeURIComponent(txt)}&url=${encodeURIComponent(window.location.href)}`;
+    }
+
+    function getCount() {
+        const d = new Date().toLocaleDateString();
+        if (localStorage.getItem('z_date') !== d) { localStorage.setItem('z_date', d); localStorage.setItem('z_count', '0'); }
+        return parseInt(localStorage.getItem('z_count') || '0');
+    }
+    function setCount(c) { localStorage.setItem('z_count', c); updateUI(); }
+    function updateUI() {
+        const count = getCount();
+        const rem = 3 - count;
+        document.getElementById('limit-display').innerText = isDevMode ? "🚀 Developer Mode Active" : `本日あと ${rem} 回`;
+        document.getElementById('draw-btn').disabled = (!isDevMode && rem <= 0);
+    }
+    function updateVisitors() {
+        const d = new Date().toLocaleDateString();
+        let today = parseInt(localStorage.getItem('v_today') || "0");
+        let total = parseInt(localStorage.getItem('v_total') || "4280");
+        if (localStorage.getItem('v_date') !== d) { today = 0; localStorage.setItem('v_date', d); }
+        today++; total++;
+        localStorage.setItem('v_today', today); localStorage.setItem('v_total', total);
+        document.getElementById('v-today').innerText = today.toLocaleString();
+        document.getElementById('v-total').innerText = total.toLocaleString();
+    }
+    function resetUI() {
+        document.getElementById('result-area').classList.remove('active');
+        document.getElementById('start-area').classList.add('active');
+        updateUI();
+    }
+    updateVisitors();
+    updateUI();
+
+    /* --- 保護コード: 右クリック・ショートカット制限・開発者ツール対策 --- */
+    // 右クリックメニューを禁止
+    document.addEventListener('contextmenu', e => e.preventDefault());
+
+    // ショートカットキーの制限 (Ctrl+C, Ctrl+U, Ctrl+Shift+I, F12など)
+    document.addEventListener('keydown', e => {
+        // F12キー
+        if (e.key === 'F12') {
+            e.preventDefault();
+        }
+        // Ctrl+U (ソース表示), Ctrl+Shift+I (検証), Ctrl+C (コピー), Ctrl+Shift+J (コンソール), Ctrl+S (保存)
+        if (e.ctrlKey && (e.key === 'u' || e.key === 'c' || e.key === 's' || (e.shiftKey && (e.key === 'I' || e.key === 'J')))) {
+            e.preventDefault();
+        }
+    });
+
+    // コンソールが無理やり開かれた場合に無限デバッガで動作を重くする簡易対策
+    (function() {
+        const element = new Image();
+        Object.defineProperty(element, 'id', {
+            get: function() {
+                // コンソールが開かれたことを検知してページをリロードするなどの処理も可能
+                window.location.reload();
+            }
+        });
+        console.log(element);
+    })();
+</script>
+</body>
+</html>
