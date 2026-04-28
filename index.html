@@ -81,7 +81,6 @@
 <script>
     const DB_URL = "https://rapinz-z-jinja-default-rtdb.asia-southeast1.firebasedatabase.app/counts.json";
 
-    // --- 占いデータ 121種完全版 ---
     const uranaiData = [
         /* KEIGO (1-30) */
         { m: "KEIGO", c: "var(--keigo-yellow)", t: "宇宙大吉☄️", d: "銀河一の幸運を！KEIGOが全力の『よしよし』を贈ります。最高の巡り合わせ。宇宙の果てまでハッピーを届けに行きましょう！" },
@@ -148,7 +147,7 @@
         { m: "ARI", c: "var(--ari-mint)", t: "満福大吉", d: "すべての幸運を！🌟 幸せの器が満タンになるような一日。あなたは愛され、守られています。" },
 
         /* KOSE (61-90) */
-        { m: "KOSE", c: "var(--kose-pink)", t: "宇宙大吉☄️", d: "銀河級の閃き！世界が鮮やかに輝き始めます。あなたのクリエイティブな才能が爆発する予感。" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "宇宙大吉☄️", d: "銀河級の閃き！世界が鮮やかに輝き始めます。あなたのクリエイティブな才能が爆発する予感。未来を描いて。" },
         { m: "KOSE", c: "var(--kose-pink)", t: "超大吉・魔法", d: "魔法のような未来図に、主役として登場。🎨 現実を超えたワクワク。KOSEと一緒に作ろう！" },
         { m: "KOSE", c: "var(--kose-pink)", t: "極大吉・皆中", d: "全ての願いが射抜かれ完璧に叶う日！🏹 努力がど真ん中に命中する爽快感を味わえます。" },
         { m: "KOSE", c: "var(--kose-pink)", t: "デザイン思考吉", d: "発想が世界を変える。💡 自由な視点で周りを見渡してみて。驚くようなアイデアが生まれます。" },
@@ -182,7 +181,7 @@
         /* TAKI (91-120) */
         { m: "TAKI", c: "var(--taki-blue)", t: "宇宙大吉☄️", d: "銀河一の爆笑を届けます！重力を振り切るレベルで絶好調。笑顔で世界を染めちゃいましょう。" },
         { m: "TAKI", c: "var(--taki-blue)", t: "極大吉・計算通り", d: "すべてが計画通りに進む驚きの一日！🧮 ロジカルな思考と直感がマッチ。知的な魅力が爆発！" },
-        { m: "TAKI", c: "var(--taki-blue)", t: "超大吉・ROLLER", d: "運気急上昇！🎢 エキサイティングな展開。スピード感こそが才能を呼び覚まします。" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "超大吉・ROLLER", d: "運気急上昇！ Roller Rideのようにエキサイティングな展開。スピード感こそが才能を呼び覚まします。" },
         { m: "TAKI", c: "var(--taki-blue)", t: "神回吉", d: "一生の思い出になる瞬間。📸 今日という日は人生の中でも特別なページになるでしょう。" },
         { m: "TAKI", c: "var(--taki-blue)", t: "爆笑大吉", d: "ラッキーアクションは「大笑い」！🎤 笑い飛ばせば運気好転。あなたの笑い声が福を呼ぶ。" },
         { m: "TAKI", c: "var(--taki-blue)", t: "東京タワー大吉", d: "キラキラした時間が待っています。🗼 あなたの存在が周囲を照らし出すでしょう。" },
@@ -215,7 +214,13 @@
         { m: "RapiNz", c: "var(--ra-main)", t: "銀河大吉☄️", d: "宇宙の全方位から『よしよし』が届いています。存在するだけで価値がある。RapiNz全員があなたの味方です！" }
     ];
 
-    const images = { "KEIGO": "https://www.dropbox.com/scl/fi/bw9qzesy570958ffwle2p/KEIGO_01.jpg?rlkey=9kyfoddoaift5f7t4chpobcsp&raw=1", "ARI": "https://www.dropbox.com/scl/fi/45dwf8h47xp4u914s3jn3/ARI_01.jpg?rlkey=ddernzv4t2esiniy870ian9pz&raw=1", "KOSE": "https://www.dropbox.com/scl/fi/cmjwsw7710qm7kkqj11z0/KOSE_01.jpg?rlkey=plg0eexjuymuklg79u5cfxt4r&raw=1", "TAKI": "https://www.dropbox.com/scl/fi/aq8yzifxvowza7401xj7h/TAKI_01.jpg?rlkey=qd54a5zwvhdjn1afq16wnszll&raw=1", "RapiNz": "https://www.dropbox.com/scl/fi/bw9qzesy570958ffwle2p/KEIGO_01.jpg?rlkey=9kyfoddoaift5f7t4chpobcsp&raw=1" };
+    const images = { 
+        "KEIGO": "https://www.dropbox.com/scl/fi/bw9qzesy570958ffwle2p/KEIGO_01.jpg?rlkey=9kyfoddoaift5f7t4chpobcsp&raw=1", 
+        "ARI": "https://www.dropbox.com/scl/fi/45dwf8h47xp4u914s3jn3/ARI_01.jpg?rlkey=ddernzv4t2esiniy870ian9pz&raw=1", 
+        "KOSE": "https://www.dropbox.com/scl/fi/cmjwsw7710qm7kkqj11z0/KOSE_01.jpg?rlkey=plg0eexjuymuklg79u5cfxt4r&raw=1", 
+        "TAKI": "https://www.dropbox.com/scl/fi/aq8yzifxvowza7401xj7h/TAKI_01.jpg?rlkey=qd54a5zwvhdjn1afq16wnszll&raw=1",
+        "RapiNz": "https://www.dropbox.com/scl/fi/bw9qzesy570958ffwle2p/KEIGO_01.jpg?rlkey=9kyfoddoaift5f7t4chpobcsp&raw=1" 
+    };
 
     const audioTop = document.getElementById('audio-top');
     const audioKirakira = document.getElementById('audio-kirakira');
@@ -238,10 +243,15 @@
             document.getElementById('v-total').innerText = total.toLocaleString();
             document.getElementById('v-today').innerText = today.toLocaleString();
             return { total, today };
-        } catch(e) { console.error("Sync Error:", e); return { total: 0, today: 0 }; }
+        } catch(e) { return { total: 0, today: 0 }; }
     }
 
-    function initAudio() { if (isAudioInit) return; audioTop.volume = 0.15; audioTop.play().catch(()=>{}); isAudioInit = true; }
+    function initAudio() { 
+        if (isAudioInit) return; 
+        audioTop.volume = 0.15; audioTop.play().catch(()=>{}); 
+        isAudioInit = true; 
+    }
+    
     function fadeOut(audio, dur, cb) { if (!audio || audio.paused) { if(cb) cb(); return; } const start = audio.volume; const step = start / (dur / 50); const t = setInterval(() => { if (audio.volume > step) audio.volume -= step; else { audio.volume = 0; audio.pause(); clearInterval(t); if(cb) cb(); } }, 50); }
     function createBurst() { const rect = document.getElementById('draw-btn').getBoundingClientRect(); for (let i = 0; i < 40; i++) { const p = document.createElement('div'); p.className = 'particle'; p.innerText = ['✨', '⭐', '🌟', '💫', '💎'][Math.floor(Math.random() * 5)]; const angle = Math.random() * Math.PI * 2; const dist = 60 + Math.random() * 180; p.style.fontSize = (Math.random() * 15 + 15) + 'px'; p.style.setProperty('--dur', (1.5 + Math.random() * 1.5) + 's'); p.style.setProperty('--x', Math.cos(angle) * dist + 'px'); p.style.setProperty('--y', (Math.sin(angle) * dist + 80) + 'px'); p.style.setProperty('--r', (Math.random() * 720) + 'deg'); p.style.left = (rect.left + rect.width / 2) + 'px'; p.style.top = (rect.top + rect.height / 2) + 'px'; document.body.appendChild(p); setTimeout(() => p.remove(), 3000); } }
 
@@ -254,12 +264,9 @@
         setTimeout(() => {
             audioTop.pause(); audioResult.volume = 0.5; audioResult.currentTime = 0; audioResult.play().catch(()=>{});
             setTimeout(() => { fadeOut(audioKirakira, 1500); }, 500);
-            
-            // 抽選（銀河大吉☄️ or 121種ランダム）
             let res = (Math.random() < 0.1) ? uranaiData.filter(d => d.t.includes("大吉☄️"))[Math.floor(Math.random()*5)] : uranaiData[Math.floor(Math.random() * uranaiData.length)];
             const now = new Date(); const dStr = `${now.getFullYear()}/${now.getMonth()+1}/${now.getDate()}`;
             currentSerialID = `Z-${stats.total.toString().padStart(7, '0')}`;
-            
             document.getElementById('verify-watermark').innerText = `VALID: ${currentSerialID}`;
             document.getElementById('res-img').classList.remove('loaded'); document.getElementById('res-img').src = images[res.m]; document.getElementById('res-img').onload = () => document.getElementById('res-img').classList.add('loaded');
             document.getElementById('res-date').innerText = `参拝日時：${now.toLocaleString()}`;
@@ -267,13 +274,11 @@
             document.getElementById('res-member').innerText = `ラッキーメンバー ${res.m}`; document.getElementById('res-member').style.color = res.c;
             document.getElementById('res-fortune').innerText = res.t; document.getElementById('res-fortune').style.color = res.c;
             document.getElementById('res-desc').innerText = res.d;
-            
             if (res.t.includes("大吉☄️")) { 
                 document.getElementById('verify-watermark').style.display = 'flex'; 
                 document.getElementById('reward-panel').style.display = 'block';
                 if(localStorage.getItem('claimed_' + currentSerialID)) document.getElementById('claim-content').innerHTML = "<b>【特典受取済み】</b>";
             }
-            
             document.getElementById('x-share').setAttribute('data-text', `✨ RapiNz Z神社 ✨\n参拝日：${dStr}\nラッキーメンバー：${res.m}\n運勢：${res.t} 💎\n(${currentSerialID})\n#RapiNz #RapiNz御朱印`);
             if (!isDevMode) setCount(count + 1); document.getElementById('flash-overlay').classList.remove('flash-active');
         }, 850);
@@ -281,12 +286,13 @@
 
     function tweetAction(e) { 
         e.preventDefault(); 
-        const text = document.getElementById('x-share').getAttribute('data-text'); 
+        const tweetText = document.getElementById('x-share').getAttribute('data-text'); 
         const url = window.location.href.split('?')[0]; 
-        const tweetContent = `${text}\n${url}`;
-        const xUrl = `https://x.com/intent/post?text=${encodeURIComponent(tweetContent)}`;
-        window.location.href = xUrl;
-        setTimeout(() => { if (!document.hidden) window.open(xUrl, '_blank'); }, 500);
+        const content = `${tweetText}\n${url}`;
+        const xAppScheme = `twitter://post?message=${encodeURIComponent(content)}`;
+        const xWebUrl = `https://x.com/intent/post?text=${encodeURIComponent(content)}`;
+        window.location.href = xAppScheme;
+        setTimeout(() => { if (!document.hidden) window.open(xWebUrl, '_blank'); }, 800);
     }
 
     function claimReward() { if(confirm("スタッフの確認は済みましたか？")) { localStorage.setItem('claimed_' + currentSerialID, 'true'); document.getElementById('verify-watermark').style.display = 'none'; document.getElementById('claim-content').innerHTML = "<b>【特典受取済み】</b>"; } }
@@ -296,7 +302,17 @@
     function updateUI() { const c = getCount(); const r = 3 - c; document.getElementById('limit-display').innerText = isDevMode ? "🚀 Dev Mode" : `本日あと ${r} 回`; document.getElementById('draw-btn').disabled = (!isDevMode && r <= 0); }
     function initFloating() { const l = document.getElementById('emoji-layer'); const icons = ['⭐', '🌟', '✨', '💫']; for(let i=0; i<15; i++) { const e = document.createElement('div'); e.className = 'floating-emoji'; e.innerText = icons[Math.floor(Math.random()*icons.length)]; const s = Math.random() > 0.5 ? 'left' : 'right'; e.style.left = (s === 'left' ? Math.random()*15 : 85+Math.random()*15) + 'vw'; e.style.top = Math.random()*100 + 'vh'; e.style.setProperty('--duration', (7+Math.random()*12)+'s'); e.style.setProperty('--drift-x', (s === 'left' ? -30 : 30)+'px'); e.style.setProperty('--drift-y', (Math.random()-0.5)*100+'px'); e.style.setProperty('--max-opacity', 0.4+Math.random()*0.3); l.appendChild(e); } }
     document.getElementById('dev-trigger').addEventListener('click', () => { let tc = (window._tc || 0) + 1; window._tc = tc; if (tc >= 5) { isDevMode = true; updateUI(); alert("🚀 Dev Mode Active"); window._tc = 0; } setTimeout(() => window._tc = 0, 2000); });
-    window.onload = async () => { initFloating(); await syncStats(); updateUI(); };
+    
+    window.onload = async () => { 
+        initFloating(); 
+        await syncStats(); 
+        updateUI(); 
+
+        // 音声を事前ロード（プリロード）して再生ミスを防ぐ
+        [audioTop, audioKirakira, audioResult].forEach(audio => {
+            audio.load();
+        });
+    };
 </script>
 </body>
 </html>
