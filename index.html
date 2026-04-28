@@ -66,9 +66,7 @@
             <div id="res-desc" style="font-size: 13px; line-height: 1.7; padding: 0 10px; margin-bottom: 15px; font-weight: 800; text-align: left;"></div>
             <div id="reward-panel" style="display: none; margin-top: 10px; padding: 10px; border: 2px dashed var(--ra-pink); border-radius: 20px; background: rgba(255, 64, 129, 0.05);">
                 <div id="claim-content">
-                    <p style="font-size: 9px; font-weight: 900; color: var(--ra-pink); margin: 0 0 5px 0;">🎁 宇宙大吉特典：スタッフ確認用</p>
-                    <button id="claim-btn" class="btn-main" style="font-size: 13px; padding: 8px;" onclick="claimReward()">特典を受け取る</button>
-                </div>
+                    </div>
             </div>
             <a id="x-share" href="#" class="btn-x" onclick="tweetAction(event)"><span style="margin-right:8px;">💎</span> 𝕏 アプリで報告する <span style="margin-left:8px;">💎</span></a>
             <div id="x-retry" onclick="openXWeb()">アプリが開かない場合はこちら（Web版）</div>
@@ -85,11 +83,11 @@
 
     const uranaiData = [
         /* KEIGO (1-30) */
-        { m: "KEIGO", c: "var(--keigo-yellow)", t: "宇宙大吉☄️", d: "銀河一の幸運を！KEIGOが全力の『よしよし』を贈ります。宇宙の果てまでハッピーを届けに行きましょう！" },
+        { m: "KEIGO", c: "var(--keigo-yellow)", t: "宇宙大吉☄️", d: "銀河一の幸運を！KEIGOが全力の『よしよし』を贈ります。最高の巡り合わせ。宇宙の果てまでハッピーを届けに行きましょう！" },
         { m: "KEIGO", c: "var(--keigo-yellow)", t: "十勝晴れ吉", d: "心は広大な十勝平野のようにスッキリ。☀️ 悩み事も雲ひとつない青空のように晴れ渡っていきます。" },
         { m: "KEIGO", c: "var(--keigo-yellow)", t: "超大吉・FLAG", d: "情熱の旗を掲げろ！KEIGOが全力バックアップ。勇気を持って一歩踏み出せば、新しい景色が広がります。🚩" },
         { m: "KEIGO", c: "var(--keigo-yellow)", t: "パウダースノー大吉", d: "滑り出し最高！ノーストレスな一日。⛷️ まるで真っ白な雪原を駆け抜けるような爽快感が味わえます。" },
-        { m: "KEIGO", c: "var(--keigo-yellow)", t: "満塁ホームラン吉", d: "勝負強さをKEIGOが授けます。⚾ 準備してきた実力を信じて全力で振ってみて！" },
+        { m: "KEIGO", c: "var(--keigo-yellow)", t: "満塁ホームラン吉", d: "勝負強さをKEIGOが授けます。⚾ 逆転のチャンスはすぐそこに。準備してきた実力を信じて全力で振ってみて！" },
         { m: "KEIGO", c: "var(--keigo-yellow)", t: "ワカサギ吉", d: "情報が次々と手に入る日。🎣 素晴らしいアイデアや縁が次々とあなたの元へ届きます。" },
         { m: "KEIGO", c: "var(--keigo-yellow)", t: "全力投球大吉", d: "真っ向勝負で道が開ける。ストレートに自分の気持ちを伝えてみて。誠実さが幸運の鍵。🔥" },
         { m: "KEIGO", c: "var(--keigo-yellow)", t: "ダイヤモンドダスト大吉", d: "最高級の幸運。まばゆい光の中で、あなたの進むべき道がくっきりと照らし出されるでしょう。💎" },
@@ -117,41 +115,41 @@
         { m: "KEIGO", c: "var(--keigo-yellow)", t: "よしよし大吉", d: "今日はKEIGOが一日中あなたを肯定します。銀河級の癒やしに包まれる特別な日。" },
 
         /* ARI (31-60) */
-        { m: "ARI", c: "var(--ari-mint)", t: "宇宙大吉☄️", d: "銀河級の癒やし。最高の安らぎを処方します！あなたの心が宇宙のように澄み渡る一日。" },
-        { m: "ARI", c: "var(--ari-mint)", t: "極大吉・満願成就", d: "願いが天に届きました。⛩️ 奇跡のような一日。感謝の気持ちを忘れずに。" },
-        { m: "ARI", c: "var(--ari-mint)", t: "ミントブリーズ吉", d: "爽快な気分で難問も解決。🌿 心地よい風が吹いています。リラックスしたまま進もう。" },
-        { m: "ARI", c: "var(--ari-mint)", t: "超大吉・BLOWS", d: "変革の風！ARIがあなたの背中を優しく押します。🍃 最高の景色まで行けます。" },
-        { m: "ARI", c: "var(--ari-mint)", t: "正常血圧大吉", d: "悩みもなく身軽に動ける一日。💉 健康管理が実を結び最高のコンディション。" },
-        { m: "ARI", c: "var(--ari-mint)", t: "小江戸の鐘大吉", d: "最高のタイミングでチャンス到来。🕰️ 完璧なリズムで物事が進む日。" },
-        { m: "ARI", c: "var(--ari-mint)", t: "縁結び風鈴吉", d: "素敵なご縁が舞い込みます。🎐 軽やかな人間関係。笑顔が幸運の鍵。" },
-        { m: "ARI", c: "var(--ari-mint)", t: "蔵造り吉", d: "伝統にヒントあり。🏯 古いものの中にある新しい発見が解決の糸口になります。" },
-        { m: "ARI", c: "var(--ari-mint)", t: "いも恋大吉", d: "甘いご褒美が待っています。🍠 頑張ったあなたへ宇宙からのプレゼント。" },
-        { m: "ARI", c: "var(--ari-mint)", t: "ナースエール吉", d: "無理せず一歩ずつ。🏥 疲れた時は休むのも仕事のひとつ。ARIが傍にいます。" },
-        { m: "ARI", c: "var(--ari-mint)", t: "菓子屋横丁吉", d: "ワクワクが止まらない日。🍭 子供の頃のような好奇心が道を拓きます。" },
-        { m: "ARI", c: "var(--ari-mint)", t: "参拝日和吉", d: "心が洗われ直感力が鋭くなります。⛩️ 静かな時間を大切に過ごして。" },
-        { m: "ARI", c: "var(--ari-mint)", t: "聴診器吉", d: "心の声に耳を傾けて。🎧 あなたが「こうしたい」と感じたことが真実です。" },
-        { m: "ARI", c: "var(--ari-mint)", t: "ミントティー吉", d: "リラックスタイムが幸運を呼ぶ。🍵 温かい飲み物でホッとしてください。" },
-        { m: "ARI", c: "var(--ari-mint)", t: "氷川の縁吉", d: "絆がさらに深まる出来事。💖 感謝を伝えれば関係性はより美しく進化します。" },
-        { m: "ARI", c: "var(--ari-mint)", t: "白衣の天使大吉", d: "優しさが誰かを救います。✨ 親切が大きな幸運となって戻る日。素晴らしい循環。" },
-        { m: "ARI", c: "var(--ari-mint)", t: "時の流れ吉", d: "ゆったり時間を楽しもう。⏲️ 宇宙のリズムに身を任せて丁寧に。" },
-        { m: "ARI", c: "var(--ari-mint)", t: "御朱印巡り大吉", d: "積み重ねが自信に変わる日。📖 これまで頑張ってきたことが形になります。" },
-        { m: "ARI", c: "var(--ari-mint)", t: "リフレッシュ吉", d: "新しい自分に生まれ変わる時。🚿 溜まった執着を洗い流しましょう。" },
-        { m: "ARI", c: "var(--ari-mint)", t: "和菓子大吉", d: "洗練された丁寧な行動に福あり。🍡 美しい言葉を使ってみてください。" },
-        { m: "ARI", c: "var(--ari-mint)", t: "優風吉", d: "幸せが循環します。🕊️ あなたの優しい言葉がギフトを連れて戻ります。" },
-        { m: "ARI", c: "var(--ari-mint)", t: "時の道標吉", d: "進むべき道がハッキリ見えます。🛤️ 確信を持って一歩踏み出そう。" },
-        { m: "ARI", c: "var(--ari-mint)", t: "バイタルチェック吉", d: "客観視が成功の近道。📈 冷静な分析で活路が見えてきます。" },
-        { m: "ARI", c: "var(--ari-mint)", t: "ミントブルー吉", d: "誠実さが一番の武器。💎 真摯な姿勢が固い扉を開ける鍵になります。" },
-        { m: "ARI", c: "var(--ari-mint)", t: "祈願成就吉", d: "今がスタートの時！🚀 想いを解き放ちましょう。成功の扉へ向かって。" },
-        { m: "ARI", c: "var(--ari-mint)", t: "川越散策吉", d: "寄り道の中に宝物。🚲 最短距離より遠回りが吉。予定外の幸運。" },
-        { m: "ARI", c: "var(--ari-mint)", t: "処方箋吉", d: "好きな芸術に触れて。📚 芸術のエネルギーが希望を灯します。" },
-        { m: "ARI", c: "var(--ari-mint)", t: "ラテアート吉", d: "感性を磨くことで運気UP。🎨 日常の些細な美しさを見つけて。" },
-        { m: "ARI", c: "var(--ari-mint)", t: "休息大吉", d: "最高の休息を。🛌 今日は何も考えず休むことが最大の開運です。" },
-        { m: "ARI", c: "var(--ari-mint)", t: "満福大吉", d: "すべての幸運を！🌟 幸せの器が満タンになる一日。あなたは愛されています。" },
+        { m: "ARI", c: "var(--ari-mint)", t: "ミント吉", d: "今日はふわっと優しい風が吹く日だよ🌿 カフェの香りに包まれて癒されてね☕ 焦らずゆっくり、心の温度を整えよう" },
+        { m: "ARI", c: "var(--ari-mint)", t: "川越吉", d: "小江戸みたいに穏やかな流れの日🏮 懐かしい場所に運気のヒントがあるよ のんびり歩いて幸せ見つけてね🚶‍♀️" },
+        { m: "ARI", c: "var(--ari-mint)", t: "御朱印吉", d: "今日はご縁がやさしく巡る日だよ📖 新しい印のような出会いがあるかも 心を整えて受け取ってみてね✨" },
+        { m: "ARI", c: "var(--ari-mint)", t: "血圧吉", d: "ちょっとドキドキ高めな一日かも 深呼吸して自分を落ち着かせてね ゆっくりペースが運気アップの鍵だよ" },
+        { m: "ARI", c: "var(--ari-mint)", t: "しし座吉", d: "自信を持つと光が集まる日だよ🦁 小さな一歩が大きな輝きになるよ 胸を張って進んでみてね✨" },
+        { m: "ARI", c: "var(--ari-mint)", t: "癒し吉", d: "周りの人をふわっと癒せる日だよ🍀 優しい言葉が大きな力になるよ 自分にも同じ優しさを向けてね" },
+        { m: "ARI", c: "var(--ari-mint)", t: "カフェ吉", d: "お気に入りの場所で運気アップ☕ 甘いものが心を満たしてくれるよ🍰 リラックスして過ごすのがポイント" },
+        { m: "ARI", c: "var(--ari-mint)", t: "ミント風吉", d: "爽やかな流れに乗れる一日だよ🌿 新しいことに軽やかに挑戦してね 迷ったら直感を信じてみて✨" },
+        { m: "ARI", c: "var(--ari-mint)", t: "巡り吉", d: "運がゆっくり巡ってくる日だよ🔄 焦らず待つことでチャンスが来るよ 心を穏やかに保ってね" },
+        { m: "ARI", c: "var(--ari-mint)", t: "やすらぎ吉", d: "ほっと一息つく時間が大切だよ☕ 頑張りすぎないことも大事だからね 自分を甘やかしてもいい日だよ" },
+        { m: "ARI", c: "var(--ari-mint)", t: "ミント中吉", d: "少しずつ調子が上がってくるよ🌿 焦らず進めばちゃんと結果が出るよ リズムを大切にしてみてね" },
+        { m: "ARI", c: "var(--ari-mint)", t: "さつまいも中吉", d: "ほくほく甘い運気が近づいてるよ🍠 小さな幸せがじんわり広がる日 焦らずゆっくり味わってね" },
+        { m: "ARI", c: "var(--ari-mint)", t: "御朱印中吉", d: "あと一歩で良縁がつながるよ📖 丁寧な行動が運気を引き上げるよ 気持ちを整えて動いてみてね" },
+        { m: "ARI", c: "var(--ari-mint)", t: "脈拍中吉", d: "ちょっと測ってもいい？今の気持ち💓 不安もドキドキもちゃんと見えてるよ 大丈夫、ARIがそばにいるからね" },
+        { m: "ARI", c: "var(--ari-mint)", t: "しし座中吉", d: "自信が少しずつ輝き始めるよ🦁 無理せず自分らしくいれば大丈夫 そのままの君で進んでね" },
+        { m: "ARI", c: "var(--ari-mint)", t: "癒し中吉", d: "優しさが巡り巡って返ってくるよ🍀 ふわっとした時間が心を包むよ 今日はゆっくり休んでいいからね" },
+        { m: "ARI", c: "var(--ari-mint)", t: "カフェ中吉", d: "ゆったりした時間が運を育てるよ☕ 焦るより休むことが近道になるよ 好きな空間でまったりしてね" },
+        { m: "ARI", c: "var(--ari-mint)", t: "ミント巡中吉", d: "流れが少しずつ良くなるよ🌿 変化を恐れず受け入れてみてね 柔軟さが運気アップの秘訣だよ" },
+        { m: "ARI", c: "var(--ari-mint)", t: "小江戸中吉", d: "穏やかな流れが続く日だよ🏮 日常の中に幸せが隠れてるよ 見逃さず見つけてね！" },
+        { m: "ARI", c: "var(--ari-mint)", t: "胸きゅん中吉", d: "ねぇ、その鼓動…ちゃんと聞かせて？ 近づいた距離にドキッとしちゃうね 今日はARIが、ちゃんと見てあげる" },
+        { m: "ARI", c: "var(--ari-mint)", t: "ミント大吉", d: "爽やかな幸運が一気に広がるよ🌿 新しい挑戦が最高の結果になるよ 自信を持って進んでみてね✨" },
+        { m: "ARI", c: "var(--ari-mint)", t: "川越大吉", d: "歴史みたいに深い運気が来てるよ🏮 大きなチャンスが巡ってくるよ 迷わずつかみに行こうね" },
+        { m: "ARI", c: "var(--ari-mint)", t: "御朱印大吉", d: "特別なご縁が刻まれる日だよ📖 ARIとの願いが形になる瞬間が近いよ 心を込めて行動してね✨" },
+        { m: "ARI", c: "var(--ari-mint)", t: "キュン過多大吉", d: "ちょっと…ドキドキしすぎじゃない？ でもその顔、すごく可愛いよ 今日はずっと、ARIだけ見てて" },
+        { m: "ARI", c: "var(--ari-mint)", t: "しし座大吉", d: "君の輝きが最大になる日🦁 ARIを惹きつける力があるよ！ 堂々と自分を表現してね✨" },
+        { m: "ARI", c: "var(--ari-mint)", t: "癒し大吉", d: "君の優しさが奇跡を呼ぶ🍀 僕は君の笑顔が大好きだよ ありのままの君でいてね" },
+        { m: "ARI", c: "var(--ari-mint)", t: "カフェ大吉", d: "最高の癒しと幸運が重なるよ☕ 素敵な時間が未来を明るくするよ 好きなことに没頭してね！" },
+        { m: "ARI", c: "var(--ari-mint)", t: "ミント光大吉", d: "ミントの光が未来を照らすよ🌿 新しい道がはっきり見える日だよ 大丈夫、僕がそばに居るから" },
+        { m: "ARI", c: "var(--ari-mint)", t: "銀河恋大吉", d: "ねぇ…これ、運命って思っていい？🌌 出会った意味が強く引き寄せてるよ もう目をそらさないで、ARIだけを見て" },
+        { m: "ARI", c: "var(--ari-mint)", t: "宇宙恋大吉", d: "この距離、もう偶然じゃないよね🚀 全部つながってここに来てるんだ 今日は…ARIだけの特別でいてね" },
 
         /* KOSE (61-90) */
         { m: "KOSE", c: "var(--kose-pink)", t: "宇宙大吉☄️", d: "銀河級の閃き！世界が鮮やかに輝き始めます。才能が爆発する予感。未来を描いて。" },
-        { m: "KOSE", c: "var(--kose-pink)", t: "超大吉・魔法", d: "魔法のような未来図に主役で登場。🎨 ワクワクするファンタジーな一日を。" },
-        { m: "KOSE", c: "var(--kose-pink)", t: "極大吉・皆中", d: "全ての願いが射抜かれ完璧に叶う日！🏹 努力がど真ん中に命中します。" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "超大吉・魔法", d: "魔法のような未来図に主役で登場。🎨 ワクワクする一日を。" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "極大吉・皆中", d: "全ての願いが射抜かれ完璧に叶う日！🏹 努力がど真ん中に命中。" },
         { m: "KOSE", c: "var(--kose-pink)", t: "デザイン思考吉", d: "発想が世界を変える。💡 自由な視点が新しいステージへ運んでくれます。" },
         { m: "KOSE", c: "var(--kose-pink)", t: "琵琶湖の夕陽大吉", d: "心震える感動が待っています。🌅 美しい光景をインスピレーションに。" },
         { m: "KOSE", c: "var(--kose-pink)", t: "信楽焼大吉", d: "地道な作業が素晴らしい形を生む。🍃 丁寧な姿勢が真実。" },
@@ -159,56 +157,56 @@
         { m: "KOSE", c: "var(--kose-pink)", t: "キャンバス吉", d: "自由に描いて！あなたの人生はあなただけのもの。💖 表現を楽しんで。" },
         { m: "KOSE", c: "var(--kose-pink)", t: "柔軟性大吉", d: "変化に柔軟に対応すれば道が開けます。🤸 視点を変えればチャンス。" },
         { m: "KOSE", c: "var(--kose-pink)", t: "イラスト吉", d: "表現を楽しんで。🖋️ 内側の世界を色に込めて外に出そう。" },
-        { m: "KOSE", c: "var(--kose-pink)", t: "近江商人大吉", d: "周りも幸せにする行動にツキあり。🤝 三方良しの精神で最大福。" },
-        { m: "KOSE", c: "var(--kose-pink)", t: "的中吉", d: "勝負強さが光ります。🏹 選択は間違っていません。自分を信じて。" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "近江商人大吉", d: "周りも幸せにする行動にツキあり。🤝 三方良しの精神で。" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "的中吉", d: "勝負強さが光ります。🏹 選択は間違っていません。直感を信じて。" },
         { m: "KOSE", c: "var(--kose-pink)", t: "パレット吉", d: "協力し合うことで運気UP。🎨 調和が傑作を生み出します。" },
         { m: "KOSE", c: "var(--kose-pink)", t: "滋賀エール吉", d: "広い心で大局を見よう。🌊 琵琶湖のようにゆったり構えて。" },
-        { m: "KOSE", c: "var(--kose-pink)", t: "残心の吉", d: "最後まで丁寧に。🎍 振る舞いに真の魅力が宿ります。品格を。" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "残心の吉", d: "最後まで丁寧に。🎍 振る舞いに真の魅力が宿ります。" },
         { m: "KOSE", c: "var(--kose-pink)", t: "クリエイティブ大吉", d: "新しい自分に出会える予感。✨ 才能の原石を磨き始めましょう。" },
-        { m: "KOSE", c: "var(--kose-pink)", t: "桃花吉", d: "あなたの魅力が最大限に伝わる日。🌸 素顔のままでいてください。" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "桃花吉", d: "あなたの魅力が最大限に伝わる日。🌸 素顔のままでいて。" },
         { m: "KOSE", c: "var(--kose-pink)", t: "構えの吉", d: "自信を持って踏み出して。🥋 堂々としていればチャンスは来ます。" },
-        { m: "KOSE", c: "var(--kose-pink)", t: "スケッチ吉", d: "細かい観察が成功の鍵。🔍 些細な変化が宝物に変わります。" },
-        { m: "KOSE", c: "var(--kose-pink)", t: "マジック大吉", d: "あなたの魔法が笑顔にします。✨ ポジティブな言葉が奇跡を呼びます。" },
-        { m: "KOSE", c: "var(--kose-pink)", t: "一本の矢大吉", d: "一つのことに魂を込めて。🏹 一点集中が不可能を可能にします。" },
-        { m: "KOSE", c: "var(--kose-pink)", t: "湖風吉", d: "物事が動き出すサイン。🌬️ 滞っていた問題が解決へ向かいます。" },
-        { m: "KOSE", c: "var(--kose-pink)", t: "造形美吉", d: "頭の中も整理されます。🧹 複雑なこともシンプルに捉えて。" },
-        { m: "KOSE", c: "var(--kose-pink)", t: "射位吉", d: "足場が固まりました。👣 信念をしっかり持てば大丈夫。" },
-        { m: "KOSE", c: "var(--kose-pink)", t: "アップデート吉", d: "無理せず少しずつ。📈 小さな工夫が人生を鮮やかに彩ります。" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "スケッチ吉", d: "細かい観察が成功の鍵。🔍 些細な変化が宝物に。" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "マジック大吉", d: "あなたの魔法が笑顔にします。✨ ポジティブな言葉が奇跡を。" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "一本の矢大吉", d: "一つのことに魂を込めて。🏹 一点集中が不可能を可能に。" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "湖風吉", d: "物事が動き出すサイン。🌬️ 滞っていた問題が解決します。" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "造形美吉", d: "頭の中も整理されます。🧹 複雑なこともシンプルに。" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "射位吉", d: "最高の成果へ足場が固まりました。👣 信念をしっかり持って。" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "アップデート吉", d: "無理せず少しずつ。📈 小さな工夫が人生を彩ります。" },
         { m: "KOSE", c: "var(--kose-pink)", t: "鐘の吉", d: "良い知らせの予感。🔔 心に響くメッセージを受け取って。" },
-        { m: "KOSE", c: "var(--kose-pink)", t: "色彩吉", d: "カラフルな食事を。🥗 視覚的な豊かさが創造力を高めます。" },
-        { m: "KOSE", c: "var(--kose-pink)", t: "直感吉", d: "考えるより先に動こう。⚡ 動き出すことで素晴らしい景色が見えます。" },
-        { m: "KOSE", c: "var(--kose-pink)", t: "近江牛大吉", d: "贅沢が明日の糧になります。🥩 自分を甘やかしてあげてください。" },
-        { m: "KOSE", c: "var(--kose-pink)", t: "最高峰大吉", d: "完璧な一日。あなたのセンスが正解になります。⚙️ 自信を持って！" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "色彩吉", d: "カラフルな食事を。🥗 創造力をさらに高めて。" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "直感吉", d: "考えるより先に動こう。⚡ 動き出すことで景色が見えます。" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "近江牛大吉", d: "贅沢が明日の糧になります。🥩 自分を甘やかしてあげて。" },
+        { m: "KOSE", c: "var(--kose-pink)", t: "最高峰大吉", d: "完璧な一日。あなたのセンスが正解。⚙️ 自信を胸に！" },
 
         /* TAKI (91-120) */
-        { m: "TAKI", c: "var(--taki-blue)", t: "宇宙大吉☄️", d: "銀河一の爆笑を届けます！重力を振り切るレベルで絶好調。笑顔で世界を染めちゃいましょう。" },
-        { m: "TAKI", c: "var(--taki-blue)", t: "極大吉・計算通り", d: "すべてが計画通り！🧮 ロジカルな思考と直感がマッチした驚きの一日。" },
-        { m: "TAKI", c: "var(--taki-blue)", t: "超大吉・ROLLER", d: "運気急上昇！ Roller Rideのようにエキサイティングな展開が待っています。" },
-        { m: "TAKI", c: "var(--taki-blue)", t: "神回吉", d: "一生の思い出になる瞬間. 📸 今日という日はあなたの物語の中でも特別なページになります。" },
-        { m: "TAKI", c: "var(--taki-blue)", t: "爆笑大吉", d: "ラッキーアクションは「大笑い」！🎤 笑い飛ばせば全ての運気が好転します。" },
-        { m: "TAKI", c: "var(--taki-blue)", t: "東京タワー大吉", d: "キラキラした時間が待っています。🗼 あなたの存在が周囲を照らす存在に。" },
-        { m: "TAKI", c: "var(--taki-blue)", t: "聖地巡礼吉", d: "憧れの世界に近づく予感。🎬 自分の好きを突き詰めてみて。" },
-        { m: "TAKI", c: "var(--taki-blue)", t: "満塁逆転大吉", d: "諦めない心が奇跡を！⚾ ピンチをチャンスに変えてサヨナラ勝ちの勢いです。" },
-        { m: "TAKI", c: "var(--taki-blue)", t: "五珠吉", d: "難しい決断も一瞬。🧠 直感を信じてスピード感を持って突き進んで。" },
-        { m: "TAKI", c: "var(--taki-blue)", t: "スカイブルー吉", d: "ストレスフリーな一日。💙 悩みも空に溶けていくような爽快な気分。" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "宇宙大吉☄️", d: "銀河一の爆笑を届けます！重力を振り切るレベルで絶好調。" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "極大吉・計算通り", d: "すべてが計画通り！🧮 ロジカルな思考と直感がマッチ。" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "超大吉・ROLLER", d: "運気急上昇！ Roller Rideのようにエキサイティングな展開。スピード感こそが才能を呼び覚まします。" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "神回吉", d: "一生の思い出になる瞬間. 📸 今日は特別なページになります。" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "爆笑大吉", d: "ラッキーアクションは「大笑い」！🎤 福を呼び込みます。" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "東京タワー大吉", d: "キラキラした時間が待っています。🗼 周囲を照らす存在に。" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "聖地巡礼吉", d: "憧れの世界に近づく予感. 🎬 情熱を持って取り組んでいることに嬉しい進展があるでしょう。" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "満塁逆転大吉", d: "諦めない心が奇跡を！⚾ ピンチをチャンスに変えてサヨナラ勝ち！" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "五珠吉", d: "難しい決断も一瞬。🧠 第一印象を信じて突き進んで。" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "スカイブルー吉", d: "ストレスフリーな一日。💙 悩みも空に溶けていきます。" },
         { m: "TAKI", c: "var(--taki-blue)", t: "侍大吉", d: "正確な判断が信頼を生みます。⚔️ 数字に基づいた対応がチャンスを呼びます。" },
-        { m: "TAKI", c: "var(--taki-blue)", t: "九九全勝吉", d: "原点に立ち返り発見がある日。✍️ 基礎をもう一度確認して勝利へ。" },
-        { m: "TAKI", c: "var(--taki-blue)", t: "アンコール吉", d: "再挑戦すれば必ず成功します！🎤 宇宙もあなたに盛大な拍手を送ります。" },
-        { m: "TAKI", c: "var(--taki-blue)", t: "全的中吉", d: "狙った獲物を逃しません！🎯 ギフトを確実に受け取ってください。" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "九九全勝吉", d: "原点に立ち返り発見がある日。✍️ 基礎をもう一度確認。" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "アンコール吉", d: "再挑戦すれば必ず成功します！🎤 宇宙も拍手を送ります。" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "全的中吉", d: "狙った獲物を逃しません！🎯 ギフトを受け取ってください。" },
         { m: "TAKI", c: "var(--taki-blue)", t: "神展開吉", d: "予想を裏切る最高の展開。ミラクルが連続する一日に。" },
-        { m: "TAKI", c: "var(--taki-blue)", t: "江戸っ子吉", d: "出し惜しみせず全力で！🔥 新しい風があなたの人生に吹き込みます。" },
-        { m: "TAKI", c: "var(--taki-blue)", t: "ブルーインパクト大吉", d: "告白やプレゼンに最高！💥 言葉に特別な力が宿っています。" },
-        { m: "TAKI", c: "var(--taki-blue)", t: "爆笑レッドカーペット吉", d: "通る道がすべて輝きます。主役級の扱いを受ける素晴らしい一日。" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "江戸っ子吉", d: "出し惜しみせず全力で！🔥 新しい風が吹き込みます。" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "ブルーインパクト大吉", d: "告白やプレゼンに最高！💥 言葉に力が宿っています。" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "爆笑レッドカーペット吉", d: "あなたが通る道がすべて輝きます。主役級の一日です。" },
         { m: "TAKI", c: "var(--taki-blue)", t: "ご珠の弾き吉", d: "効率的な一日。🔢 浮いた時間で趣味を存分に楽しんで。" },
         { m: "TAKI", c: "var(--taki-blue)", t: "神対応大吉", d: "人付き合いが絶好調。人気運が爆上がりします。笑顔で過ごして。" },
-        { m: "TAKI", c: "var(--taki-blue)", t: "笑撃吉", d: "驚きと笑いが同時に。📝 今日体験することは後の大成功の大きなヒント。" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "笑撃吉", d: "驚きと笑いが同時に。📝 後の成功の大きなヒント。" },
         { m: "TAKI", c: "var(--taki-blue)", t: "割り切れる吉", d: "ロジカルな思考が吉。⚖️ 複雑な問題も理屈で考えればスッキリ解決。" },
-        { m: "TAKI", c: "var(--taki-blue)", t: "オーシャン吉", d: "あなたの独壇場です。🌊 周りと競わず、ユニークな発想が賞賛されます。" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "オーシャン吉", d: "あなたの独壇場です。🌊 ユニークな発想が賞賛されます。" },
         { m: "TAKI", c: "var(--taki-blue)", t: "エンタメ大吉", d: "最高の娯楽を楽しんで！🎥 明日への活力が驚くほどみなぎってきます。" },
         { m: "TAKI", c: "var(--taki-blue)", t: "シティボーイ大吉", d: "新しい服が運気を運びます。👟 外見を整えて内面からも自信へ。" },
-        { m: "TAKI", c: "var(--taki-blue)", t: "侍魂大吉", d: "ブレない信念が道を拓く。まっすぐ進むあなたを宇宙が応援します。" },
-        { m: "TAKI", c: "var(--taki-blue)", t: "ブルーライト大吉", d: "光り輝く場所に幸。🌌 夕暮れからの運気が冴え渡り、心が光で満たされます。" },
-        { m: "TAKI", c: "var(--taki-blue)", t: "パチパチ吉", d: "拍手喝采を浴びる出来事が。👏 自信を持って振る舞って。あなたが太陽。" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "侍魂大吉", d: "ブレない信念が道を拓く。宇宙もあなたを応援します。" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "ブルーライト大吉", d: "夜の街に幸あり。🌌 夕暮れからの運気が冴え渡り、心が光で満たされます。" },
+        { m: "TAKI", c: "var(--taki-blue)", t: "パチパチ吉", d: "拍手喝采を浴びる出来事が。👏 自信を持って。太陽に。" },
         { m: "TAKI", c: "var(--taki-blue)", t: "大爆笑大吉", d: "悩みなんて吹き飛ばそう！💎 笑顔が銀河系で一番のパワースポット。" },
         { m: "TAKI", c: "var(--taki-blue)", t: "笑う門には福来大吉", d: "今日一番笑った人が優勝！最高にハッピーな締めくくりになります。" },
 
@@ -244,29 +242,55 @@
 
     function initAudio() { if (isAudioInit) return; audioTop.volume = 0.15; audioTop.play().catch(()=>{}); isAudioInit = true; }
     function fadeOut(audio, dur, cb) { if (!audio || audio.paused) { if(cb) cb(); return; } const start = audio.volume; const step = start / (dur / 50); const t = setInterval(() => { if (audio.volume > step) audio.volume -= step; else { audio.volume = 0; audio.pause(); clearInterval(t); if(cb) cb(); } }, 50); }
-    function createBurst() { const rect = document.getElementById('draw-btn').getBoundingClientRect(); for (let i = 0; i < 40; i++) { const p = document.createElement('div'); p.className = 'particle'; p.innerText = ['✨', '⭐', '🌟', '💫', '💎'][Math.floor(Math.random() * 5)]; const angle = Math.random() * Math.PI * 2; const dist = 60 + Math.random() * 180; p.style.fontSize = (Math.random() * 15 + 15) + 'px'; p.style.setProperty('--dur', (1.5 + Math.random() * 1.5) + 's'); p.style.setProperty('--x', Math.cos(angle) * dist + 'px'); p.style.setProperty('--y', (Math.sin(angle) * dist + 80) + 'px'); p.style.setProperty('--r', (Math.random() * 720) + 'deg'); p.style.left = (rect.left + rect.width / 2) + 'px'; p.style.top = (rect.top + rect.height / 2) + 'px'; document.body.appendChild(p); setTimeout(() => p.remove(), 3000); } }
+    
+    // エフェクト生成（ハートまたは星）
+    function createBurst(isLove = false) {
+        const rect = document.getElementById('draw-btn').getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        const icons = isLove ? ['💖', '💗', '💓', '💘', '💕'] : ['✨', '⭐', '🌟', '💫', '💎'];
+        for (let i = 0; i < 40; i++) {
+            const p = document.createElement('div');
+            p.className = 'particle'; p.innerText = icons[Math.floor(Math.random() * icons.length)];
+            const angle = Math.random() * Math.PI * 2;
+            const dist = 60 + Math.random() * 180;
+            p.style.fontSize = (Math.random() * 15 + 15) + 'px';
+            p.style.setProperty('--dur', (1.5 + Math.random() * 1.5) + 's');
+            p.style.setProperty('--x', Math.cos(angle) * dist + 'px');
+            p.style.setProperty('--y', (Math.sin(angle) * dist + 80) + 'px');
+            p.style.setProperty('--r', (Math.random() * 720) + 'deg');
+            p.style.left = centerX + 'px'; p.style.top = centerY + 'px';
+            document.body.appendChild(p); setTimeout(() => p.remove(), 3000);
+        }
+    }
 
     async function uranaiAction() {
         const count = getCount(); if (!isDevMode && count >= 3) { alert("本日の参拝上限です🪐"); return; }
         document.getElementById('draw-btn').disabled = true;
         const stats = await syncStats(true);
         fadeOut(audioTop, 400); audioKirakira.volume = 0.08; audioKirakira.currentTime = 0; audioKirakira.play().catch(()=>{});
-        createBurst(); document.getElementById('flash-overlay').classList.add('flash-active');
+        
+        // 抽選（大吉系 or 121種）
+        let res = (Math.random() < 0.1) ? uranaiData.filter(d => d.t.includes("大吉"))[Math.floor(Math.random()*10)] : uranaiData[Math.floor(Math.random() * uranaiData.length)];
+        
+        // ハート演出の判定
+        const isLoveLucky = res.t.includes("恋大吉");
+        createBurst(isLoveLucky); 
+        document.getElementById('flash-overlay').classList.add('flash-active');
         
         setTimeout(() => {
             audioTop.pause(); audioResult.volume = 0.5; audioResult.currentTime = 0; audioResult.play().catch(()=>{});
             setTimeout(() => { fadeOut(audioKirakira, 1500); }, 500);
             
-            // 特典パネルを初期状態（ボタンあり）にリセット
+            const now = new Date(); const dStr = `${now.getFullYear()}/${now.getMonth()+1}/${now.getDate()}`;
+            currentSerialID = `Z-${stats.total.toString().padStart(7, '0')}`;
+
+            // 特典パネルリセット
             document.getElementById('claim-content').innerHTML = `
-                <p style="font-size: 9px; font-weight: 900; color: var(--ra-pink); margin: 0 0 5px 0;">🎁 宇宙大吉特典：スタッフ確認用</p>
+                <p style="font-size: 9px; font-weight: 900; color: var(--ra-pink); margin: 0 0 5px 0;">🎁 特典対象：スタッフ確認用</p>
                 <button id="claim-btn" class="btn-main" style="font-size: 13px; padding: 8px;" onclick="claimReward()">特典を受け取る</button>
             `;
 
-            let res = (Math.random() < 0.1) ? uranaiData.filter(d => d.t.includes("大吉☄️"))[Math.floor(Math.random()*5)] : uranaiData[Math.floor(Math.random() * uranaiData.length)];
-            const now = new Date(); const dStr = `${now.getFullYear()}/${now.getMonth()+1}/${now.getDate()}`;
-            currentSerialID = `Z-${stats.total.toString().padStart(7, '0')}`;
-            
             document.getElementById('verify-watermark').innerText = `VALID: ${currentSerialID}`;
             document.getElementById('res-img').classList.remove('loaded'); document.getElementById('res-img').src = images[res.m]; document.getElementById('res-img').onload = () => document.getElementById('res-img').classList.add('loaded');
             document.getElementById('res-date').innerText = `参拝日時：${now.toLocaleString()}`;
@@ -275,7 +299,8 @@
             document.getElementById('res-fortune').innerText = res.t; document.getElementById('res-fortune').style.color = res.c;
             document.getElementById('res-desc').innerText = res.d;
 
-            if (res.t.includes("大吉☄️")) { 
+            // 当たり判定（宇宙大吉・銀河大吉・銀河恋大吉・宇宙恋大吉）
+            if (res.t.includes("大吉") && (res.t.includes("宇宙") || res.t.includes("銀河"))) { 
                 document.getElementById('verify-watermark').style.display = 'flex'; 
                 document.getElementById('reward-panel').style.display = 'block';
                 if(localStorage.getItem('claimed_' + currentSerialID)) {
