@@ -26,7 +26,6 @@
             background-size: 200px 200px; z-index: 0; opacity: 0.4;
         }
 
-        /* 浮遊エフェクト */
         .floating-emoji {
             position: fixed; pointer-events: none; z-index: 1;
             filter: drop-shadow(0 0 5px rgba(255,255,255,0.4));
@@ -40,17 +39,16 @@
             100% { transform: translate(calc(var(--drift-x) * 1.3), calc(var(--drift-y) * 1.3)) rotate(calc(var(--drift-rot) * 1.8)); opacity: 0; }
         }
 
-        /* かわいく弾けるパーティクル */
         .particle {
             position: fixed; pointer-events: none; z-index: 100;
-            font-size: 20px; font-weight: bold;
-            animation: cuteBurst 1.2s cubic-bezier(0.12, 0, 0.39, 0) forwards;
-            filter: drop-shadow(0 0 8px white);
+            border-radius: 50%;
+            animation: dreamyBurst 1.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+            filter: blur(1px);
         }
-        @keyframes cuteBurst {
-            0% { transform: translate(-50%, -50%) scale(0) rotate(0deg); opacity: 1; }
-            30% { transform: translate(var(--x), var(--y)) scale(1.5) rotate(180deg); opacity: 1; }
-            100% { transform: translate(calc(var(--x) * 1.2), calc(var(--y) * 1.2)) scale(0) rotate(360deg); opacity: 0; }
+        @keyframes dreamyBurst {
+            0% { transform: translate(-50%, -50%) scale(0); opacity: 0; filter: blur(0px); }
+            15% { opacity: 1; filter: blur(2px); }
+            100% { transform: translate(var(--x), var(--y)) scale(1.2); opacity: 0; filter: blur(8px); }
         }
 
         .card {
@@ -76,10 +74,9 @@
             background: var(--btn-grad); color: #fff; padding: 16px 10px; border-radius: 100px; 
             font-size: 17px; font-weight: bold; width: 100%; border: none; cursor: pointer; transition: 0.3s; 
             box-shadow: 0 6px 15px rgba(255, 64, 129, 0.3); display: flex; align-items: center; justify-content: center;
-            margin: 0 auto;
+            margin: 0 auto; outline: none;
         }
-        .btn-main:active:not(:disabled) { transform: scale(0.92); }
-        .btn-main:disabled { background: #ccc !important; box-shadow: none; cursor: not-allowed; }
+        .btn-main:active:not(:disabled) { transform: scale(0.94); }
 
         .img-container { 
             position: relative; width: 220px; height: 220px; margin: 0 auto 15px; 
@@ -286,7 +283,7 @@
         "TAKI": "https://www.dropbox.com/scl/fi/aq8yzifxvowza7401xj7h/TAKI_01.jpg?rlkey=qd54a5zwvhdjn1afq16wnszll&raw=1"
     };
 
-    // --- ロジック部分 ---
+    // --- ロジック ---
     let isDevMode = false;
     let currentSessionID = "";
     let isBgmStarted = false;
@@ -294,68 +291,74 @@
     const bgm = document.getElementById('bgm-main');
     const seGoshuin = document.getElementById('se-goshuin');
 
-    // BGMフェードアウト関数
-    function fadeOutBgm(duration) {
-        const startVolume = bgm.volume;
-        const step = startVolume / (duration / 50);
-        const interval = setInterval(() => {
-            if (bgm.volume > step) {
-                bgm.volume -= step;
-            } else {
-                bgm.volume = 0;
-                bgm.pause();
-                clearInterval(interval);
+    // BGMフェードアウト
+    function fadeOutAudio(audioElement, duration) {
+        const startVol = audioElement.volume;
+        const steps = 20;
+        const stepTime = duration / steps;
+        let count = 0;
+        const timer = setInterval(() => {
+            count++;
+            audioElement.volume = Math.max(0, startVol * (1 - count / steps));
+            if (count >= steps) {
+                audioElement.pause();
+                audioElement.currentTime = 0;
+                clearInterval(timer);
             }
-        }, 50);
+        }, stepTime);
     }
 
     function startBgm() {
         if (!isBgmStarted) {
-            bgm.volume = 0.25; // 音量を控えめに設定
-            bgm.play().catch(e => console.log("BGM再生待機中"));
+            bgm.volume = 0.15;
+            bgm.play().catch(e => console.log("Audio play deferred"));
             isBgmStarted = true;
         }
     }
 
-    // かわいく弾けるパーティクル演出
-    function createBurst(e) {
+    function createBurst() {
         const rect = document.getElementById('draw-btn').getBoundingClientRect();
-        const colors = ['#FF80AB', '#40C4FF', '#FFEB3B', '#B2FF59', '#E1BEE7', '#FFFFFF'];
-        const stars = ['⭐', '✨', '🌟', '💎', '🌸'];
-        
-        for (let i = 0; i < 18; i++) {
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        const colors = ['#FFD1DC', '#B3E5FC', '#FFF9C4', '#F3E5F5', '#E8F5E9'];
+        for (let i = 0; i < 24; i++) {
             const p = document.createElement('div');
             p.className = 'particle';
-            p.innerText = stars[Math.floor(Math.random() * stars.length)];
-            p.style.color = colors[Math.floor(Math.random() * colors.length)];
-            
-            const angle = (Math.PI * 2 * i) / 18 + (Math.random() * 0.5);
-            const dist = 120 + Math.random() * 80;
-            
+            const isStar = Math.random() > 0.5;
+            if (isStar) {
+                p.innerText = ['✨', '⭐', '🌟'][Math.floor(Math.random() * 3)];
+                p.style.fontSize = (Math.random() * 10 + 10) + 'px';
+            } else {
+                const size = Math.random() * 8 + 4;
+                p.style.width = size + 'px'; p.style.height = size + 'px';
+                p.style.background = colors[Math.floor(Math.random() * colors.length)];
+                p.style.boxShadow = `0 0 10px ${p.style.background}`;
+            }
+            const angle = (Math.PI * 2 * i) / 24 + (Math.random() * 0.4);
+            const dist = 100 + Math.random() * 120;
             p.style.setProperty('--x', Math.cos(angle) * dist + 'px');
             p.style.setProperty('--y', Math.sin(angle) * dist + 'px');
-            p.style.left = (rect.left + rect.width / 2) + 'px';
-            p.style.top = (rect.top + rect.height / 2) + 'px';
-            
+            p.style.left = centerX + 'px'; p.style.top = centerY + 'px';
             document.body.appendChild(p);
-            setTimeout(() => p.remove(), 1200);
+            setTimeout(() => p.remove(), 1500);
         }
     }
 
     function uranaiAction(e) {
-        // BGMをスッとフェードアウトさせる
-        fadeOutBgm(1000);
+        startBgm();
+        fadeOutAudio(bgm, 800); // トップBGMフェードアウト
 
         const count = getCount();
         if (!isDevMode && count >= 3) {
             alert("本日の参拝上限に達しました🪐"); return;
         }
         
-        createBurst(e);
+        createBurst();
         document.getElementById('flash-overlay').classList.add('flash-active');
         
         setTimeout(() => {
             seGoshuin.currentTime = 0;
+            seGoshuin.volume = 0.6;
             seGoshuin.play();
 
             const res = uranaiData[Math.floor(Math.random() * uranaiData.length)];
@@ -395,7 +398,7 @@
             document.getElementById('x-share').setAttribute('data-text', tweetText);
             if (!isDevMode) setCount(count + 1);
             document.getElementById('flash-overlay').classList.remove('flash-active');
-        }, 600);
+        }, 800);
     }
 
     function claimReward() {
@@ -421,12 +424,16 @@
     function updateVisitors() { const d = new Date().toLocaleDateString(); let t = parseInt(localStorage.getItem('v_today') || "0"); let T = parseInt(localStorage.getItem('v_total') || "0"); if (localStorage.getItem('v_date') !== d) { t = 0; localStorage.setItem('v_date', d); } t++; T++; localStorage.setItem('v_today', t); localStorage.setItem('v_total', T); document.getElementById('v-today').innerText = t.toLocaleString(); document.getElementById('v-total').innerText = T.toLocaleString(); }
     
     function resetUI() { 
+        fadeOutAudio(seGoshuin, 800); // 占い結果の効果音をフェードアウト
+        
         document.getElementById('result-area').classList.remove('active'); 
         document.getElementById('main-header').style.display = 'block'; 
         document.getElementById('start-area').classList.add('active'); 
         document.getElementById('verify-watermark').style.display = 'none'; 
-        bgm.volume = 0.25; // 音量を戻す
-        bgm.play(); updateUI(); 
+        
+        bgm.volume = 0.15;
+        bgm.play(); 
+        updateUI(); 
     }
 
     function initFloatingEmojis() {
@@ -449,8 +456,8 @@
     }
     
     document.getElementById('dev-trigger').addEventListener('click', () => {
-        let tapCount = (window._tc || 0) + 1; window._tc = tapCount;
-        if (tapCount >= 5) { isDevMode = true; updateUI(); alert("🚀 Dev Mode Active"); window._tc = 0; }
+        let tc = (window._tc || 0) + 1; window._tc = tc;
+        if (tc >= 5) { isDevMode = true; updateUI(); alert("🚀 Dev Mode"); window._tc = 0; }
         setTimeout(() => window._tc = 0, 2000);
     });
 
