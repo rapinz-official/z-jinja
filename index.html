@@ -26,6 +26,7 @@
             background-size: 200px 200px; z-index: 0; opacity: 0.4;
         }
 
+        /* 浮遊エフェクト */
         .floating-emoji {
             position: fixed; pointer-events: none; z-index: 1;
             filter: drop-shadow(0 0 5px rgba(255,255,255,0.4));
@@ -39,13 +40,17 @@
             100% { transform: translate(calc(var(--drift-x) * 1.3), calc(var(--drift-y) * 1.3)) rotate(calc(var(--drift-rot) * 1.8)); opacity: 0; }
         }
 
+        /* かわいく弾けるパーティクル */
         .particle {
             position: fixed; pointer-events: none; z-index: 100;
-            font-size: 14px; animation: particleAnim 0.8s ease-out forwards;
+            font-size: 20px; font-weight: bold;
+            animation: cuteBurst 1.2s cubic-bezier(0.12, 0, 0.39, 0) forwards;
+            filter: drop-shadow(0 0 8px white);
         }
-        @keyframes particleAnim {
-            0% { transform: translate(-50%, -50%) scale(1.5); opacity: 1; }
-            100% { transform: translate(var(--x), var(--y)) scale(0); opacity: 0; }
+        @keyframes cuteBurst {
+            0% { transform: translate(-50%, -50%) scale(0) rotate(0deg); opacity: 1; }
+            30% { transform: translate(var(--x), var(--y)) scale(1.5) rotate(180deg); opacity: 1; }
+            100% { transform: translate(calc(var(--x) * 1.2), calc(var(--y) * 1.2)) scale(0) rotate(360deg); opacity: 0; }
         }
 
         .card {
@@ -56,7 +61,6 @@
         }
         @keyframes neonGlow { 0% { border-color: var(--ra-main); box-shadow: 0 0 15px var(--ra-main); } 100% { border-color: var(--ra-pink); box-shadow: 0 0 25px var(--ra-pink); } }
 
-        /* 動く透かし */
         .watermark {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
             width: 150%; height: 100%; display: none; align-items: center; justify-content: center;
@@ -74,6 +78,7 @@
             box-shadow: 0 6px 15px rgba(255, 64, 129, 0.3); display: flex; align-items: center; justify-content: center;
             margin: 0 auto;
         }
+        .btn-main:active:not(:disabled) { transform: scale(0.92); }
         .btn-main:disabled { background: #ccc !important; box-shadow: none; cursor: not-allowed; }
 
         .img-container { 
@@ -289,29 +294,58 @@
     const bgm = document.getElementById('bgm-main');
     const seGoshuin = document.getElementById('se-goshuin');
 
+    // BGMフェードアウト関数
+    function fadeOutBgm(duration) {
+        const startVolume = bgm.volume;
+        const step = startVolume / (duration / 50);
+        const interval = setInterval(() => {
+            if (bgm.volume > step) {
+                bgm.volume -= step;
+            } else {
+                bgm.volume = 0;
+                bgm.pause();
+                clearInterval(interval);
+            }
+        }, 50);
+    }
+
     function startBgm() {
         if (!isBgmStarted) {
-            bgm.volume = 0.5;
-            bgm.play().catch(e => console.log("BGM期待待ち"));
+            bgm.volume = 0.25; // 音量を控えめに設定
+            bgm.play().catch(e => console.log("BGM再生待機中"));
             isBgmStarted = true;
         }
     }
 
+    // かわいく弾けるパーティクル演出
     function createBurst(e) {
         const rect = document.getElementById('draw-btn').getBoundingClientRect();
-        for (let i = 0; i < 12; i++) {
+        const colors = ['#FF80AB', '#40C4FF', '#FFEB3B', '#B2FF59', '#E1BEE7', '#FFFFFF'];
+        const stars = ['⭐', '✨', '🌟', '💎', '🌸'];
+        
+        for (let i = 0; i < 18; i++) {
             const p = document.createElement('div');
-            p.className = 'particle'; p.innerText = '✨';
-            const angle = (Math.PI * 2 * i) / 12;
-            p.style.setProperty('--x', Math.cos(angle) * 120 + 'px');
-            p.style.setProperty('--y', Math.sin(angle) * 120 + 'px');
-            p.style.left = (rect.left + rect.width / 2) + 'px'; p.style.top = (rect.top + rect.height / 2) + 'px';
-            document.body.appendChild(p); setTimeout(() => p.remove(), 800);
+            p.className = 'particle';
+            p.innerText = stars[Math.floor(Math.random() * stars.length)];
+            p.style.color = colors[Math.floor(Math.random() * colors.length)];
+            
+            const angle = (Math.PI * 2 * i) / 18 + (Math.random() * 0.5);
+            const dist = 120 + Math.random() * 80;
+            
+            p.style.setProperty('--x', Math.cos(angle) * dist + 'px');
+            p.style.setProperty('--y', Math.sin(angle) * dist + 'px');
+            p.style.left = (rect.left + rect.width / 2) + 'px';
+            p.style.top = (rect.top + rect.height / 2) + 'px';
+            
+            document.body.appendChild(p);
+            setTimeout(() => p.remove(), 1200);
         }
     }
 
     function uranaiAction(e) {
-        bgm.pause(); bgm.currentTime = 0;
+        // BGMをスッとフェードアウトさせる
+        fadeOutBgm(1000);
+
         const count = getCount();
         if (!isDevMode && count >= 3) {
             alert("本日の参拝上限に達しました🪐"); return;
@@ -321,12 +355,13 @@
         document.getElementById('flash-overlay').classList.add('flash-active');
         
         setTimeout(() => {
-            seGoshuin.currentTime = 0; seGoshuin.play();
+            seGoshuin.currentTime = 0;
+            seGoshuin.play();
+
             const res = uranaiData[Math.floor(Math.random() * uranaiData.length)];
             const now = new Date();
             const dateStr = `${now.getFullYear()}/${(now.getMonth()+1).toString().padStart(2,'0')}/${now.getDate().toString().padStart(2,'0')} ${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`;
             
-            // IDと透かしの処理
             currentSessionID = `RA-${now.getTime().toString().slice(-6)}`;
             const watermark = document.getElementById('verify-watermark');
             watermark.innerText = `VALID: ${currentSessionID}`;
@@ -346,14 +381,13 @@
             document.getElementById('res-fortune').style.color = res.c;
             document.getElementById('res-desc').innerText = res.d;
 
-            // 宇宙大吉のみの特典・透かし制御
             if (res.t === "宇宙大吉☄️") {
-                watermark.style.display = 'flex'; // 透かしを表示
+                watermark.style.display = 'flex';
                 if (!localStorage.getItem('claimed_' + currentSessionID)) {
                     document.getElementById('reward-panel').style.display = 'block';
                 }
             } else {
-                watermark.style.display = 'none'; // 透かしを隠す
+                watermark.style.display = 'none';
                 document.getElementById('reward-panel').style.display = 'none';
             }
 
@@ -391,6 +425,7 @@
         document.getElementById('main-header').style.display = 'block'; 
         document.getElementById('start-area').classList.add('active'); 
         document.getElementById('verify-watermark').style.display = 'none'; 
+        bgm.volume = 0.25; // 音量を戻す
         bgm.play(); updateUI(); 
     }
 
